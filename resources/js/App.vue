@@ -1,9 +1,10 @@
 <template>
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="main === false">
             <div class="collapse navbar-collapse">
                 <!-- for logged-in user-->
                 <div class="navbar-nav" v-if="isLoggedIn">
+                    <router-link to="/" class="nav-item nav-link">Home</router-link>
                     <router-link to="/dashboard" class="nav-item nav-link">Dashboard</router-link>
                     <router-link to="/books" class="nav-item nav-link">Books</router-link>
                     <a class="nav-item nav-link" style="cursor: pointer;" @click="logout">Logout</a>
@@ -49,6 +50,14 @@ export default {
     data() {
         return {
             isLoggedIn: false,
+            main: false,
+        }
+    },
+    watch: {
+        $route: function() {
+            if (this.$route.path === "/") {
+                this.main = true;
+            }
         }
     },
     created() {

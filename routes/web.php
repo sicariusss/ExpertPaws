@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('{any}', function () {
     return view('app');
 })->where('any', '.*');
+
+Route::middleware(['auth'])
+    ->name('crm.')
+    ->prefix('crm')
+    ->group(static function () {
+        Route::resource('users', \App\Http\Controllers\CRM\UserController::class);
+    });
