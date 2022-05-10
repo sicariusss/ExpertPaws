@@ -57,6 +57,7 @@ export default {
         $route: function() {
             if (this.$route.path === "/") {
                 this.main = true;
+                console.log(this.main)
             }
         }
     },
