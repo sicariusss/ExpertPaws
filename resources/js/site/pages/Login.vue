@@ -62,6 +62,7 @@ export default {
                     })
                         .then(response => {
                             console.log(response.data)
+                            alert(response.data)
                             if (response.data.success) {
                                 this.$router.go('/dashboard')
                             } else {
@@ -76,7 +77,7 @@ export default {
         }
     },
     beforeRouteEnter(to, from, next) {
-        if (window.Laravel.isLoggedIn) {
+        if (window.Laravel.authenticated) {
             return next('dashboard');
         }
         next();

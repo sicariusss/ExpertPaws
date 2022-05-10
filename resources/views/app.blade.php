@@ -4,39 +4,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
-    <title>{{env('APP_NAME')}}</title>
-    <link href="{{ mix('css/app.css') }}" type="text/css" rel="stylesheet"/>
+    {!! SEOMeta::generate() !!}
+    <link href="{{ mix('css/site/app.css') }}" type="text/css" rel="stylesheet"/>
 </head>
 <body>
-{{--@if (Request::url() === url('/'))--}}
-{{--    <script>--}}
-{{--        window.mainpage = {!!json_encode([--}}
-{{--            'main' => true,--}}
-{{--        ])!!}--}}
-{{--    </script>--}}
-{{--@else--}}
-{{--    <script>--}}
-{{--        window.mainpage = {!!json_encode([--}}
-{{--            'main' => false,--}}
-{{--        ])!!}--}}
-{{--    </script>--}}
-{{--@endif--}}
 @if (Auth::check())
     <script>
-        window.Laravel = {!!json_encode([
-            'isLoggedIn' => true,
-            'user' => Auth::user(),
-        ])!!}
+        window.Laravel = {!!json_encode([ 'authenticated' => true, 'user' => Auth::user(), ])!!};
+        console.log(window.Laravel)
+
     </script>
 @else
     <script>
-        window.Laravel = {!!json_encode([
-            'isLoggedIn' => false
-        ])!!}
+        window.Laravel = {!!json_encode([ 'authenticated' => false ])!!};
+        console.log(window.Laravel)
     </script>
 @endif
 <div id="app">
 </div>
-<script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
+<script src="{{ mix('js/site/app.js') }}" type="text/javascript"></script>
 </body>
 </html>

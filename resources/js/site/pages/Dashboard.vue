@@ -18,7 +18,7 @@ export default {
         }
     },
     beforeRouteEnter(to, from, next) {
-        if (!window.Laravel.isLoggedIn) {
+        if (!window.Laravel.authenticated) {
             window.location.href = "/";
         }
         next();

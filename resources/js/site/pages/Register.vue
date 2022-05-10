@@ -28,6 +28,14 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="role" class="col-sm-4 col-form-label text-md-right">role</label>
+                                <div class="col-md-6">
+                                    <input id="role" type="text" class="form-control" v-model="role" required
+                                           autofocus autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
                                 <div class="col-md-6">
                                     <input id="password" type="password" class="form-control" v-model="password"
@@ -57,6 +65,7 @@ export default {
             name: "",
             email: "",
             password: "",
+            role: "",
             error: null
         }
     },
@@ -68,7 +77,8 @@ export default {
                     axios.post('api/register', {
                         name: this.name,
                         email: this.email,
-                        password: this.password
+                        password: this.password,
+                        role: this.role
                     })
                         .then(response => {
                             if (response.data.success) {
@@ -85,7 +95,7 @@ export default {
         }
     },
     beforeRouteEnter(to, from, next) {
-        if (window.Laravel.isLoggedIn) {
+        if (window.Laravel.authenticated) {
             return next('dashboard');
         }
         next();
