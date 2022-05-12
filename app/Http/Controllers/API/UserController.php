@@ -25,7 +25,7 @@ class UserController extends Controller
             $user->setName($data['name']);
             $user->setEmail($data['email']);
             $user->setPassword(Hash::make($data['password']));
-            $user->setRole($data['role']);
+            $user->setRoleId(2);
             $user->save();
 
             $success = true;

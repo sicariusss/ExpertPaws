@@ -6,16 +6,25 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+
 
 /**
  * App\Models\User
  *
  * @property int $id
- * @property string $name
+ * @property string|null $surname Фамилия
+ * @property string $name Имя
+ * @property string|null $patronymic Отчество
  * @property string $email
+ * @property string|null $phone Телефон
+ * @property string|null $address Адрес
+ * @property int|null $photo_id Аватарка
+ * @property int $role_id Роль
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
@@ -26,31 +35,27 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property string|null $surname Фамилия
- * @property string|null $patronymic Отчество
- * @property string|null $phone Телефон
- * @property string|null $address Адрес
- * @property int|null $photo_id Аватарка
- * @property string $role Роль
- * @method static \Illuminate\Database\Eloquent\Builder|User whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePatronymic($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePhotoId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereSurname($value)
  * @method static Builder|User filter(array $frd)
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static Builder|User query()
+ * @method static Builder|User whereAddress($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereEmailVerifiedAt($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereName($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User wherePatronymic($value)
+ * @method static Builder|User wherePhone($value)
+ * @method static Builder|User wherePhotoId($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereRoleId($value)
+ * @method static Builder|User whereSurname($value)
+ * @method static Builder|User whereUpdatedAt($value)
+ * @mixin \Eloquent
+ * @property-read \App\Models\Role $role
+ * @property-read \App\Models\Image|null $photo
  */
 class User extends Authenticatable
 {
@@ -69,7 +74,7 @@ class User extends Authenticatable
         'phone',
         'address',
         'photo_id',
-        'role',
+        'role_id',
         'password',
     ];
 
@@ -205,6 +210,38 @@ class User extends Authenticatable
     }
 
     /**
+     * @return int
+     */
+    public function getRoleId(): int
+    {
+        return $this->role_id;
+    }
+
+    /**
+     * @param int $role_id
+     */
+    public function setRoleId(int $role_id): void
+    {
+        $this->role_id = $role_id;
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function role(): HasOne
+    {
+        return $this->hasOne(Role::class);
+    }
+
+    /**
+     * @return Role
+     */
+    public function getRole(): Role
+    {
+        return $this->role;
+    }
+
+    /**
      * @return int|null
      */
     public function getPhotoId(): ?int
@@ -221,19 +258,19 @@ class User extends Authenticatable
     }
 
     /**
-     * @return string
+     * @return HasOne
      */
-    public function getRole(): string
+    public function photo(): HasOne
     {
-        return $this->role;
+        return $this->hasOne(Image::class);
     }
 
     /**
-     * @param string $role
+     * @return Image
      */
-    public function setRole(string $role): void
+    public function getImage(): Image
     {
-        $this->role = $role;
+        return $this->photo;
     }
 
     /**

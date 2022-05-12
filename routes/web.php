@@ -16,7 +16,7 @@ use \Illuminate\Support\Facades\Auth;
 
 Auth::routes(['register' => false, 'login' => false]);
 
-Route::middleware(['auth'])
+Route::middleware(['auth', 'crm'])
     ->name('crm.')
     ->prefix('crm')
     ->group(static function () {

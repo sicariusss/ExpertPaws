@@ -15,6 +15,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="dns-prefetch" href="https://use.fontawesome.com">
 
     <!-- Styles -->
     <link href="{{ asset('css/crm/crm.css') }}" rel="stylesheet">

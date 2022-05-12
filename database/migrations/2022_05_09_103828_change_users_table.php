@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('phone')->after('email')->nullable()->unique()->comment('Телефон');
             $table->string('address')->after('phone')->nullable()->comment('Адрес');
             $table->unsignedBigInteger('photo_id')->after('address')->nullable()->comment('Аватарка');
-            $table->string('role')->after('photo_id')->comment('Роль');
+            $table->unsignedBigInteger('role_id')->after('photo_id')->comment('Роль');
         });
     }
 

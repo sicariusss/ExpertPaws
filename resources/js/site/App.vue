@@ -9,7 +9,30 @@
                     <router-link to="/books" class="nav-item nav-link">Books</router-link>
                     <a class="nav-item nav-link" style="cursor: pointer;" @click="logout">Logout</a>
 
-                    <a v-if="role === 'admin'" href="/crm/users" class="nav-item nav-link">CRM</a>
+                    <a v-if="role_id === 1 || role_id === 2 || role_id === 3" href="/crm/users"
+                       class="nav-item nav-link">CRM</a>
+                </div>
+                <!-- for non-logged user-->
+                <div class="navbar-nav" v-else>
+                    <router-link to="/" class="nav-item nav-link">Home</router-link>
+                    <router-link to="/login" class="nav-item nav-link">login</router-link>
+                    <router-link to="/register" class="nav-item nav-link">Register
+                    </router-link>
+                    <router-link to="/about" class="nav-item nav-link">About</router-link>
+                </div>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="main">
+            <div class="collapse navbar-collapse">
+                <!-- for logged-in user-->
+                <div class="navbar-nav" v-if="authenticated">
+                    <router-link to="/" class="nav-item nav-link">Home</router-link>
+                    <router-link to="/dashboard" class="nav-item nav-link">Dashboard</router-link>
+                    <router-link to="/books" class="nav-item nav-link">Books</router-link>
+                    <a class="nav-item nav-link" style="cursor: pointer;" @click="logout">Logout</a>
+
+                    <a v-if="role_id === 1 || role_id === 2 || role_id === 3" href="/crm/users"
+                       class="nav-item nav-link">CRM</a>
                 </div>
                 <!-- for non-logged user-->
                 <div class="navbar-nav" v-else>
@@ -53,7 +76,7 @@ export default {
         return {
             authenticated: false,
             main: false,
-            role: 'guest',
+            role_id: 0,
         }
     },
     watch: {
@@ -65,13 +88,12 @@ export default {
         }
     },
     created() {
-        console.log(this.authenticated)
         if (window.Laravel.authenticated) {
             this.authenticated = true
             console.log(this.authenticated)
         }
         if (window.Laravel.user) {
-            this.role = window.Laravel.user.role
+            this.role_id = window.Laravel.user.role_id
         }
     },
     methods: {

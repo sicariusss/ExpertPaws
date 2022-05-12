@@ -62,7 +62,6 @@ export default {
                     })
                         .then(response => {
                             console.log(response.data)
-                            alert(response.data)
                             if (response.data.success) {
                                 this.$router.go('/dashboard')
                             } else {
