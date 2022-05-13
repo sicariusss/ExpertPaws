@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 /**
@@ -34,9 +35,15 @@ use Illuminate\Support\Collection;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lesson[] $lessons
  * @property-read int|null $lessons_count
  * @property-read \App\Models\Image|null $preview
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|Course onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Course whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Course withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Course withoutTrashed()
  */
 class Course extends Model
 {
+    use SoftDeletes;
 
     protected $table = 'courses';
 

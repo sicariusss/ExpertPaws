@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Image
@@ -24,9 +25,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|Image onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Image withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Image withoutTrashed()
  */
 class Image extends Model
 {
+    use SoftDeletes;
 
     protected $table = 'images';
 

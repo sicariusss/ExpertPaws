@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Lesson
@@ -28,9 +29,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \App\Models\Course $course
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|Lesson onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Lesson withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Lesson withoutTrashed()
  */
 class Lesson extends Model
 {
+    use SoftDeletes;
 
     protected $table = 'lessons';
 

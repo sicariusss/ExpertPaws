@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -28,6 +29,7 @@ use Illuminate\Support\Collection;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property-read int|null $users_count
+ * @method static Builder|Role filter(array $frd)
  */
 class Role extends Model
 {
@@ -39,10 +41,10 @@ class Role extends Model
         'display_name',
     ];
 
-    public const ADMIN = 1;
+    public const ADMIN     = 1;
     public const DEVELOPER = 2;
-    public const MANAGER = 3;
-    public const USER = 4;
+    public const MANAGER   = 3;
+    public const USER      = 4;
 
     /**
      * @return string
@@ -106,6 +108,47 @@ class Role extends Model
     public function getUsers(): Collection
     {
         return $this->users;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getRolesList(): array
+    {
+        $rolesList = [];
+        /**
+         * @var self $role
+         */
+        foreach (self::get() as $role) {
+            $rolesList[$role->getKey()] = $role->getDisplayName();
+        }
+
+        return $rolesList;
+    }
+
+    /**
+     * @param Builder $query
+     * @param array $frd
+     * @return Builder
+     */
+    public function scopeFilter(Builder $query, array $frd): Builder
+    {
+        foreach ($frd as $key => $value) {
+            if (null === $value) {
+                continue;
+            }
+            switch ($key) {
+                case 'search':
+                    {
+                        $query->where(function ($query) use ($value) {
+                            $query->where('name', 'like', '%' . $value . '%')
+                                ->orWhere('display_name', 'like', '%' . $value . '%');
+                        });
+                    }
+                    break;
+            }
+        }
+        return $query;
     }
 
 

@@ -3,9 +3,17 @@
 namespace App\Http\Controllers\CRM;
 
 use App\Http\Controllers\Controller;
+use App\Models\Image;
+use App\Models\Role;
 use App\Models\User;
 use Artesaos\SEOTools\Facades\SEOMeta;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -24,80 +32,178 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         SEOMeta::setTitle('Пользователи');
-        $data = $request->all();
+        $data  = $request->all();
         $users = $this->users::filter($data)->paginate(15);
 
         return view('crm.users.index', compact('users', 'data'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
-        //
+        SEOMeta::setTitle('Добавить пользователя');
+        $rolesList = Role::getRolesList();
+
+        return view('crm.users.create', compact('rolesList'));
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $data = $request->all();
+
+        $this->validate($request, [
+            'surname'    => 'nullable|max:255',
+            'name'       => 'required|max:255',
+            'patronymic' => 'nullable|max:255',
+            'email'      => 'required|max:255',
+            'phone'      => 'nullable|max:255',
+            'address'    => 'nullable|max:255',
+            'role_id'    => 'required|exists:roles,id',
+            'password'   => 'required|min:8|max:255'
+        ], [
+            'surname.max'       => 'Фамилия должна быть меньше 255 символов',
+            'name.required'     => 'Введите имя',
+            'name.max'          => 'Имя должно быть меньше 255 символов',
+            'patronymic.max'    => 'Отчество должно быть меньше 255 символов',
+            'email.required'    => 'Введите почту',
+            'email.max'         => 'Почта должна быть меньше 255 символов',
+            'phone.max'         => 'Телефон должен быть меньше 255 символов',
+            'address.max'       => 'Адрес должен быть меньше 255 символов',
+            'role_id.required'  => 'Выберите роль',
+            'role_id.exists'    => 'Такая роль не существует',
+            'password.required' => 'Введите пароль',
+            'password.min'      => 'Пароль должен быть больше 8 символов',
+            'password.max'      => 'Пароль должен быть меньше 255 символов',
+        ]);
+
+
+        $user = new User();
+        $user->setSurname($data['surname'] ?? '');
+        $user->setName($data['name']);
+        $user->setPatronymic($data['patronymic'] ?? '');
+        $user->setEmail($data['email']);
+        $user->setPhone($data['phone'] ?? null);
+        $user->setAddress($data['address'] ?? null);
+        $user->setRoleId($data['role_id']);
+        $user->setPassword(Hash::make($data['password']));
+        $user->save();
+
+        if (isset($data['photo'])) {
+            $photo = new Image();
+            $photo->setType(Image::TYPE_USER_PHOTO);
+            $photo->setTypeId($user->getKey());
+            $photo->setPath(User::uploadPhoto($data['photo'], $user->getKey()));
+            $photo->save();
+
+            $user->setPhotoId($photo->getKey());
+            $user->save();
+        }
+
+        Log::info('Создан пользователь №' . $user->getKey() . ', менеджер: ' . Auth::id());
+
+        return redirect()->route('crm.users.show', $user);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return View
      */
-    public function show($id)
+    public function show(User $user): View
     {
-        //
+        SEOMeta::setTitle('Профиль ' . $user->getShortName());
+
+        return view('crm.users.show', compact('user'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return View
      */
-    public function edit($id)
+    public function edit(User $user): View
     {
-        //
+        SEOMeta::setTitle('Редактирование пользователя: ' . $user->getShortName());
+        $rolesList = Role::getRolesList();
+
+        return view('crm.users.edit', compact('rolesList', 'user'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function update(Request $request, $id)
+    public function update(User $user, Request $request): RedirectResponse
     {
-        //
+        $data = $request->all();
+
+        $this->validate($request, [
+            'surname'    => 'nullable|max:255',
+            'name'       => 'required|max:255',
+            'patronymic' => 'nullable|max:255',
+            'email'      => 'required|max:255',
+            'phone'      => 'nullable|max:255',
+            'address'    => 'nullable|max:255',
+            'role_id'    => 'required|exists:roles,id',
+            'password'   => 'required|min:8|max:255'
+        ], [
+            'surname.max'       => 'Фамилия должна быть меньше 255 символов',
+            'name.required'     => 'Введите имя',
+            'name.max'          => 'Имя должно быть меньше 255 символов',
+            'patronymic.max'    => 'Отчество должно быть меньше 255 символов',
+            'email.required'    => 'Введите почту',
+            'email.max'         => 'Почта должна быть меньше 255 символов',
+            'phone.max'         => 'Телефон должен быть меньше 255 символов',
+            'address.max'       => 'Адрес должен быть меньше 255 символов',
+            'role_id.required'  => 'Выберите роль',
+            'role_id.exists'    => 'Такая роль не существует',
+            'password.required' => 'Введите пароль',
+            'password.min'      => 'Пароль должен быть больше 8 символов',
+            'password.max'      => 'Пароль должен быть меньше 255 символов',
+        ]);
+
+        if (isset($data['photo'])) {
+            $photo = new Image();
+            $photo->setType(Image::TYPE_USER_PHOTO);
+            $photo->setTypeId($user->getKey());
+            $photo->setPath(User::uploadPhoto($data['photo'], $user->getKey()));
+            $photo->save();
+
+            $data['photo_id'] = $photo->getKey();
+        }
+
+        $user->update($data);
+        $user->save();
+
+        Log::info('Изменен пользователь №' . $user->getKey() . ', менеджер: ' . Auth::id());
+
+        return redirect()->route('crm.users.show', $user);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(User $user): RedirectResponse
     {
-        //
+        Log::info('Удален пользователь №' . $user->getKey() . ', менеджер: ' . Auth::id());
+
+        $user->delete();
+
+        return redirect()->route('crm.users.index');
     }
 }

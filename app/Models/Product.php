@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Product
@@ -34,9 +35,15 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @mixin \Eloquent
  * @property-read \App\Models\Category $category
  * @property-read \App\Models\Image|null $preview
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|Product onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Product withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Product withoutTrashed()
  */
 class Product extends Model
 {
+    use SoftDeletes;
 
     protected $table = 'products';
 

@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
 
@@ -56,10 +59,15 @@ use Laravel\Sanctum\HasApiTokens;
  * @mixin \Eloquent
  * @property-read \App\Models\Role $role
  * @property-read \App\Models\Image|null $photo
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
+ * @method static Builder|User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -262,7 +270,7 @@ class User extends Authenticatable
      */
     public function photo(): HasOne
     {
-        return $this->hasOne(Image::class);
+        return $this->hasOne(Image::class, 'id', 'photo_id');
     }
 
     /**
@@ -271,6 +279,14 @@ class User extends Authenticatable
     public function getImage(): Image
     {
         return $this->photo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhotoUrl(): string
+    {
+        return $this->getImage()->getPath();
     }
 
     /**
@@ -297,6 +313,11 @@ class User extends Authenticatable
         return $this->updated_at;
     }
 
+    /**
+     * @param Builder $query
+     * @param array $frd
+     * @return Builder
+     */
     public function scopeFilter(Builder $query, array $frd): Builder
     {
         foreach ($frd as $key => $value) {
@@ -318,6 +339,39 @@ class User extends Authenticatable
             }
         }
         return $query;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return trim($this->getSurname() . ' ' . $this->getName() . ' ' . $this->getPatronymic());
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortName(): string
+    {
+        return trim($this->getSurname() . ' ' . substr($this->getName(), 0, 1) . ' ' . substr($this->getPatronymic(), 0, 1));
+    }
+
+    /**
+     * @param UploadedFile $uploadedFile
+     * @param int $userId
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public static function uploadPhoto(UploadedFile $uploadedFile, int $userId): string
+    {
+        /** @var Storage $storage */
+        $storage = Storage::disk('photo');
+        $randStr = substr(md5(rand()), 0, 15);
+        $path    = 'photo-' . $userId . '-' . $randStr . '.png';
+
+        $storage->put($path, $uploadedFile->get());
+        return '/images/photos/' . $path . '?' . Carbon::now();
     }
 
 

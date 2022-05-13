@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Contact whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Contact whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static Builder|Contact filter(array $frd)
  */
 class Contact extends Model
 {
@@ -98,6 +100,43 @@ class Contact extends Model
     public function getUpdatedAt(): ?Carbon
     {
         return $this->updated_at;
+    }
+
+    /**
+     * @param Builder $query
+     * @param array $frd
+     * @return Builder
+     */
+    public function scopeFilter(Builder $query, array $frd): Builder
+    {
+        foreach ($frd as $key => $value) {
+            if (null === $value) {
+                continue;
+            }
+            switch ($key) {
+                case 'search':
+                    {
+                        $query->where(function ($query) use ($value) {
+                            $query->where('title', 'like', '%' . $value . '%')
+                                ->orWhere('content', 'like', '%' . $value . '%');
+                        });
+                    }
+                    break;
+            }
+        }
+        return $query;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getTypeList(): array
+    {
+        return [
+            'Телефон'         => 'Телефон',
+            'Email'           => 'Email',
+            'Социальная сеть' => 'Социальная сеть',
+        ];
     }
 
 
