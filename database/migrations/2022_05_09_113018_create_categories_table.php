@@ -16,11 +16,10 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->comment('Название');
             $table->text('description')->comment('Описание')->nullable();
-            $table->unsignedBigInteger('preview_id')->comment('Превью');
+            $table->string('preview')->comment('Превью');
             $table->unsignedBigInteger('parent_id')->comment('Родитель')->nullable();
             $table->timestamps();
 
-            $table->foreign('preview_id')->references('id')->on('images');
             $table->foreign('parent_id')->references('id')->on('categories');
         });
     }

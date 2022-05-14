@@ -12,7 +12,7 @@
             <div class="col-lg-8">
                 @include('forms._input',[
                'name'=>'search',
-               'placeholder' => 'Введите название или отображаемое название...',
+               'placeholder' => 'Введите тип, название или контакт...',
                'value' => $data['search'] ?? null
            ])
             </div>

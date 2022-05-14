@@ -16,10 +16,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->comment('Название изображения')->nullable();
             $table->text('description')->comment('Описание изображения')->nullable();
-            $table->unsignedBigInteger('image_id')->comment('ID изображения');
+            $table->string('image')->comment('Изображение');
             $table->timestamps();
-
-            $table->foreign('image_id')->references('id')->on('images');
         });
     }
 

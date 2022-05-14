@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->string('patronymic')->after('name')->nullable()->comment('Отчество');
             $table->string('phone')->after('email')->nullable()->unique()->comment('Телефон');
             $table->string('address')->after('phone')->nullable()->comment('Адрес');
-            $table->unsignedBigInteger('photo_id')->after('address')->nullable()->comment('Аватарка');
-            $table->unsignedBigInteger('role_id')->after('photo_id')->comment('Роль');
+            $table->string('photo')->after('address')->nullable()->comment('Аватарка');
+            $table->unsignedBigInteger('role_id')->after('photo')->comment('Роль');
         });
     }
 

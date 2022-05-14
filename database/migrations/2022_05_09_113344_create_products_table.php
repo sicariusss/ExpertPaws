@@ -17,12 +17,11 @@ return new class extends Migration {
             $table->string('name')->comment('Название');
             $table->text('description')->comment('Описание')->nullable();
             $table->integer('price')->comment('Цена');
-            $table->integer('manufacturer')->comment('Производитель')->nullable();
-            $table->unsignedBigInteger('preview_id')->comment('Превью');
+            $table->string('manufacturer')->comment('Производитель')->nullable();
+            $table->string('preview')->comment('Превью');
             $table->unsignedBigInteger('category_id')->comment('Категория');
             $table->timestamps();
 
-            $table->foreign('preview_id')->references('id')->on('images');
             $table->foreign('category_id')->references('id')->on('categories');
         });
     }

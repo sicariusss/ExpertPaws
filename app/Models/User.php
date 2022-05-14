@@ -26,24 +26,28 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $email
  * @property string|null $phone Телефон
  * @property string|null $address Адрес
- * @property int|null $photo_id Аватарка
+ * @property string|null $photo Аватарка
  * @property int $role_id Роль
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \App\Models\Role|null $role
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static Builder|User filter(array $frd)
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
+ * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
  * @method static Builder|User query()
  * @method static Builder|User whereAddress($value)
  * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereDeletedAt($value)
  * @method static Builder|User whereEmail($value)
  * @method static Builder|User whereEmailVerifiedAt($value)
  * @method static Builder|User whereId($value)
@@ -51,19 +55,14 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static Builder|User wherePassword($value)
  * @method static Builder|User wherePatronymic($value)
  * @method static Builder|User wherePhone($value)
- * @method static Builder|User wherePhotoId($value)
+ * @method static Builder|User wherePhoto($value)
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereRoleId($value)
  * @method static Builder|User whereSurname($value)
  * @method static Builder|User whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property-read \App\Models\Role $role
- * @property-read \App\Models\Image|null $photo
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
- * @method static Builder|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
+ * @mixin \Eloquent
  */
 class User extends Authenticatable
 {
@@ -81,7 +80,7 @@ class User extends Authenticatable
         'email',
         'phone',
         'address',
-        'photo_id',
+        'photo',
         'role_id',
         'password',
     ];
@@ -250,43 +249,20 @@ class User extends Authenticatable
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getPhotoId(): ?int
-    {
-        return $this->photo_id;
-    }
-
-    /**
-     * @param int|null $photo_id
-     */
-    public function setPhotoId(?int $photo_id): void
-    {
-        $this->photo_id = $photo_id;
-    }
-
-    /**
-     * @return HasOne
-     */
-    public function photo(): HasOne
-    {
-        return $this->hasOne(Image::class, 'id', 'photo_id');
-    }
-
-    /**
-     * @return Image
-     */
-    public function getImage(): Image
+    public function getPhoto(): ?string
     {
         return $this->photo;
     }
 
     /**
-     * @return string
+     * @param string|null $photo
+     * @return void
      */
-    public function getPhotoUrl(): string
+    public function setPhoto(?string $photo): void
     {
-        return $this->getImage()->getPath();
+        $this->photo = $photo;
     }
 
     /**
@@ -359,16 +335,15 @@ class User extends Authenticatable
 
     /**
      * @param UploadedFile $uploadedFile
-     * @param int $userId
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public static function uploadPhoto(UploadedFile $uploadedFile, int $userId): string
+    public static function uploadPhoto(UploadedFile $uploadedFile): string
     {
         /** @var Storage $storage */
-        $storage = Storage::disk('photo');
-        $randStr = substr(md5(rand()), 0, 15);
-        $path    = 'photo-' . $userId . '-' . $randStr . '.png';
+        $storage = Storage::disk('users');
+        $randStr = substr(md5(rand()), 0, 20);
+        $path    = 'photo-' . $randStr . '.png';
 
         $storage->put($path, $uploadedFile->get());
         return '/images/photos/' . $path . '?' . Carbon::now();

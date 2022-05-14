@@ -45,8 +45,9 @@ class ContactController extends Controller
     public function create(): View
     {
         SEOMeta::setTitle('Добавить контакт');
+        $typesList = $this->contacts::getTypesList();
 
-        return view('crm.contacts.create');
+        return view('crm.contacts.create', compact('typesList'));
     }
 
     /**
@@ -100,8 +101,9 @@ class ContactController extends Controller
     public function edit(Contact $contact): View
     {
         SEOMeta::setTitle('Редактирование контакта: ' . $contact->getTitle());
+        $typesList = $this->contacts::getTypesList();
 
-        return view('crm.contacts.edit', compact('contact'));
+        return view('crm.contacts.edit', compact('contact', 'typesList'));
     }
 
     /**

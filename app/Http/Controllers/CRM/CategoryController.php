@@ -3,83 +3,151 @@
 namespace App\Http\Controllers\CRM;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var Category
      */
-    public function index()
+    protected Category $categories;
+
+    /**
+     * @param Category $categories
+     */
+    public function __construct(Category $categories)
     {
-        //
+        $this->categories = $categories;
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return View
      */
-    public function create()
+    public function index(Request $request): View
     {
-        //
+        SEOMeta::setTitle('Категории товаров');
+        $data       = $request->all();
+        $categories = $this->categories::filter($data)->paginate(15);
+
+        return view('crm.categories.index', compact('categories', 'data'));
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function store(Request $request)
+    public function create(): View
     {
-        //
+        SEOMeta::setTitle('Добавить категорию');
+        $categoriesList = Category::getCategoriesList();
+
+        return view('crm.categories.create', compact('categoriesList'));
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function show($id)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $data = $request->all();
+
+        $this->validate($request, [
+            'name'        => 'required|max:255',
+            'description' => 'nullable',
+            'preview'     => 'required',
+            'parent_id'   => 'nullable|exists:categories,id',
+        ], [
+            'name.required'    => 'Введите название',
+            'name.max'         => 'Название должно быть меньше 255 символов',
+            'preview.required' => 'Загрузите превью категории',
+            'parent_id.exists' => 'Такой категории не существует',
+        ]);
+
+        $category = new Category();
+        $category->setName($data['name']);
+        $category->setDescription($data['description'] ?? null);
+        $category->setPreview($this->categories::uploadPreview($data['preview'], $data['name']));
+        $category->setParentId($data['parent_id'] ?? null);
+        $category->save();
+
+        Log::info('Создана категория №' . $category->getKey() . ', менеджер: ' . Auth::id());
+
+        return redirect()->route('crm.categories.show', $category);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Category $category
+     * @return View
      */
-    public function edit($id)
+    public function show(Category $category): View
     {
-        //
+        SEOMeta::setTitle('Категория: ' . $category->getName());
+
+        return view('crm.categories.show', compact('category'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Category $category
+     * @return View
      */
-    public function update(Request $request, $id)
+    public function edit(Category $category): View
     {
-        //
+        SEOMeta::setTitle('Редактирование категории: ' . $category->getName());
+        $categoriesList = $category->getCategoriesListExceptSelf();
+
+        return view('crm.categories.edit', compact('category', 'categoriesList'));
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Category $category
+     * @return RedirectResponse
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function destroy($id)
+    public function update(Request $request, Category $category): RedirectResponse
     {
-        //
+        $data = $request->all();
+
+        $this->validate($request, [
+            'name'        => 'required|max:255',
+            'description' => 'nullable',
+            'parent_id'   => 'nullable|exists:categories,id',
+        ], [
+            'name.required'    => 'Введите название',
+            'name.max'         => 'Название должно быть меньше 255 символов',
+            'parent_id.exists' => 'Такой категории не существует',
+        ]);
+
+        if (isset($data['preview'])) {
+            $data['preview'] = $this->categories::uploadPreview($data['preview'], $data['name']);
+        }
+
+        $category->update($data);
+        $category->save();
+
+        Log::info('Изменена категория №' . $category->getKey() . ', менеджер: ' . Auth::id());
+
+        return redirect()->route('crm.categories.show', $category);
+    }
+
+    /**
+     * @param Category $category
+     * @return RedirectResponse
+     */
+    public function destroy(Category $category): RedirectResponse
+    {
+        Log::info('Удалена категория №' . $category->getKey() . ', менеджер: ' . Auth::id());
+
+        $category->delete();
+
+        return redirect()->route('crm.categories.index');
     }
 }

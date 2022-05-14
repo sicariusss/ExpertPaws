@@ -19,14 +19,6 @@ return new class extends Migration {
             $table->string('path')->comment('Путь изображения');
             $table->timestamps();
         });
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreign('photo_id')->references('id')->on('images');
-        });
-
-        Schema::table('courses', function (Blueprint $table) {
-            $table->foreign('preview_id')->references('id')->on('images');
-        });
     }
 
     /**

@@ -3,11 +3,16 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 /**
  * App\Models\Category
@@ -15,27 +20,27 @@ use Illuminate\Support\Collection;
  * @property int $id
  * @property string $name Название
  * @property string|null $description Описание
- * @property int $preview_id Превью
+ * @property string $preview Превью
  * @property int|null $parent_id Родитель
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category query()
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category wherePreviewId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|Category[] $children
  * @property-read int|null $children_count
  * @property-read Category|null $parent
- * @property-read \App\Models\Image|null $preview
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
  * @property-read int|null $products_count
+ * @method static Builder|Category filter(array $frd)
+ * @method static Builder|Category newModelQuery()
+ * @method static Builder|Category newQuery()
+ * @method static Builder|Category query()
+ * @method static Builder|Category whereCreatedAt($value)
+ * @method static Builder|Category whereDescription($value)
+ * @method static Builder|Category whereId($value)
+ * @method static Builder|Category whereName($value)
+ * @method static Builder|Category whereParentId($value)
+ * @method static Builder|Category wherePreview($value)
+ * @method static Builder|Category whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Category extends Model
 {
@@ -45,7 +50,7 @@ class Category extends Model
     protected $fillable = [
         'name',
         'description',
-        'preview_id',
+        'preview',
         'parent_id',
     ];
 
@@ -82,35 +87,19 @@ class Category extends Model
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getPreviewId(): int
-    {
-        return $this->preview_id;
-    }
-
-    /**
-     * @param int $preview_id
-     */
-    public function setPreviewId(int $preview_id): void
-    {
-        $this->preview_id = $preview_id;
-    }
-
-    /**
-     * @return HasOne
-     */
-    public function preview(): HasOne
-    {
-        return $this->hasOne(Image::class);
-    }
-
-    /**
-     * @return Image
-     */
-    public function getPreview(): Image
+    public function getPreview(): string
     {
         return $this->preview;
+    }
+
+    /**
+     * @param string $preview
+     */
+    public function setPreview(string $preview): void
+    {
+        $this->preview = $preview;
     }
 
     /**
@@ -191,6 +180,66 @@ class Category extends Model
     public function getProducts(): Collection
     {
         return $this->products;
+    }
+
+    public static function getCategoriesList(): array
+    {
+        $categoriesList = [];
+        foreach (self::get() as $category) {
+            $categoriesList[$category->getKey()] = $category->getName();
+        }
+        return $categoriesList;
+    }
+
+    public function getCategoriesListExceptSelf(): array
+    {
+        $categoriesList = [];
+        foreach (self::where('id', '<>', $this->getKey())->get() as $category) {
+            $categoriesList[$category->getKey()] = $category->getName();
+        }
+        return $categoriesList;
+    }
+
+    /**
+     * @param Builder $query
+     * @param array $frd
+     * @return Builder
+     */
+    public function scopeFilter(Builder $query, array $frd): Builder
+    {
+        foreach ($frd as $key => $value) {
+            if (null === $value) {
+                continue;
+            }
+            switch ($key) {
+                case 'search':
+                    {
+                        $query->where(function ($query) use ($value) {
+                            $query->where('name', 'like', '%' . $value . '%');
+                        });
+                    }
+                    break;
+            }
+        }
+        return $query;
+    }
+
+
+    /**
+     * @param UploadedFile $uploadedFile
+     * @param string $name
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public static function uploadPreview(UploadedFile $uploadedFile, string $name): string
+    {
+        /** @var Storage $storage */
+        $storage = Storage::disk('categories');
+        $randStr = substr(md5(rand()), 0, 10);
+        $path    = 'category-' . Str::slug($name) . '-preview-' . $randStr . '.png';
+
+        $storage->put($path, $uploadedFile->get());
+        return '/images/categories/' . $path . '?' . Carbon::now();
     }
 
 

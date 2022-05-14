@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('short_description')->comment('Короткое описание');
             $table->text('full_description')->comment('Полное описание');
             $table->integer('price')->comment('Цена');
-            $table->unsignedBigInteger('preview_id')->comment('Превью');
+            $table->string('preview')->comment('Превью');
             $table->timestamps();
         });
     }

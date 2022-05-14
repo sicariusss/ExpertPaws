@@ -98,19 +98,11 @@ class UserController extends Controller
         $user->setPhone($data['phone'] ?? null);
         $user->setAddress($data['address'] ?? null);
         $user->setRoleId($data['role_id']);
+        if (isset($data['photo'])) {
+            $user->setPhoto($this->users::uploadPhoto($data['photo']));
+        }
         $user->setPassword(Hash::make($data['password']));
         $user->save();
-
-        if (isset($data['photo'])) {
-            $photo = new Image();
-            $photo->setType(Image::TYPE_USER_PHOTO);
-            $photo->setTypeId($user->getKey());
-            $photo->setPath(User::uploadPhoto($data['photo'], $user->getKey()));
-            $photo->save();
-
-            $user->setPhotoId($photo->getKey());
-            $user->save();
-        }
 
         Log::info('Создан пользователь №' . $user->getKey() . ', менеджер: ' . Auth::id());
 
@@ -177,13 +169,7 @@ class UserController extends Controller
         ]);
 
         if (isset($data['photo'])) {
-            $photo = new Image();
-            $photo->setType(Image::TYPE_USER_PHOTO);
-            $photo->setTypeId($user->getKey());
-            $photo->setPath(User::uploadPhoto($data['photo'], $user->getKey()));
-            $photo->save();
-
-            $data['photo_id'] = $photo->getKey();
+            $data['photo'] = $this->users::uploadPhoto($data['photo']);
         }
 
         $user->update($data);

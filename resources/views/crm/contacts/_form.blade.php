@@ -4,18 +4,29 @@
  */
 ?>
 
-@include('forms._input', [
-    'label' => 'Название',
+@include('forms._select', [
+     'name'=>'type',
     'required'=>'required',
-    'name' => 'name',
-    'type' => 'text',
-    'value' => isset($role) ? $role->getName() : ''
+     'label'=>'Тип контакта',
+     'list'=>$typesList,
+    'placeholder' => 'Введите тип контакта...',
+     'value'=>isset($contact) ? $contact->getType() : '',
 ])
 
 @include('forms._input', [
-    'label' => 'Отображаемое название',
+    'label' => 'Название',
     'required'=>'required',
-    'name' => 'display_name',
+    'name' => 'title',
     'type' => 'text',
-    'value' => isset($role) ? $role->getDisplayName() : ''
+    'placeholder' => 'Введите название...',
+    'value' => isset($contact) ? $contact->getTitle() : ''
+])
+
+@include('forms._input', [
+    'label' => 'Контакт',
+    'required'=>'required',
+    'name' => 'content',
+    'type' => 'text',
+    'placeholder' => 'Введите контакт...',
+    'value' => isset($contact) ? $contact->getContent() : ''
 ])

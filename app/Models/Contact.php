@@ -38,6 +38,11 @@ class Contact extends Model
         'title',
     ];
 
+    public const TYPE_PHONE      = 'Телефон';
+    public const TYPE_EMAIL      = 'Email';
+    public const TYPE_SOCIAL_NET = 'Социальная сеть';
+
+
     /**
      * @return string
      */
@@ -118,6 +123,7 @@ class Contact extends Model
                     {
                         $query->where(function ($query) use ($value) {
                             $query->where('title', 'like', '%' . $value . '%')
+                                ->orWhere('type', 'like', '%' . $value . '%')
                                 ->orWhere('content', 'like', '%' . $value . '%');
                         });
                     }
@@ -130,12 +136,12 @@ class Contact extends Model
     /**
      * @return array
      */
-    public static function getTypeList(): array
+    public static function getTypesList(): array
     {
         return [
-            'Телефон'         => 'Телефон',
-            'Email'           => 'Email',
-            'Социальная сеть' => 'Социальная сеть',
+            self::TYPE_PHONE      => self::TYPE_PHONE,
+            self::TYPE_EMAIL      => self::TYPE_EMAIL,
+            self::TYPE_SOCIAL_NET => self::TYPE_SOCIAL_NET,
         ];
     }
 

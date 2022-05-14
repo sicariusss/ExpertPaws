@@ -9,6 +9,7 @@
     'required'=>'required',
     'name' => 'name',
     'type' => 'text',
+    'placeholder' => 'Введите название...',
     'value' => isset($role) ? $role->getName() : ''
 ])
 
@@ -17,5 +18,6 @@
     'required'=>'required',
     'name' => 'display_name',
     'type' => 'text',
+    'placeholder' => 'Введите отображаемое название...',
     'value' => isset($role) ? $role->getDisplayName() : ''
 ])

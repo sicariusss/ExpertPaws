@@ -32,30 +32,60 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root'   => storage_path('app'),
         ],
 
         'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'driver'     => 'local',
+            'root'       => storage_path('app/public'),
+            'url'        => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
 
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
+        's3'      => [
+            'driver'                  => 's3',
+            'key'                     => env('AWS_ACCESS_KEY_ID'),
+            'secret'                  => env('AWS_SECRET_ACCESS_KEY'),
+            'region'                  => env('AWS_DEFAULT_REGION'),
+            'bucket'                  => env('AWS_BUCKET'),
+            'url'                     => env('AWS_URL'),
+            'endpoint'                => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
-        'photo' => [
-            'driver' => 'local',
-            'root' => public_path('images/photos'),
-            'url' => env('APP_URL'),
+        'users'   => [
+            'driver'     => 'local',
+            'root'       => public_path('images/photos'),
+            'url'        => env('APP_URL'),
+            'visibility' => 'public',
+        ],
+        'products' => [
+            'driver'     => 'local',
+            'root'       => public_path('images/products'),
+            'url'        => env('APP_URL'),
+            'visibility' => 'public',
+        ],
+        'categories' => [
+            'driver'     => 'local',
+            'root'       => public_path('images/categories'),
+            'url'        => env('APP_URL'),
+            'visibility' => 'public',
+        ],
+        'gallery' => [
+            'driver'     => 'local',
+            'root'       => public_path('images/gallery'),
+            'url'        => env('APP_URL'),
+            'visibility' => 'public',
+        ],
+        'resources' => [
+            'driver'     => 'local',
+            'root'       => public_path('images/resources'),
+            'url'        => env('APP_URL'),
+            'visibility' => 'public',
+        ],
+        'courses' => [
+            'driver'     => 'local',
+            'root'       => public_path('images/courses'),
+            'url'        => env('APP_URL'),
             'visibility' => 'public',
         ],
 

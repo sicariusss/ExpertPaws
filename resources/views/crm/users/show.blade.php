@@ -32,7 +32,7 @@
             <div class="col-lg-3">
                 {{ $user->getName() }}
             </div>
-            <img alt="photo" src="{{$user->getPhotoUrl()}}">
+            <img alt="photo" src="{{$user->getPhoto()}}">
             <div class="col-lg-2">
                 <div class="btn-group" role="group">
                     <a href="{{route('crm.users.edit', $user)}}" class="btn btn-outline-primary py-1">

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,6 +35,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Lesson withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Lesson withoutTrashed()
+ * @method static Builder|Lesson filter(array $frd)
  */
 class Lesson extends Model
 {
@@ -137,11 +139,35 @@ class Lesson extends Model
     }
 
     /**
-     * @return \Illuminate\Support\Carbon|null
+     * @return Carbon|null
      */
     public function getUpdatedAt(): ?Carbon
     {
         return $this->updated_at;
+    }
+
+    /**
+     * @param Builder $query
+     * @param array $frd
+     * @return Builder
+     */
+    public function scopeFilter(Builder $query, array $frd): Builder
+    {
+        foreach ($frd as $key => $value) {
+            if (null === $value) {
+                continue;
+            }
+            switch ($key) {
+                case 'search':
+                    {
+                        $query->where(function ($query) use ($value) {
+                            $query->where('title', 'like', '%' . $value . '%');
+                        });
+                    }
+                    break;
+            }
+        }
+        return $query;
     }
 
 }

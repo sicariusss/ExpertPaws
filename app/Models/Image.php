@@ -3,8 +3,12 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\Image
@@ -30,6 +34,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Image withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Image withoutTrashed()
+ * @method static Builder|Image filter(array $frd)
  */
 class Image extends Model
 {
@@ -43,9 +48,9 @@ class Image extends Model
         'path',
     ];
 
-    public const TYPE_USER_PHOTO = 'user_photo';
+    public const TYPE_USER_PHOTO      = 'user_photo';
     public const TYPE_PRODUCT_PREVIEW = 'product_preview';
-    public const TYPE_PRODUCT_PIC = 'product_pic';
+    public const TYPE_PRODUCT_PIC     = 'product_pic';
 
     /**
      * @return string
@@ -109,6 +114,47 @@ class Image extends Model
     public function getUpdatedAt(): ?Carbon
     {
         return $this->updated_at;
+    }
+
+    /**
+     * @param Builder $query
+     * @param array $frd
+     * @return Builder
+     */
+    public function scopeFilter(Builder $query, array $frd): Builder
+    {
+        foreach ($frd as $key => $value) {
+            if (null === $value) {
+                continue;
+            }
+            switch ($key) {
+                case 'search':
+                    {
+                        $query->where(function ($query) use ($value) {
+                            $query->where('type', 'like', '%' . $value . '%');
+                        });
+                    }
+                    break;
+            }
+        }
+        return $query;
+    }
+
+    /**
+     * @param UploadedFile $uploadedFile
+     * @param string $type
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public static function uploadImage(UploadedFile $uploadedFile, string $type): string
+    {
+        /** @var Storage $storage */
+        $storage = Storage::disk('resources');
+        $randStr = substr(md5(rand()), 0, 10);
+        $path    = 'image-' . Str::slug($type) . '-' . $randStr . '.png';
+
+        $storage->put($path, $uploadedFile->get());
+        return '/images/resources/' . $path . '?' . Carbon::now();
     }
 
 

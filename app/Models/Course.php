@@ -3,11 +3,16 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 /**
  * App\Models\Course
@@ -17,29 +22,29 @@ use Illuminate\Support\Collection;
  * @property string $short_description Короткое описание
  * @property string $full_description Полное описание
  * @property int $price Цена
- * @property int $preview_id Превью
+ * @property string $preview Превью
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lesson[] $lessons
+ * @property-read int|null $lessons_count
  * @method static \Illuminate\Database\Eloquent\Builder|Course newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Course newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Course onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Course query()
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Course whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereFullDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course wherePreviewId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Course wherePreview($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereShortDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lesson[] $lessons
- * @property-read int|null $lessons_count
- * @property-read \App\Models\Image|null $preview
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @method static \Illuminate\Database\Query\Builder|Course onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Course withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Course withoutTrashed()
+ * @mixin \Eloquent
+ * @method static Builder|Course filter(array $frd)
  */
 class Course extends Model
 {
@@ -52,7 +57,7 @@ class Course extends Model
         'short_description',
         'full_description',
         'price',
-        'preview_id',
+        'preview',
     ];
 
     /**
@@ -120,35 +125,19 @@ class Course extends Model
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getPreviewId(): int
-    {
-        return $this->preview_id;
-    }
-
-    /**
-     * @param int $preview_id
-     */
-    public function setPreviewId(int $preview_id): void
-    {
-        $this->preview_id = $preview_id;
-    }
-
-    /**
-     * @return HasOne
-     */
-    public function preview(): HasOne
-    {
-        return $this->hasOne(Image::class);
-    }
-
-    /**
-     * @return Image
-     */
-    public function getPreview(): Image
+    public function getPreview(): string
     {
         return $this->preview;
+    }
+
+    /**
+     * @param string $preview
+     */
+    public function setPreview(string $preview): void
+    {
+        $this->preview = $preview;
     }
 
     /**
@@ -183,7 +172,55 @@ class Course extends Model
         return $this->lessons;
     }
 
+    /**
+     * @param Builder $query
+     * @param array $frd
+     * @return Builder
+     */
+    public function scopeFilter(Builder $query, array $frd): Builder
+    {
+        foreach ($frd as $key => $value) {
+            if (null === $value) {
+                continue;
+            }
+            switch ($key) {
+                case 'search':
+                    {
+                        $query->where(function ($query) use ($value) {
+                            $query->where('title', 'like', '%' . $value . '%');
+                        });
+                    }
+                    break;
+            }
+        }
+        return $query;
+    }
 
+    /**
+     * @param UploadedFile $uploadedFile
+     * @param string $title
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public static function uploadPreview(UploadedFile $uploadedFile, string $title): string
+    {
+        /** @var Storage $storage */
+        $storage = Storage::disk('courses');
+        $randStr = substr(md5(rand()), 0, 10);
+        $path    = 'course-' . Str::slug($title) . '-' . $randStr . '.png';
+
+        $storage->put($path, $uploadedFile->get());
+        return '/images/courses/' . $path . '?' . Carbon::now();
+    }
+
+    public static function getCoursesList(): array
+    {
+        $coursesList = [];
+        foreach (self::get() as $course) {
+            $coursesList[$course->getKey()] = $course->getTitle();
+        }
+        return $coursesList;
+    }
 
 
 }

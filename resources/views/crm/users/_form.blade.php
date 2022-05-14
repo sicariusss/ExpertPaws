@@ -8,6 +8,7 @@
     'label' => 'Фамилия',
     'name' => 'surname',
     'type' => 'text',
+    'placeholder' => 'Введите фамилию...',
     'value' => isset($user) ? $user->getSurname() : ''
 ])
 
@@ -16,6 +17,7 @@
     'required'=>'required',
     'name' => 'name',
     'type' => 'text',
+    'placeholder' => 'Введите имя...',
     'value' => isset($user) ? $user->getName() : ''
 ])
 
@@ -23,6 +25,7 @@
     'label' => 'Отчество',
     'name' => 'patronymic',
     'type' => 'text',
+    'placeholder' => 'Введите отчество...',
     'value' => isset($user) ? $user->getPatronymic() : ''
 ])
 
@@ -31,6 +34,7 @@
     'required'=>'required',
     'name' => 'email',
     'type' => 'email',
+    'placeholder' => 'Введите email...',
     'value' => isset($user) ? $user->getEmail() : ''
 ])
 
@@ -38,6 +42,7 @@
     'label' => 'Телефон',
     'name' => 'phone',
     'type' => 'tel',
+    'placeholder' => 'Введите телефон...',
     'value' => isset($user) ? $user->getPhone() : ''
 ])
 
@@ -45,6 +50,7 @@
     'label' => 'Адрес',
     'name' => 'address',
     'type' => 'text',
+    'placeholder' => 'Введите адрес...',
     'value' => isset($user) ? $user->getAddress() : ''
 ])
 
@@ -52,6 +58,7 @@
      'name'=>'role_id',
      'label'=>'Роль',
      'list'=>$rolesList,
+    'placeholder' => '-',
      'value'=>isset($user) ? $user->getRoleId() : '',
 ])
 
@@ -60,6 +67,7 @@
     'required'=>'required',
     'name' => 'password',
     'type' => 'password',
+    'placeholder' => 'Введите пароль...',
 ])
 
 @include('forms._file-custom', [

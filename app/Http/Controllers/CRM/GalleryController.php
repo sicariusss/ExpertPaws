@@ -3,83 +3,144 @@
 namespace App\Http\Controllers\CRM;
 
 use App\Http\Controllers\Controller;
+use App\Models\Gallery;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class GalleryController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var Gallery
      */
-    public function index()
+    protected Gallery $gallery;
+
+    /**
+     * @param Gallery $gallery
+     */
+    public function __construct(Gallery $gallery)
     {
-        //
+        $this->gallery = $gallery;
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return View
      */
-    public function create()
+    public function index(Request $request): View
     {
-        //
+        SEOMeta::setTitle('Галерея');
+        $data    = $request->all();
+        $gallery = $this->gallery::filter($data)->paginate(15);
+
+        return view('crm.gallery.index', compact('gallery', 'data'));
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function store(Request $request)
+    public function create(): View
     {
-        //
+        SEOMeta::setTitle('Добавить изображение в галерею');
+
+        return view('crm.gallery.create');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function show($id)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $data = $request->all();
+
+        $this->validate($request, [
+            'name'        => 'nullable|max:255',
+            'description' => 'nullable',
+            'image'       => 'required',
+        ], [
+            'name.max'       => 'Название должно быть меньше 255 символов',
+            'image.required' => 'Загрузите изображение',
+        ]);
+
+        $gallery = new Gallery();
+        $gallery->setName($data['name'] ?? null);
+        $gallery->setDescription($data['description'] ?? null);
+        $gallery->setImage($this->gallery::uploadImage($data['image']));
+        $gallery->save();
+
+        Log::info('Добавлено изображение в галерею №' . $gallery->getKey() . ', менеджер: ' . Auth::id());
+
+        return redirect()->route('crm.gallery.show', $gallery);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Gallery $gallery
+     * @return View
      */
-    public function edit($id)
+    public function show(Gallery $gallery): View
     {
-        //
+        SEOMeta::setTitle('Изображение галереи №' . $gallery->getKey());
+
+        return view('crm.gallery.show', compact('gallery'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Gallery $gallery
+     * @return View
      */
-    public function update(Request $request, $id)
+    public function edit(Gallery $gallery): View
     {
-        //
+        SEOMeta::setTitle('Редактирование галереи №' . $gallery->getKey());
+
+        return view('crm.gallery.edit', compact('gallery'));
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Gallery $gallery
+     * @return RedirectResponse
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function destroy($id)
+    public function update(Request $request, Gallery $gallery): RedirectResponse
     {
-        //
+        $data = $request->all();
+
+        $this->validate($request, [
+            'name'        => 'nullable|max:255',
+            'description' => 'nullable',
+        ], [
+            'name.max' => 'Название должно быть меньше 255 символов',
+        ]);
+
+        if (isset($data['image'])) {
+            $data['image'] = $this->gallery::uploadImage($data['image']);
+        }
+
+        $gallery->update($data);
+        $gallery->save();
+
+        Log::info('Изменено изображение галереи №' . $gallery->getKey() . ', менеджер: ' . Auth::id());
+
+        return redirect()->route('crm.gallery.show', $gallery);
+    }
+
+    /**
+     * @param Gallery $gallery
+     * @return RedirectResponse
+     */
+    public function destroy(Gallery $gallery): RedirectResponse
+    {
+        Log::info('Удалено изображение галереи №' . $gallery->getKey() . ', менеджер: ' . Auth::id());
+
+        $gallery->delete();
+
+        return redirect()->route('crm.gallery.index');
     }
 }
