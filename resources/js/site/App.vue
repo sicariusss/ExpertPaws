@@ -9,7 +9,7 @@
                     <router-link to="/books" class="nav-item nav-link">Books</router-link>
                     <a class="nav-item nav-link" style="cursor: pointer;" @click="logout">Logout</a>
 
-                    <a v-if="role_id === 1 || role_id === 2 || role_id === 3" href="/crm/users"
+                    <a v-if="role_id === 1 || role_id === 2 || role_id === 3" href="/crm"
                        class="nav-item nav-link">CRM</a>
                 </div>
                 <!-- for non-logged user-->
@@ -31,7 +31,7 @@
                     <router-link to="/books" class="nav-item nav-link">Books</router-link>
                     <a class="nav-item nav-link" style="cursor: pointer;" @click="logout">Logout</a>
 
-                    <a v-if="role_id === 1 || role_id === 2 || role_id === 3" href="/crm/users"
+                    <a v-if="role_id === 1 || role_id === 2 || role_id === 3" href="/crm"
                        class="nav-item nav-link">CRM</a>
                 </div>
                 <!-- for non-logged user-->

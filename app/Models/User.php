@@ -330,7 +330,7 @@ class User extends Authenticatable
      */
     public function getShortName(): string
     {
-        return trim($this->getSurname() . ' ' . substr($this->getName(), 0, 1) . ' ' . substr($this->getPatronymic(), 0, 1));
+        return trim($this->getSurname() . ' ' . substr($this->getName(), 0, 1) . '. ' . substr($this->getPatronymic(), 0, 1) . '.');
     }
 
     /**

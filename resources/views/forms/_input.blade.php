@@ -40,7 +40,7 @@ if (isset($name)) {
         {{ Form::input($type ?? 'text',$name,$value ?? null,[
    'class'=>'form-control '.($errors->has($nameDot) ? ' is-invalid ' : null).' '.$class,
    'id'=>$id ?? null,
-   'style'=>$style ?? null,
+   'style'=>$style ?? 'border: 1px solid #ffc60b; font-family: "Montserrat", sans-serif; font-size: 15px; color: white; font-weight: 500;',
    'onclick'=>$onclick ?? null,
    'onkeypress'=>$onkeypress ?? null,
    'required'=>$required ?? null,

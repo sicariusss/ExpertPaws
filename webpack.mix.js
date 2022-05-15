@@ -16,3 +16,9 @@ mix.js('resources/js/site/app.js', 'public/js/site')
     .vue()
     .sass('resources/sass/site/app.scss', 'public/css/site')
     .sass('resources/sass/crm/crm.scss', 'public/css/crm');
+
+mix.webpackConfig({
+    stats: {
+        children: true
+    }
+});
