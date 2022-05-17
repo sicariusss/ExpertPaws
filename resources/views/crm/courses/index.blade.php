@@ -66,11 +66,11 @@
             {{Form::close()}}
         @empty
             @if($data === [])
-                <div class="alert alert-secondary  text-center">
+                <div class="alert text-center">
                     Курсы отсутствуют в системе
                 </div>
             @else
-                <div class="alert alert-secondary  text-center">
+                <div class="alert text-center">
                     По данному запросу не найдено курсов
                 </div>
             @endif

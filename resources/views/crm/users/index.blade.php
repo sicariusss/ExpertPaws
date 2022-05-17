@@ -7,9 +7,9 @@
 @extends('layouts.app')
 @section('content')
     <div class="container wrapper-primary">
-        <div class="index-title">
+        <a href="{{route('crm.users.index')}}" class="index-title">
             Все пользователи
-        </div>
+        </a>
         {{ Form::open(['url'=>route('crm.users.index'),'method'=>'GET','onchange'=>'this.submit();']) }}
         <div class="row justify-content-center align-items-end pb-5 pt-3">
             <div class="col-lg-8">
@@ -20,15 +20,15 @@
                'value' => $data['search'] ?? null
            ])
             </div>
-            <div class="col-lg-auto">
+            <div class="col-lg-auto pt-3 pt-lg-0">
                 <a href="{{ route('crm.users.create') }}" class="btn btn-outline-paw">
-                    Добавить пользователя&nbsp;<i class="fa fa-plus"></i>
+                    Добавить пользователя <i class="fa fa-plus"></i>
                 </a>
             </div>
         </div>
         {{ Form::close() }}
         @if(count($users) > 0)
-            <div class="row py-1 mx-1 table-title">
+            <div class="row py-1 mx-1 table-title table-top-pc">
                 <div class="col-lg-1">
                     <div>
                         <i class="fa-solid fa-chevron-right"></i> №
@@ -57,7 +57,7 @@
             </div>
         @endif
         @forelse($users as $user)
-            <div class="row py-1 mx-1 align-items-center index-table-row">
+            <div class="row py-1 mx-1 align-items-center index-table-row table-bot-pc">
                 <div class="col-lg-1">
                     {{ $user->getKey() }}
                 </div>
@@ -72,15 +72,44 @@
                 </div>
                 <div class="col-lg-2">
                     <div class="btn-group" role="group">
-                        <a href="{{route('crm.users.show', $user)}}" class="btn btn-outline-primary py-1">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <a href="{{route('crm.users.show', $user)}}" title="Подробная информация" class="btn btn-outline-primary action-btn">
+                            <i class="far fa-user"></i>
                         </a>
-                        <a href="{{route('crm.users.edit', $user)}}" class="btn btn-outline-success py-1">
-                            <i class="fas fa-edit"></i>
+                        <a href="{{route('crm.users.edit', $user)}}" title="Редактировать" class="btn btn-outline-success action-btn">
+                            <i class="far fa-edit"></i>
                         </a>
-                        <button form="delete-{{$user->getKey()}}" class="btn btn-outline-danger py-1"
+                        <button form="delete-{{$user->getKey()}}" title="Удалить" class="btn btn-outline-danger action-btn"
                                 onclick="return confirm('Подтвердите удаление пользователя{{' "' . $user->getName() . '"'}}')">
-                            <i class="fas fa-trash-alt"></i>
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row py-3 mx-1 table-mobile">
+                <div>
+                    <span><i class="fa-solid fa-chevron-right"></i> №:</span> {{ $user->getKey() }}
+                </div>
+                <div>
+                    <span><i class="fa-solid fa-chevron-right"></i> ФИО:</span> {{ $user->getFullName() }}
+                </div>
+                <div>
+                    <span><i class="fa-solid fa-chevron-right"></i> Email:</span> {{ $user->getEmail() }}
+                </div>
+                <div>
+                    <span><i class="fa-solid fa-chevron-right"></i> Телефон:</span> {{ $user->getPhone() ?? '-' }}
+                </div>
+                <div>
+                    <span><i class="fa-solid fa-chevron-right"></i> Действия:</span>
+                    <div class="btn-group" role="group">
+                        <a href="{{route('crm.users.show', $user)}}" title="Подробная информация" class="btn btn-outline-primary action-btn">
+                            <i class="far fa-user"></i>
+                        </a>
+                        <a href="{{route('crm.users.edit', $user)}}" title="Редактировать" class="btn btn-outline-success action-btn">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <button form="delete-{{$user->getKey()}}" title="Удалить" class="btn btn-outline-danger action-btn"
+                                onclick="return confirm('Подтвердите удаление пользователя{{' "' . $user->getName() . '"'}}')">
+                            <i class="far fa-trash-alt"></i>
                         </button>
                     </div>
                 </div>
@@ -89,11 +118,11 @@
             {{Form::close()}}
         @empty
             @if($data === [])
-                <div class="alert alert-secondary  text-center">
+                <div class="alert text-center">
                     Пользователи отсутствуют в системе
                 </div>
             @else
-                <div class="alert alert-secondary  text-center">
+                <div class="alert text-center">
                     По данному запросу не найдено пользователей
                 </div>
             @endif

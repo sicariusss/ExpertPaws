@@ -38,7 +38,7 @@ class UserController extends Controller
     {
         SEOMeta::setTitle('Пользователи');
         $data  = $request->all();
-        $users = $this->users::filter($data)->paginate(15);
+        $users = $this->users::filter($data)->paginate(1);
 
         return view('crm.users.index', compact('users', 'data'));
     }
