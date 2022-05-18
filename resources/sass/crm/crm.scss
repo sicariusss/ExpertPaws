@@ -123,17 +123,14 @@ body {
 }
 
 @media (max-width: 991px) {
-    .table-top-pc {
-        display: none;
-    }
-    .table-bot-pc {
+    .pc-block {
         display: none;
     }
 
 }
 
 @media (min-width: 992px) {
-    .table-mobile {
+    .mobile-block {
         display: none;
     }
 
@@ -200,4 +197,21 @@ body {
 .page-item:first-child .page-link {
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
+}
+
+label {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+}
+
+.show-data {
+    font-size: 18px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+}
+
+.show-data span {
+    color: #ffc60b;
 }

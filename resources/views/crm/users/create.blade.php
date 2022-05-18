@@ -7,7 +7,7 @@
                     Создать пользователя
                 </a>
             </div>
-            <div class="col-auto">
+            <div class="col-auto pc-block">
                 <button form="create-user" class="btn btn-outline-paw">Добавить пользователя</button>
             </div>
         </div>
@@ -16,6 +16,9 @@
                 {{Form::open(['method'=>'POST', 'url'=>route('crm.users.store'), 'files'=>true, 'id'=>'create-user'])}}
                 @include('crm.users._form')
                 {{Form::close()}}
+                <div class="col-auto mobile-block pt-3">
+                    <button form="create-user" class="btn btn-outline-paw">Добавить пользователя</button>
+                </div>
             </div>
         </div>
     </div>

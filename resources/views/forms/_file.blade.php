@@ -45,13 +45,14 @@ if (isset($name)) {
    [
    'required'=>$required,
    'id'=>$fileInputId,
-   'class'=>$class,
+   'class'=> 'form-control ' . $class,
    'placeholder'=>$placeholder,
    'autocomplete'=>$autocomplete,
    'data-value'=>$value,
+   'style'=>$style ?? 'border: 1px solid #ffc60b; font-family: "Montserrat", sans-serif; font-size: 15px; color: white; font-weight: 500;',
    ]+$attributes
    ) }}
-            <label class="custom-file-label" for="{{ $fileInputId }}">{!! $inputLabel ?? 'Файл...' !!}</label>
+            <label class="custom-file-label" for="{{ $fileInputId }}">{!! $inputLabel ?? ' ' !!}</label>
 
             @isset($text)
                 <small class="form-text text-muted "> {!! $text   !!}</small>

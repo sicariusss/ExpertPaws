@@ -40,6 +40,7 @@ $multiple = $multiple ?? false;
     'required'=>(isset($required) && $required ? 'required' : null),
     'placeholder'=>$placeholder,
     'multiple'=>$multiple,
+   'style'=>$style ?? 'border: 1px solid #ffc60b; font-family: "Montserrat", sans-serif; font-size: 15px; color: white; font-weight: 500;',
     ]+($attributes ?? [])) }}
 
     @if(isset($feedback))
