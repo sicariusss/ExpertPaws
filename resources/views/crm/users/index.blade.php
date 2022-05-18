@@ -6,7 +6,7 @@
 ?>
 @extends('layouts.app')
 @section('content')
-    <div class="container wrapper-primary">
+    <div class="container">
         <a href="{{route('crm.users.index')}}" class="index-title">
             Все пользователи
         </a>

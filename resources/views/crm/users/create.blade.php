@@ -1,15 +1,20 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-4">
-                {{Form::open(['method'=>'POST', 'url'=>route('crm.users.store'), 'files'=>true])}}
+        <div class="row justify-content-between align-items-center">
+            <div class="col-auto">
+                <a href="{{route('crm.users.create')}}" class="index-title pb-5">
+                    Создать пользователя
+                </a>
+            </div>
+            <div class="col-auto">
+                <button form="create-user" class="btn btn-outline-paw">Добавить пользователя</button>
+            </div>
+        </div>
+        <div class="row justify-content-center pt-4">
+            <div class="col-12">
+                {{Form::open(['method'=>'POST', 'url'=>route('crm.users.store'), 'files'=>true, 'id'=>'create-user'])}}
                 @include('crm.users._form')
-                <div class="row justify-content-center">
-                    <div class="col-auto">
-                        <button class="btn btn-success">Добавить пользователя</button>
-                    </div>
-                </div>
                 {{Form::close()}}
             </div>
         </div>

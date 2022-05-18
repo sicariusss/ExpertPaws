@@ -7,6 +7,7 @@ use App\Models\Image;
 use App\Models\Role;
 use App\Models\User;
 use Artesaos\SEOTools\Facades\SEOMeta;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,7 @@ class UserController extends Controller
     {
         SEOMeta::setTitle('Пользователи');
         $data  = $request->all();
-        $users = $this->users::filter($data)->paginate(1);
+        $users = $this->users::filter($data)->paginate(15);
 
         return view('crm.users.index', compact('users', 'data'));
     }
@@ -100,6 +101,8 @@ class UserController extends Controller
         $user->setRoleId($data['role_id']);
         if (isset($data['photo'])) {
             $user->setPhoto($this->users::uploadPhoto($data['photo']));
+        } else {
+            $user->setPhoto('/images/photos/default-photo.png?' . Carbon::now());
         }
         $user->setPassword(Hash::make($data['password']));
         $user->save();
@@ -168,6 +171,7 @@ class UserController extends Controller
             'password.max'      => 'Пароль должен быть меньше 255 символов',
         ]);
 
+        $data['password'] = Hash::make($data['password']);
         if (isset($data['photo'])) {
             $data['photo'] = $this->users::uploadPhoto($data['photo']);
         }

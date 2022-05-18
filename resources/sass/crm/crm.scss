@@ -121,8 +121,8 @@ body {
     font-weight: 500;
     font-family: "Montserrat", sans-serif;
 }
-@media (max-width: 991px)
-{
+
+@media (max-width: 991px) {
     .table-top-pc {
         display: none;
     }
@@ -131,8 +131,8 @@ body {
     }
 
 }
-@media (min-width: 992px)
-{
+
+@media (min-width: 992px) {
     .table-mobile {
         display: none;
     }
@@ -149,4 +149,55 @@ body {
 
 .table-mobile span {
     color: #ffc60b;
+}
+
+.pagination {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    color: white;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    transition: none;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #ffc60b;
+    background: transparent;
+    border: none;
+}
+
+.page-link:hover {
+    z-index: 2;
+    color: #ffc60b;
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 15px;
+}
+
+.page-link:focus {
+    z-index: 3;
+    color: black;
+    background-color: #ffc60b;
+    border-color: transparent;
+    border-radius: 15px;
+    outline: 0;
+    box-shadow: none;
+}
+
+.page-item:last-child .page-link {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.page-item:first-child .page-link {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
 }
