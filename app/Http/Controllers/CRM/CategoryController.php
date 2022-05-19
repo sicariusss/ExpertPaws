@@ -54,6 +54,7 @@ class CategoryController extends Controller
      * @param Request $request
      * @return RedirectResponse
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -111,6 +112,7 @@ class CategoryController extends Controller
      * @param Category $category
      * @return RedirectResponse
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Category $category): RedirectResponse
     {

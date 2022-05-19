@@ -1,13 +1,13 @@
 <?php
-$name = $name ?? "";
+$name       = $name ?? "";
 $random_int = random_int(1, 100000);
-$id_input = "input_".$random_int."_".Str::slug($name);
-$disabled = $disabled ??  false;
+$id_input   = "input_" . $random_int . "_" . Str::slug($name);
+$disabled   = $disabled ?? false;
 ?>
 <div class="form-group {{ $errors->has($name) ? ' has-danger' : '' }}">
     @isset($label)
-    <label class="form-control-label {{ $labelClass??null }}"
-           for="{{ $id_input }}"> {!!  $label !!} </label>
+        <label class="form-control-label {{ $labelClass??null }}"
+               for="{{ $id_input }}"> {!!  $label !!} </label>
     @endisset
     {{ Form::textarea(
     $name,
@@ -23,18 +23,21 @@ $disabled = $disabled ??  false;
     'autocomplete'=>($autocomplete ?? 'on'),
     'data-value'=>($value ?? null),
     'disabled'=>$disabled,
+   'style'=> $style ?? 'border: 1px solid #ffc60b; font-family: "Montserrat", sans-serif; font-size: 15px; color: white; font-weight: 500; ',
     ]+($attributes ?? [])
     ) }}
 
 
 
-        @if(isset($feedback) || $errors->has($name) === true)
-    <div class="invalid-feedback">{{ $feedback ?? $errors->first($name) }}</div>
-        @endif
+    @if(isset($feedback) || $errors->has($name) === true)
+        <div class="invalid-feedback">{{ $feedback ?? $errors->first($name) }}</div>
+    @endif
 
-        @isset($text)
-    <small class="form-text text-muted"> {!! $text   !!}@isset($textPostfix) <span class="text-postfix">{{ $textPostfix }}</span>@endisset</small>
-            @endisset
+    @isset($text)
+        <small class="form-text text-muted"> {!! $text   !!}@isset($textPostfix)
+                <span class="text-postfix">{{ $textPostfix }}</span>
+            @endisset</small>
+    @endisset
 
 
 </div>

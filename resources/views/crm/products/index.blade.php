@@ -34,22 +34,22 @@
                         <i class="fa-solid fa-chevron-right"></i> №
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div>
                         <i class="fa-solid fa-chevron-right"></i> Название
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div>
                         <i class="fa-solid fa-chevron-right"></i> Категория
                     </div>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-3">
                     <div>
                         <i class="fa-solid fa-chevron-right"></i> Производитель
                     </div>
                 </div>
-                <div class="col-lg-1">
+                <div class="col-lg-2">
                     <div>
                         <i class="fa-solid fa-chevron-right"></i> Цена
                     </div>
@@ -66,23 +66,23 @@
                 <div class="col-lg-1">
                     {{ $product->getKey() }}
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     {{ $product->getName() }}
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     {{ $product->getCategory()->getName() }}
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-3">
                     {{ $product->getManufacturer() ?? '-' }}
                 </div>
-                <div class="col-lg-1">
+                <div class="col-lg-2">
                     {{ $product->getPrice()}} ₽
                 </div>
                 <div class="col-lg-2">
                     <div class="btn-group" role="group">
                         <a href="{{route('crm.products.show', $product)}}" title="Подробная информация"
                            class="btn btn-outline-primary action-btn">
-                            <i class="far fa-user"></i>
+                            <i class="fa-solid fa-barcode"></i>
                         </a>
                         <a href="{{route('crm.products.edit', $product)}}" title="Редактировать"
                            class="btn btn-outline-success action-btn">
@@ -90,7 +90,7 @@
                         </a>
                         <button form="delete-{{$product->getKey()}}" title="Удалить"
                                 class="btn btn-outline-danger action-btn"
-                                onclick="return confirm('Подтвердите удаление пользователя{{' "' . $product->getName() . '"'}}')">
+                                onclick="return confirm('Подтвердите удаление товара{{' "' . $product->getName() . '"'}}')">
                             <i class="far fa-trash-alt"></i>
                         </button>
                     </div>
@@ -101,20 +101,23 @@
                     <span><i class="fa-solid fa-chevron-right"></i> №:</span> {{ $product->getKey() }}
                 </div>
                 <div>
-                    <span><i class="fa-solid fa-chevron-right"></i> ФИО:</span> {{ $product->getFullName() }}
+                    <span><i class="fa-solid fa-chevron-right"></i> Название:</span> {{ $product->getName() }}
                 </div>
                 <div>
-                    <span><i class="fa-solid fa-chevron-right"></i> Email:</span> {{ $product->getEmail() }}
+                    <span><i class="fa-solid fa-chevron-right"></i> Категория:</span> {{ $product->getCategory()->getName() }}
                 </div>
                 <div>
-                    <span><i class="fa-solid fa-chevron-right"></i> Телефон:</span> {{ $product->getPhone() ?? '-' }}
+                    <span><i class="fa-solid fa-chevron-right"></i> Производитель:</span> {{ $product->getManufacturer() ?? '-' }}
+                </div>
+                <div>
+                    <span><i class="fa-solid fa-chevron-right"></i> Цена:</span> {{ $product->getPrice() }} ₽
                 </div>
                 <div>
                     <span><i class="fa-solid fa-chevron-right"></i> Действия:</span>
                     <div class="btn-group" role="group">
                         <a href="{{route('crm.products.show', $product)}}" title="Подробная информация"
                            class="btn btn-outline-primary action-btn">
-                            <i class="far fa-user"></i>
+                            <i class="fa-solid fa-barcode"></i>
                         </a>
                         <a href="{{route('crm.products.edit', $product)}}" title="Редактировать"
                            class="btn btn-outline-success action-btn">
@@ -122,7 +125,7 @@
                         </a>
                         <button form="delete-{{$product->getKey()}}" title="Удалить"
                                 class="btn btn-outline-danger action-btn"
-                                onclick="return confirm('Подтвердите удаление пользователя{{' "' . $product->getShortName() . '"'}}')">
+                                onclick="return confirm('Подтвердите удаление товара{{' "' . $product->getName() . '"'}}')">
                             <i class="far fa-trash-alt"></i>
                         </button>
                     </div>
@@ -133,11 +136,11 @@
         @empty
             @if($data === [])
                 <div class="alert text-center">
-                    Пользователи отсутствуют в системе
+                    Товары отсутствуют в системе
                 </div>
             @else
                 <div class="alert text-center">
-                    По данному запросу не найдено пользователей
+                    По данному запросу не найдено товаров
                 </div>
             @endif
         @endforelse

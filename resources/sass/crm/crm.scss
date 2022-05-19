@@ -16,9 +16,11 @@ body {
     background: #010101 url("/images/background/bg-crm.jpg") bottom left no-repeat;
     background-size: contain;
 }
+
 html, body {
     min-height: 100%;
 }
+
 .index-title {
     font-size: 36px;
     font-weight: 700;
@@ -219,4 +221,14 @@ label {
 
 .show-data span {
     color: #ffc60b;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
 }

@@ -151,6 +151,18 @@ class Category extends Model
     }
 
     /**
+     * @return string
+     */
+    public function getChildrenString(): string
+    {
+        $result = '';
+        foreach ($this->getChildren() as $child) {
+            $result .= $child->getName() . ', ';
+        }
+        return substr($result, 0, -2);
+    }
+
+    /**
      * @return Carbon|null
      */
     public function getCreatedAt(): ?Carbon

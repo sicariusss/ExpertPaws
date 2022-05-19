@@ -55,6 +55,7 @@ class ProductController extends Controller
      * @param Request $request
      * @return RedirectResponse
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -119,6 +120,7 @@ class ProductController extends Controller
      * @param Product $product
      * @return RedirectResponse
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Product $product): RedirectResponse
     {

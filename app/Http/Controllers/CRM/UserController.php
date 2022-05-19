@@ -139,7 +139,6 @@ class UserController extends Controller
      * @param Request $request
      * @return RedirectResponse
      * @throws ValidationException
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function update(User $user, Request $request): RedirectResponse
     {
