@@ -2,49 +2,50 @@
 /**
  * @var \App\Models\Role $role
  */
-
 ?>
 @extends('layouts.app')
 @section('content')
-    <div class="container wrapper-primary">
-
-        <div class="row py-1 mx-1">
-            <div class="col-lg-1">
-                <h5 class="font-weight-bold">
-                    №
-                </h5>
+    <div class="container">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-auto">
+                <a href="{{route('crm.roles.show',$role)}}" class="index-title pb-5">
+                    Роль "{{$role->getDisplayName()}}"
+                </a>
             </div>
-            <div class="col-lg-3">
-                <h5 class="font-weight-bold">
-                    Название
-                </h5>
-            </div>
-            <div class="col-lg-2">
-                <h5 class="font-weight-bold">
-                    Действия
-                </h5>
-            </div>
-        </div>
-        <div class="row py-1 mx-1 border-top align-items-center">
-            <div class="col-lg-1">
-                {{ $role->getKey() }}
-            </div>
-            <div class="col-lg-3">
-                {{ $role->getName() }}
-            </div>
-            <div class="col-lg-2">
+            <div class="col-auto px-4 px-lg-0 pt-3 pt-lg-0">
                 <div class="btn-group" role="group">
-                    <a href="{{route('crm.roles.edit', $role)}}" class="btn btn-outline-primary py-1">
-                        <i class="fas fa-edit"></i>
+                    <a href="{{route('crm.roles.edit', $role)}}" title="Редактировать" class="btn btn-outline-success">
+                        Редактировать <i class="far fa-edit"></i>
                     </a>
-                    <button form="delete-{{$role->getKey()}}" class="btn btn-outline-danger py-1"
-                            onclick="return confirm('Подтвердите удаление роли{{' "' . $role->getName() . '"'}}')">
-                        <i class="fas fa-trash-alt"></i>
+                    <button form="delete-{{$role->getKey()}}" title="Удалить" class="btn btn-outline-danger"
+                            onclick="return confirm('Подтвердите удаление роли{{' "' . $role->getDisplayName() . '"'}}')">
+                        Удалить <i class="far fa-trash-alt"></i>
                     </button>
                 </div>
             </div>
         </div>
         {{Form::open(['id'=> 'delete-'.$role->getKey(),'method'=>'DELETE', 'url'=>route('crm.roles.destroy', $role)])}}
         {{Form::close()}}
+
+        <div class="row pt-4 pt-lg-5 justify-content-center">
+            <div class="col-lg-10">
+                <div class="row py-lg-5 mx-1 show-data">
+                    <div>
+                        <span><i class="fa-solid fa-chevron-right"></i> №:</span> {{ $role->getKey() }}
+                    </div>
+                    @if($role->getName() !== null)
+                        <div>
+                            <span><i class="fa-solid fa-chevron-right"></i> Название:</span> {{ $role->getName() }}
+                        </div>
+                    @endif
+                    @if($role->getDisplayName() !== null)
+                        <div>
+                            <span><i
+                                    class="fa-solid fa-chevron-right"></i> Отображаемое название:</span> {{ $role->getDisplayName() }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

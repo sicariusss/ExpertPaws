@@ -88,7 +88,7 @@ class RoleController extends Controller
      */
     public function show(Role $role): View
     {
-        SEOMeta::setTitle('Роль ' . $role->getDisplayName());
+        SEOMeta::setTitle('Роль "' . $role->getDisplayName() . '"');
 
         return view('crm.roles.show', compact('role'));
     }

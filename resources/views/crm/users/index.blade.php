@@ -56,7 +56,7 @@
                 </div>
             </div>
         @endif
-        @forelse($users as $user)
+        @forelse($users as $key => $user)
             <div class="row py-1 mx-1 align-items-center index-table-row pc-block">
                 <div class="col-lg-1">
                     {{ $user->getKey() }}
@@ -72,20 +72,23 @@
                 </div>
                 <div class="col-lg-2">
                     <div class="btn-group" role="group">
-                        <a href="{{route('crm.users.show', $user)}}" title="Подробная информация" class="btn btn-outline-primary action-btn">
+                        <a href="{{route('crm.users.show', $user)}}" title="Подробная информация"
+                           class="btn btn-outline-primary action-btn">
                             <i class="far fa-user"></i>
                         </a>
-                        <a href="{{route('crm.users.edit', $user)}}" title="Редактировать" class="btn btn-outline-success action-btn">
+                        <a href="{{route('crm.users.edit', $user)}}" title="Редактировать"
+                           class="btn btn-outline-success action-btn">
                             <i class="far fa-edit"></i>
                         </a>
-                        <button form="delete-{{$user->getKey()}}" title="Удалить" class="btn btn-outline-danger action-btn"
+                        <button form="delete-{{$user->getKey()}}" title="Удалить"
+                                class="btn btn-outline-danger action-btn"
                                 onclick="return confirm('Подтвердите удаление пользователя{{' "' . $user->getName() . '"'}}')">
                             <i class="far fa-trash-alt"></i>
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="row py-3 mx-1 table-mobile mobile-block">
+            <div class="row py-3 mx-1 table-mobile mobile-block  {{$key !== 0 ? 'border-top' : ''}}">
                 <div>
                     <span><i class="fa-solid fa-chevron-right"></i> №:</span> {{ $user->getKey() }}
                 </div>
@@ -101,14 +104,17 @@
                 <div>
                     <span><i class="fa-solid fa-chevron-right"></i> Действия:</span>
                     <div class="btn-group" role="group">
-                        <a href="{{route('crm.users.show', $user)}}" title="Подробная информация" class="btn btn-outline-primary action-btn">
+                        <a href="{{route('crm.users.show', $user)}}" title="Подробная информация"
+                           class="btn btn-outline-primary action-btn">
                             <i class="far fa-user"></i>
                         </a>
-                        <a href="{{route('crm.users.edit', $user)}}" title="Редактировать" class="btn btn-outline-success action-btn">
+                        <a href="{{route('crm.users.edit', $user)}}" title="Редактировать"
+                           class="btn btn-outline-success action-btn">
                             <i class="far fa-edit"></i>
                         </a>
-                        <button form="delete-{{$user->getKey()}}" title="Удалить" class="btn btn-outline-danger action-btn"
-                                onclick="return confirm('Подтвердите удаление пользователя{{' "' . $user->getName() . '"'}}')">
+                        <button form="delete-{{$user->getKey()}}" title="Удалить"
+                                class="btn btn-outline-danger action-btn"
+                                onclick="return confirm('Подтвердите удаление пользователя{{' "' . $user->getShortName() . '"'}}')">
                             <i class="far fa-trash-alt"></i>
                         </button>
                     </div>

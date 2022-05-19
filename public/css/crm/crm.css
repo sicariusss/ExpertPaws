@@ -11399,7 +11399,10 @@ body {
   position: relative;
   background: #010101 url("/images/background/bg-crm.jpg") bottom left no-repeat;
   background-size: contain;
-  height: 100vh;
+}
+
+html, body {
+  min-height: 100%;
 }
 
 .index-title {
@@ -11511,6 +11514,11 @@ body {
     display: none;
   }
 }
+@media (max-width: 500px) {
+  .index-title {
+    font-size: 30px;
+  }
+}
 @media (min-width: 992px) {
   .mobile-block {
     display: none;
@@ -11521,7 +11529,7 @@ body {
   font-weight: 500;
   font-family: "Montserrat", sans-serif;
   color: white;
-  border-bottom: 1px solid #ffc60b;
+  border-color: #ffc60b !important;
 }
 
 .table-mobile span {

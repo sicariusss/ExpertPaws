@@ -3,17 +3,15 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
+use Intervention\Image\Facades\Image;
 
 
 /**
@@ -330,23 +328,33 @@ class User extends Authenticatable
      */
     public function getShortName(): string
     {
-        return trim($this->getSurname() . ' ' . substr($this->getName(), 0, 1) . '. ' . substr($this->getPatronymic(), 0, 1) . '.');
+        if ($this->getSurname() === null && $this->getPatronymic() === null) {
+            $result = $this->getName();
+        } else {
+            $result = trim(($this->getSurname() ? $this->getSurname() . ' ' : '')
+                . ($this->getName() ? substr($this->getName(), 0, 1) . '. ' : '')
+                . ($this->getPatronymic() ? substr($this->getPatronymic(), 0, 1) . '.' : ''));
+        }
+        return $result;
     }
 
     /**
      * @param UploadedFile $uploadedFile
      * @return string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public static function uploadPhoto(UploadedFile $uploadedFile): string
     {
-        /** @var Storage $storage */
-        $storage = Storage::disk('users');
-        $randStr = substr(md5(rand()), 0, 20);
-        $path    = 'photo-' . $randStr . '.png';
+        $img = Image::make($uploadedFile->path());
+        $img->resize(400, 400, function ($constraint) {
+            $constraint->aspectRatio();
+        });
 
-        $storage->put($path, $uploadedFile->get());
-        return '/images/photos/' . $path . '?' . Carbon::now();
+        $randStr = substr(md5(rand()), 0, 20);
+        $path    = 'images/photos/photo-' . $randStr . '.png';
+
+        $img->save(public_path($path));
+
+        return '/' . $path . '?' . Carbon::now();
     }
 
 

@@ -59,7 +59,6 @@ class UserController extends Controller
      * @param Request $request
      * @return RedirectResponse
      * @throws ValidationException
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -118,7 +117,7 @@ class UserController extends Controller
      */
     public function show(User $user): View
     {
-        SEOMeta::setTitle('Профиль ' . $user->getShortName());
+        SEOMeta::setTitle('Профиль "' . $user->getShortName() . '"');
 
         return view('crm.users.show', compact('user'));
     }
@@ -154,24 +153,19 @@ class UserController extends Controller
             'phone'      => 'nullable|max:255',
             'address'    => 'nullable|max:255',
             'role_id'    => 'required|exists:roles,id',
-            'password'   => 'required|min:8|max:255'
         ], [
-            'surname.max'       => 'Фамилия должна быть меньше 255 символов',
-            'name.required'     => 'Введите имя',
-            'name.max'          => 'Имя должно быть меньше 255 символов',
-            'patronymic.max'    => 'Отчество должно быть меньше 255 символов',
-            'email.required'    => 'Введите почту',
-            'email.max'         => 'Почта должна быть меньше 255 символов',
-            'phone.max'         => 'Телефон должен быть меньше 255 символов',
-            'address.max'       => 'Адрес должен быть меньше 255 символов',
-            'role_id.required'  => 'Выберите роль',
-            'role_id.exists'    => 'Такая роль не существует',
-            'password.required' => 'Введите пароль',
-            'password.min'      => 'Пароль должен быть больше 8 символов',
-            'password.max'      => 'Пароль должен быть меньше 255 символов',
+            'surname.max'      => 'Фамилия должна быть меньше 255 символов',
+            'name.required'    => 'Введите имя',
+            'name.max'         => 'Имя должно быть меньше 255 символов',
+            'patronymic.max'   => 'Отчество должно быть меньше 255 символов',
+            'email.required'   => 'Введите почту',
+            'email.max'        => 'Почта должна быть меньше 255 символов',
+            'phone.max'        => 'Телефон должен быть меньше 255 символов',
+            'address.max'      => 'Адрес должен быть меньше 255 символов',
+            'role_id.required' => 'Выберите роль',
+            'role_id.exists'   => 'Такая роль не существует',
         ]);
 
-        $data['password'] = Hash::make($data['password']);
         if (isset($data['photo'])) {
             $data['photo'] = $this->users::uploadPhoto($data['photo']);
         }
