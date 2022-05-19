@@ -28,7 +28,7 @@
         </div>
         {{ Form::close() }}
         @if(count($users) > 0)
-            <div class="row py-1 mx-1 table-title table-top-pc">
+            <div class="row py-1 mx-1 table-title pc-block">
                 <div class="col-lg-1">
                     <div>
                         <i class="fa-solid fa-chevron-right"></i> №
@@ -57,7 +57,7 @@
             </div>
         @endif
         @forelse($users as $user)
-            <div class="row py-1 mx-1 align-items-center index-table-row table-bot-pc">
+            <div class="row py-1 mx-1 align-items-center index-table-row pc-block">
                 <div class="col-lg-1">
                     {{ $user->getKey() }}
                 </div>
@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row py-3 mx-1 table-mobile">
+            <div class="row py-3 mx-1 table-mobile mobile-block">
                 <div>
                     <span><i class="fa-solid fa-chevron-right"></i> №:</span> {{ $user->getKey() }}
                 </div>

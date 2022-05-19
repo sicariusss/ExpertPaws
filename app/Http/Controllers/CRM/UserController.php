@@ -92,9 +92,9 @@ class UserController extends Controller
 
 
         $user = new User();
-        $user->setSurname($data['surname'] ?? '');
+        $user->setSurname($data['surname'] ?? null);
         $user->setName($data['name']);
-        $user->setPatronymic($data['patronymic'] ?? '');
+        $user->setPatronymic($data['patronymic'] ?? null);
         $user->setEmail($data['email']);
         $user->setPhone($data['phone'] ?? null);
         $user->setAddress($data['address'] ?? null);
