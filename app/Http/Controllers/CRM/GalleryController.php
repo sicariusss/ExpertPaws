@@ -34,7 +34,7 @@ class GalleryController extends Controller
     {
         SEOMeta::setTitle('Галерея');
         $data    = $request->all();
-        $gallery = $this->gallery::filter($data)->paginate(15);
+        $gallery = $this->gallery::filter($data)->paginate(12);
 
         return view('crm.gallery.index', compact('gallery', 'data'));
     }

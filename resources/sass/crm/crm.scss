@@ -232,3 +232,15 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+
+.gallery-block {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+}
+
+.gallery-image {
+    border: 2px solid #ffc60b;
+    border-radius: 15px;
+}

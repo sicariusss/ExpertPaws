@@ -75,7 +75,7 @@
     </div>
     <div class="col-lg-3">
         <label for="preview">Превью товара</label>
-        <img src="{{isset($product) ? $product->getPreview() : '/images/products/default-preview.png'}}" id="preview"
+        <img src="{{isset($product) ? $product->getPreview() : '/images/default-preview.png'}}" id="preview"
              width="100%"
              height="auto" alt="preview"/>
     </div>

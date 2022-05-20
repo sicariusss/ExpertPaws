@@ -2,62 +2,108 @@
 /**
  * @var \App\Models\Lesson $lesson
  */
-
 ?>
 @extends('layouts.app')
 @section('content')
-    <div class="container wrapper-primary">
+    <div class="container">
+        <a href="{{route('crm.lessons.index')}}" class="index-title">
+            Все уроки
+        </a>
         {{ Form::open(['url'=>route('crm.lessons.index'),'method'=>'GET','onchange'=>'this.submit();']) }}
-        <div class="row justify-content-center pb-5 pt-3">
+        <div class="row justify-content-center align-items-end pb-5 pt-3">
             <div class="col-lg-8">
+                <label for="search" class="search-label">Поиск</label>
                 @include('forms._input',[
                'name'=>'search',
                'placeholder' => 'Введите название...',
                'value' => $data['search'] ?? null
            ])
             </div>
-            <div class="col-lg-auto">
-                <a href="{{ route('crm.lessons.create') }}" class="btn btn-outline-success">
+            <div class="col-lg-auto pt-3 pt-lg-0">
+                <a href="{{ route('crm.lessons.create') }}" class="btn btn-outline-paw">
                     Добавить урок <i class="fa fa-plus"></i>
                 </a>
             </div>
         </div>
         {{ Form::close() }}
         @if(count($lessons) > 0)
-            <div class="row py-1 mx-1">
+            <div class="row py-1 mx-1 table-title pc-block">
                 <div class="col-lg-1">
-                    <h5 class="font-weight-bold">
-                        №
-                    </h5>
+                    <div>
+                        <i class="fa-solid fa-chevron-right"></i> №
+                    </div>
                 </div>
                 <div class="col-lg-3">
-                    <h5 class="font-weight-bold">
-                        Название
-                    </h5>
+                    <div>
+                        <i class="fa-solid fa-chevron-right"></i> Название
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div>
+                        <i class="fa-solid fa-chevron-right"></i> Описание
+                    </div>
                 </div>
                 <div class="col-lg-2">
-                    <h5 class="font-weight-bold">
-                        Действия
-                    </h5>
+                    <div>
+                        <i class="fa-solid fa-chevron-right"></i> Действия
+                    </div>
                 </div>
             </div>
         @endif
-        @forelse($lessons as $lesson)
-            <div class="row py-1 mx-1 border-top align-items-center">
+        @forelse($lessons as $key => $lesson)
+            <div class="row py-1 mx-1 align-items-center index-table-row pc-block">
                 <div class="col-lg-1">
                     {{ $lesson->getKey() }}
                 </div>
                 <div class="col-lg-3">
                     {{ $lesson->getTitle() }}
                 </div>
+                <div class="col-lg-6">
+                    {{ $lesson->getDescription() }}
+                </div>
                 <div class="col-lg-2">
                     <div class="btn-group" role="group">
-                        <a href="{{route('crm.lessons.edit', $lesson)}}" class="btn btn-outline-primary py-1">
-                            <i class="fas fa-edit"></i>
+                        <a href="{{route('crm.lessons.show', $lesson)}}" title="Подробная информация"
+                           class="btn btn-outline-primary action-btn">
+                            <i class="fa-solid fa-laptop-file"></i>
                         </a>
-                        <button form="delete-{{$lesson->getKey()}}" class="btn btn-outline-danger py-1"
+                        <a href="{{route('crm.lessons.edit', $lesson)}}" title="Редактировать"
+                           class="btn btn-outline-success action-btn">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <button form="delete-{{$lesson->getKey()}}" title="Удалить"
+                                class="btn btn-outline-danger action-btn"
                                 onclick="return confirm('Подтвердите удаление урока{{' "' . $lesson->getTitle() . '"'}}')">
-                            <i class="fas fa-trash-alt"></i>
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row py-3 mx-1 table-mobile mobile-block  {{$key !== 0 ? 'border-top' : ''}}">
+                <div>
+                    <span><i class="fa-solid fa-chevron-right"></i> №:</span> {{ $lesson->getKey() }}
+                </div>
+                <div>
+                    <span><i class="fa-solid fa-chevron-right"></i> Название:</span> {{ $lesson->getTitle() }}
+                </div>
+                <div>
+                    <span><i class="fa-solid fa-chevron-right"></i> Описание:</span> {{ $lesson->getDescription() }}
+                </div>
+                <div>
+                    <span><i class="fa-solid fa-chevron-right"></i> Действия:</span>
+                    <div class="btn-group" role="group">
+                        <a href="{{route('crm.lessons.show', $lesson)}}" title="Подробная информация"
+                           class="btn btn-outline-primary action-btn">
+                            <i class="fa-solid fa-laptop-file"></i>
+                        </a>
+                        <a href="{{route('crm.lessons.edit', $lesson)}}" title="Редактировать"
+                           class="btn btn-outline-success action-btn">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <button form="delete-{{$lesson->getKey()}}" title="Удалить"
+                                class="btn btn-outline-danger action-btn"
+                                onclick="return confirm('Подтвердите удаление урока{{' "' . $lesson->getTitle() . '"'}}')">
+                            <i class="far fa-trash-alt"></i>
                         </button>
                     </div>
                 </div>
@@ -66,11 +112,11 @@
             {{Form::close()}}
         @empty
             @if($data === [])
-                <div class="alert alert-secondary  text-center">
+                <div class="alert text-center">
                     Уроки отсутствуют в системе
                 </div>
             @else
-                <div class="alert alert-secondary  text-center">
+                <div class="alert text-center">
                     По данному запросу не найдено уроков
                 </div>
             @endif
@@ -84,3 +130,4 @@
         </div>
     </div>
 @endsection
+

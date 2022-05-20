@@ -54,7 +54,7 @@
     </div>
     <div class="col-lg-3">
         <label for="preview">Превью категории</label>
-        <img src="{{isset($category) ? $category->getPreview() : '/images/categories/default-preview.png'}}"
+        <img src="{{isset($category) ? $category->getPreview() : '/images/default-preview.png'}}"
              id="preview"
              width="100%"
              height="auto" alt="preview"/>
