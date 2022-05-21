@@ -213,6 +213,9 @@ class Course extends Model
         return '/images/courses/' . $path . '?' . Carbon::now();
     }
 
+    /**
+     * @return array
+     */
     public static function getCoursesList(): array
     {
         $coursesList = [];

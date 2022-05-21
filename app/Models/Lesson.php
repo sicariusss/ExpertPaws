@@ -170,4 +170,16 @@ class Lesson extends Model
         return $query;
     }
 
+    /**
+     * @return array
+     */
+    public static function getLessonsList(): array
+    {
+        $lessonsList = [];
+        foreach (self::get() as $lesson) {
+            $lessonsList[$lesson->getKey()] = $lesson->getTitle();
+        }
+        return $lessonsList;
+    }
+
 }

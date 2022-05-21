@@ -2,49 +2,56 @@
 /**
  * @var \App\Models\Contact $contact
  */
-
 ?>
 @extends('layouts.app')
 @section('content')
-    <div class="container wrapper-primary">
-
-        <div class="row py-1 mx-1">
-            <div class="col-lg-1">
-                <h5 class="font-weight-bold">
-                    №
-                </h5>
+    <div class="container">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-auto">
+                <a href="{{route('crm.contacts.show',$contact)}}" class="index-title pb-5">
+                    Контакт "{{$contact->getTitle()}}"
+                </a>
             </div>
-            <div class="col-lg-3">
-                <h5 class="font-weight-bold">
-                    Название
-                </h5>
-            </div>
-            <div class="col-lg-2">
-                <h5 class="font-weight-bold">
-                    Действия
-                </h5>
-            </div>
-        </div>
-        <div class="row py-1 mx-1 border-top align-items-center">
-            <div class="col-lg-1">
-                {{ $contact->getKey() }}
-            </div>
-            <div class="col-lg-3">
-                {{ $contact->getTitle() }}
-            </div>
-            <div class="col-lg-2">
+            <div class="col-auto px-4 px-lg-0 pt-3 pt-lg-0">
                 <div class="btn-group" role="group">
-                    <a href="{{route('crm.contacts.edit', $contact)}}" class="btn btn-outline-primary py-1">
-                        <i class="fas fa-edit"></i>
+                    <a href="{{route('crm.contacts.edit', $contact)}}" title="Редактировать"
+                       class="btn btn-outline-success">
+                        Редактировать <i class="far fa-edit"></i>
                     </a>
-                    <button form="delete-{{$contact->getKey()}}" class="btn btn-outline-danger py-1"
+                    <button form="delete-{{$contact->getKey()}}" title="Удалить" class="btn btn-outline-danger"
                             onclick="return confirm('Подтвердите удаление контакта{{' "' . $contact->getTitle() . '"'}}')">
-                        <i class="fas fa-trash-alt"></i>
+                        Удалить <i class="far fa-trash-alt"></i>
                     </button>
                 </div>
             </div>
         </div>
         {{Form::open(['id'=> 'delete-'.$contact->getKey(),'method'=>'DELETE', 'url'=>route('crm.contacts.destroy', $contact)])}}
         {{Form::close()}}
+
+        <div class="row pt-4 pt-lg-5 justify-content-center">
+            <div class="col-lg-10">
+                <div class="row py-lg-5 mx-1 show-data">
+                    <div>
+                        <span><i class="fa-solid fa-chevron-right"></i> №:</span> {{ $contact->getKey() }}
+                    </div>
+                    @if($contact->getTitle() !== null)
+                        <div>
+                            <span><i class="fa-solid fa-chevron-right"></i> Название:</span> {{ $contact->getTitle() }}
+                        </div>
+                    @endif
+                    @if($contact->getType() !== null)
+                        <div>
+                            <span><i
+                                    class="fa-solid fa-chevron-right"></i> Тип:</span> {!! $contact->getTypeIcon() !!} {{ $contact->getType() }}
+                        </div>
+                    @endif
+                    @if($contact->getContent() !== null)
+                        <div>
+                            <span><i class="fa-solid fa-chevron-right"></i> Контакт:</span> {{ $contact->getContent() }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

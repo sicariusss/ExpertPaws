@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\CRM;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Image;
+use App\Models\Lesson;
+use App\Models\Product;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class ImageController extends Controller
@@ -45,8 +49,12 @@ class ImageController extends Controller
     public function create(): View
     {
         SEOMeta::setTitle('Добавить изображение');
+        $typesList    = $this->images::getTypesList();
+        $productsList = Product::getProductsList();
+        $coursesList  = Course::getCoursesList();
+        $lessonsList  = Lesson::getLessonsList();
 
-        return view('crm.images.create');
+        return view('crm.images.create', compact('typesList', 'productsList', 'lessonsList', 'coursesList'));
     }
 
     /**
@@ -61,19 +69,34 @@ class ImageController extends Controller
 
         $this->validate($request, [
             'type'    => 'required|max:255',
-            'type_id' => 'required|max:255',
+            'type_id' => 'max:255',
             'image'   => 'required',
         ], [
-            'type.max'         => 'Тип должен быть меньше 255 символов',
-            'type.required'    => 'Введите тип',
-            'type_id.max'      => 'Тип должен быть меньше 255 символов',
-            'type_id.required' => 'Введите тип',
-            'image.required'   => 'Загрузите изображение',
+            'type.max'       => 'Тип должен быть меньше 255 символов',
+            'type.required'  => 'Введите тип',
+            'type_id.max'    => 'ID типа должно быть меньше 255 символов',
+            'image.required' => 'Загрузите изображение',
         ]);
 
+        $type = $data['type'];
+
+        if ($type === $this->images::TYPE_PRODUCT_PIC) {
+            if ($data['type_product'] === null) {
+                throw ValidationException::withMessages(['type_product' => "Выберите продукт"]);
+            } else $typeId = $data['type_product'];
+        } elseif ($type === $this->images::TYPE_COURSE_PIC) {
+            if ($data['type_course'] === null) {
+                throw ValidationException::withMessages(['type_course' => "Выберите курс"]);
+            } else $typeId = $data['type_course'];
+        } elseif ($type === $this->images::TYPE_LESSON_PIC) {
+            if ($data['type_lesson'] === null) {
+                throw ValidationException::withMessages(['type_lesson' => "Выберите урок"]);
+            } else $typeId = $data['type_lesson'];
+        } else $typeId = '0';
+
         $image = new Image();
-        $image->setType($data['type']);
-        $image->setTypeId($data['type_id']);
+        $image->setType($type);
+        $image->setTypeId($typeId);
         $image->setPath($this->images::uploadImage($data['image'], $data['type']));
         $image->save();
 
@@ -100,8 +123,12 @@ class ImageController extends Controller
     public function edit(Image $image): View
     {
         SEOMeta::setTitle('Редактирование изображения №' . $image->getKey());
+        $typesList    = $this->images::getTypesList();
+        $productsList = Product::getProductsList();
+        $coursesList  = Course::getCoursesList();
+        $lessonsList  = Lesson::getLessonsList();
 
-        return view('crm.images.edit', compact('image'));
+        return view('crm.images.edit', compact('image', 'typesList', 'productsList', 'lessonsList', 'coursesList'));
     }
 
     /**
@@ -117,13 +144,26 @@ class ImageController extends Controller
 
         $this->validate($request, [
             'type'    => 'required|max:255',
-            'type_id' => 'required|max:255',
+            'type_id' => 'max:255',
         ], [
-            'type.max'         => 'Тип должен быть меньше 255 символов',
-            'type.required'    => 'Введите тип',
-            'type_id.max'      => 'Тип должен быть меньше 255 символов',
-            'type_id.required' => 'Введите тип',
+            'type.max'      => 'Тип должен быть меньше 255 символов',
+            'type.required' => 'Введите тип',
+            'type_id.max'   => 'ID типа должно быть меньше 255 символов',
         ]);
+
+        if ($data['type'] === $this->images::TYPE_PRODUCT_PIC) {
+            if ($data['type_product'] === null) {
+                throw ValidationException::withMessages(['type_product' => "Выберите продукт"]);
+            } else $data['type_id'] = $data['type_product'];
+        } elseif ($data['type'] === $this->images::TYPE_COURSE_PIC) {
+            if ($data['type_course'] === null) {
+                throw ValidationException::withMessages(['type_course' => "Выберите курс"]);
+            } else $data['type_id'] = $data['type_course'];
+        } elseif ($data['type'] === $this->images::TYPE_LESSON_PIC) {
+            if ($data['type_lesson'] === null) {
+                throw ValidationException::withMessages(['type_lesson' => "Выберите урок"]);
+            } else $data['type_id'] = $data['type_lesson'];
+        } else $data['type_id'] = '0';
 
         if (isset($data['image'])) {
             $data['path'] = $this->images::uploadImage($data['image'], $data['type']);

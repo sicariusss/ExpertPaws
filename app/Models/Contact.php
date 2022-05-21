@@ -145,5 +145,22 @@ class Contact extends Model
         ];
     }
 
+    /**
+     * @return string
+     */
+    public function getTypeIcon(): string
+    {
+        if ($this->getType() === self::TYPE_PHONE) {
+            $icon = '<i class="fa-solid fa-phone"></i>';
+        } elseif ($this->getType() === self::TYPE_EMAIL) {
+            $icon = '<i class="fa-solid fa-envelope"></i>';
+        } elseif ($this->getType() === self::TYPE_SOCIAL_NET) {
+            $icon = '<i class="fa-solid fa-share-nodes"></i>';
+        } else {
+            $icon = '';
+        }
+        return $icon;
+    }
+
 
 }

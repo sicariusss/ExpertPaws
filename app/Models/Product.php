@@ -232,5 +232,17 @@ class Product extends Model
         return '/images/products/' . $path . '?' . Carbon::now();
     }
 
+    /**
+     * @return array
+     */
+    public static function getProductsList(): array
+    {
+        $productsList = [];
+        foreach (self::get() as $product) {
+            $productsList[$product->getKey()] = $product->getName();
+        }
+        return $productsList;
+    }
+
 
 }

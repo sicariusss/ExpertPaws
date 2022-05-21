@@ -48,9 +48,11 @@ class Image extends Model
         'path',
     ];
 
-    public const TYPE_USER_PHOTO      = 'user_photo';
-    public const TYPE_PRODUCT_PREVIEW = 'product_preview';
-    public const TYPE_PRODUCT_PIC     = 'product_pic';
+    public const TYPE_BG_SITE     = 'bg_site';
+    public const TYPE_BG_CRM      = 'bg_crm';
+    public const TYPE_PRODUCT_PIC = 'product_pic';
+    public const TYPE_COURSE_PIC  = 'course_pic';
+    public const TYPE_LESSON_PIC  = 'lesson_pic';
 
     /**
      * @return string
@@ -157,5 +159,41 @@ class Image extends Model
         return '/images/resources/' . $path . '?' . Carbon::now();
     }
 
+    /**
+     * @return string
+     */
+    public function getTypeName(): string
+    {
+        if ($this->getType() === self::TYPE_BG_SITE) {
+            $name = 'Изображение сайта';
+        } elseif ($this->getType() === self::TYPE_BG_CRM) {
+            $name = 'Изображение CRM';
+        } elseif ($this->getType() === self::TYPE_PRODUCT_PIC) {
+            $product = Product::firstWhere('id', $this->getTypeId());
+            $name    = 'Изображение продукта "' . $product->getName() . '"';
+        } elseif ($this->getType() === self::TYPE_COURSE_PIC) {
+            $course = Course::firstWhere('id', $this->getTypeId());
+            $name   = 'Изображение курса "' . $course->getTitle() . '"';
+        } elseif ($this->getType() === self::TYPE_LESSON_PIC) {
+            $lesson = Lesson::firstWhere('id', $this->getTypeId());
+            $name   = 'Изображение урока "' . $lesson->getTitle() . '"';
+        } else $name = '';
+
+        return $name;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getTypesList(): array
+    {
+        return [
+            self::TYPE_BG_SITE     => 'Изображение сайта',
+            self::TYPE_BG_CRM      => 'Изображение CRM',
+            self::TYPE_PRODUCT_PIC => 'Изображение продукта',
+            self::TYPE_COURSE_PIC  => 'Изображение курса',
+            self::TYPE_LESSON_PIC  => 'Изображение урока',
+        ];
+    }
 
 }

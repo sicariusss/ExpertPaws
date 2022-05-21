@@ -2,49 +2,44 @@
 /**
  * @var \App\Models\Image $image
  */
-
 ?>
 @extends('layouts.app')
 @section('content')
-    <div class="container wrapper-primary">
-
-        <div class="row py-1 mx-1">
-            <div class="col-lg-1">
-                <h5 class="font-weight-bold">
-                    №
-                </h5>
+    <div class="container">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-auto">
+                <a href="{{route('crm.images.show',$image)}}" class="index-title pb-5">
+                    {{$image->getTypeName()}}
+                </a>
             </div>
-            <div class="col-lg-3">
-                <h5 class="font-weight-bold">
-                    Тип
-                </h5>
-            </div>
-            <div class="col-lg-2">
-                <h5 class="font-weight-bold">
-                    Действия
-                </h5>
-            </div>
-        </div>
-        <div class="row py-1 mx-1 border-top align-items-center">
-            <div class="col-lg-1">
-                {{ $image->getKey() }}
-            </div>
-            <div class="col-lg-3">
-                {{ $image->getType() }}
-            </div>
-            <div class="col-lg-2">
+            <div class="col-auto px-4 px-lg-0 pt-3 pt-lg-0">
                 <div class="btn-group" role="group">
-                    <a href="{{route('crm.images.edit', $image)}}" class="btn btn-outline-primary py-1">
-                        <i class="fas fa-edit"></i>
+                    <a href="{{route('crm.images.edit', $image)}}" title="Редактировать" class="btn btn-outline-success">
+                        Редактировать <i class="far fa-edit"></i>
                     </a>
-                    <button form="delete-{{$image->getKey()}}" class="btn btn-outline-danger py-1"
-                            onclick="return confirm('Подтвердите удаление изображения{{' "' . $image->getType() . '"'}}')">
-                        <i class="fas fa-trash-alt"></i>
+                    <button form="delete-{{$image->getKey()}}" title="Удалить" class="btn btn-outline-danger"
+                            onclick="return confirm('Подтвердите удаление {{$image->getTypeName()}}')">
+                        Удалить <i class="far fa-trash-alt"></i>
                     </button>
                 </div>
             </div>
         </div>
         {{Form::open(['id'=> 'delete-'.$image->getKey(),'method'=>'DELETE', 'url'=>route('crm.images.destroy', $image)])}}
         {{Form::close()}}
+
+        <div class="row pt-4 pt-lg-5 justify-content-center">
+            <div class="col-md-6 show-data">
+                    <div>
+                        <span><i class="fa-solid fa-chevron-right"></i> №:</span> {{ $image->getKey() }}
+                    </div>
+                    @if($image->getTypeName() !== null)
+                        <div>
+                            <span><i class="fa-solid fa-chevron-right"></i> Тип:</span> {{ $image->getTypeName() }}
+                        </div>
+                    @endif
+                <img class="pt-3" src="{{$image->getPath()}}" id="image" width="100%"
+                     height="auto" alt="image"/>
+            </div>
+        </div>
     </div>
 @endsection
