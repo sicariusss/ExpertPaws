@@ -244,3 +244,18 @@ input[type=number] {
     border: 2px solid #ffc60b;
     border-radius: 15px;
 }
+
+.breadcrumb {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+}
+
+.breadcrumb-item a {
+    color: white;
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: #ffc60b;
+}

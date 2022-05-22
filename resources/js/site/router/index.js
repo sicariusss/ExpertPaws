@@ -4,39 +4,51 @@ import Home from '../pages/Home';
 import About from '../pages/About';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
-import Dashboard from '../pages/Dashboard';
-import Books from '../pages/Books';
+import Courses from "../pages/Courses";
+import Products from "../pages/Products";
+import Gallery from "../pages/Gallery";
+import Contacts from "../pages/Contacts";
 
 export const routes = [
     {
-        name: 'home',
+        name: 'Expert Paws',
         path: '/',
         component: Home
     },
     {
-        name: 'about',
+        name: 'О нас - Expert Paws',
         path: '/about',
         component: About
     },
     {
-        name: 'register',
+        name: 'Регистрация - Expert Paws',
         path: '/register',
         component: Register
     },
     {
-        name: 'login',
+        name: 'Вход - Expert Paws',
         path: '/login',
         component: Login
     },
     {
-        name: 'dashboard',
-        path: '/dashboard',
-        component: Dashboard
+        name: 'Курсы - Expert Paws',
+        path: '/courses',
+        component: Courses
     },
     {
-        name: 'books',
-        path: '/books',
-        component: Books
+        name: 'Товары - Expert Paws',
+        path: '/products',
+        component: Products
+    },
+    {
+        name: 'Отзывы - Expert Paws',
+        path: '/reviews',
+        component: Gallery
+    },
+    {
+        name: 'Связаться с нами - Expert Paws',
+        path: '/contacts',
+        component: Contacts
     }
 ];
 

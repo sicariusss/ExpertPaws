@@ -18,6 +18,9 @@ export default {
     created() {
         this.main = true
     },
-    methods: {}
+    beforeRouteEnter(to, from, next) {
+        document.title = to.name;
+        next();
+    }
 }
 </script>

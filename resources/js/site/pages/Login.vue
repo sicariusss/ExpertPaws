@@ -79,6 +79,7 @@ export default {
         if (window.Laravel.authenticated) {
             return next('dashboard');
         }
+        document.title = to.name;
         next();
     }
 }

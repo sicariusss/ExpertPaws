@@ -10,7 +10,18 @@ export default {
     data() {
         return {
             name: null,
+            users: [],
         }
+    },
+    mounted() {
+        let app = this;
+        axios.get('api/users')
+            .then(function (response) {
+                app.users = response.data.users;
+            })
+            .catch(function (response) {
+                console.log(response);
+            });
     },
     created() {
         if (window.Laravel.user) {
@@ -21,6 +32,7 @@ export default {
         if (!window.Laravel.authenticated) {
             window.location.href = "/";
         }
+        document.title = to.name;
         next();
     }
 }

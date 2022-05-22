@@ -21,6 +21,7 @@ export default {
         if (!window.Laravel.authenticated) {
             window.location.href = "/";
         }
+        document.title = to.name;
         next();
     }
 }

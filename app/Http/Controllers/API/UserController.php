@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -89,5 +90,13 @@ class UserController extends Controller
             'message' => $message,
         ];
         return response()->json($response);
+    }
+
+    /**
+     * @return Response
+     */
+    public function index(): Response
+    {
+        return response()->json(['users' => User::get()], Response::HTTP_OK);
     }
 }

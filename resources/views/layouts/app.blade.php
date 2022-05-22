@@ -1,4 +1,10 @@
-<!doctype html>
+<?php
+
+use Illuminate\Support\Facades\Request;
+
+?>
+
+    <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -33,7 +39,12 @@
 <div>
     @include('layouts.nav')
     <main class="py-4">
-        @yield('content')
+        <div class="container">
+            @if(Breadcrumbs::exists() && Request::path() !== 'crm')
+                {{ Breadcrumbs::render() }}
+            @endif
+            @yield('content')
+        </div>
     </main>
 </div>
 </body>

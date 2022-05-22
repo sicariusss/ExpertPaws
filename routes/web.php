@@ -31,7 +31,7 @@ Route::middleware(['auth', 'crm'])
     ->group(static function () {
         Route::get('/', function () {
             return view('crm.home');
-        });
+        })->name('home');
         Route::resource('users', UserController::class);
         Route::resource('roles', RoleController::class);
         Route::resource('products', ProductController::class);

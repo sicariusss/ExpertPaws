@@ -1,15 +1,17 @@
 <template>
-    <div>
-        About us
-    </div>
+
 </template>
 
 <script>
 export default {
-    name: "About",
+    name: "Gallery",
     beforeRouteEnter(to, from, next) {
         document.title = to.name;
         next();
     }
 }
 </script>
+
+<style>
+
+</style>

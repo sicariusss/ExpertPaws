@@ -8,6 +8,7 @@
         "php": "^8.0",
         "arcanedev/log-viewer": "^9.0",
         "artesaos/seotools": "^0.22.0",
+        "diglactic/laravel-breadcrumbs": "^7.2",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
