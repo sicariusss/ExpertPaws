@@ -86,7 +86,7 @@ export default {
     },
     beforeRouteEnter(to, from, next) {
         if (window.Laravel.authenticated) {
-            return next('dashboard');
+            return next('/');
         }
         document.title = to.name;
         next();

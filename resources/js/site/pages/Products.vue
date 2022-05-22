@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: "Books",
+    name: "Products",
     data() {
         return {
             name: null,
@@ -29,9 +29,6 @@ export default {
         }
     },
     beforeRouteEnter(to, from, next) {
-        if (!window.Laravel.authenticated) {
-            window.location.href = "/";
-        }
         document.title = to.name;
         next();
     }

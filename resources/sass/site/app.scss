@@ -12,6 +12,7 @@ body {
     color: #fff;
     position: relative;
     background: rgba(0, 0, 0, 0.9);
+    overflow-y: scroll;
 }
 
 body::before {
@@ -44,4 +45,21 @@ body::before {
 .slide-fade-leave-to {
     transform: translateY(20px);
     opacity: 0;
+}
+
+@media (hover: hover) {
+    ::-webkit-scrollbar-track {
+        background: #030305;
+        border-radius: 0;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
 }
