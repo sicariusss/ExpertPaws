@@ -19,7 +19,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <router-link class="dropdown-item" to="/about">Профиль</router-link>
+                                    <router-link class="dropdown-item" to="/profile">Профиль</router-link>
                                 </li>
                                 <li v-if="!isUser"><a class="dropdown-item" href="/crm">CRM</a>
                                 </li>
@@ -46,7 +46,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <router-link v-on:click="bar = false" class="dropdown-item" to="/about">Профиль
+                                    <router-link v-on:click="bar = false" class="dropdown-item" to="/profile">Профиль
                                     </router-link>
                                 </li>
                                 <li v-if="!isUser"><a class="dropdown-item" href="/crm">CRM</a>

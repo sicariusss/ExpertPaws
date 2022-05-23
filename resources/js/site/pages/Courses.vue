@@ -1,5 +1,5 @@
 <template>
-    <div style="border: 3px black solid; background: url('http://puu.sh/IMyFm/a3dfa550ba.jpg'); height: 1000px">
+    <div class="component-block" style="border: 3px black solid; background: url('http://puu.sh/IMyFm/a3dfa550ba.jpg'); height: 1000px">
         Welcome {{ name }}
     </div>
 </template>

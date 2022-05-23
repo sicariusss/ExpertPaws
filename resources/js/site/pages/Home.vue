@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row justify-content-end home-mobile-nav">
-            <div class="col-auto px-0" v-if="windowWidth<=767">
+            <div class="col-auto" v-if="windowWidth<=767">
                 <button v-on:click="bar = true;" :style="bar ? 'color:transparent' : null" class="navbar-burger">
                     <i class="fa-solid fa-bars fa-2xl"></i>
                 </button>
@@ -15,7 +15,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <router-link v-on:click="bar = false" class="dropdown-item" to="/about">Профиль
+                                <router-link v-on:click="bar = false" class="dropdown-item" to="/profile">Профиль
                                 </router-link>
                             </li>
                             <li v-if="!isUser"><a class="dropdown-item" href="/crm">CRM</a>

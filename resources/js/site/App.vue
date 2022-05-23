@@ -2,7 +2,7 @@
     <div v-if="$route.path !== '/'">
         <Navbar/>
     </div>
-    <div>
+    <div class="container">
         <router-view v-slot="{ Component }">
             <transition name="slide-fade" mode="out-in">
                 <component :is="Component"/>
@@ -29,3 +29,15 @@ export default {
     },
 }
 </script>
+
+<style>
+.component-block {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    overflow: hidden;
+    width: 100%;
+    transition: ease-in-out 0.4s;
+    padding: 1.3rem;
+    background: rgba(0, 0, 0, 0.9);
+}
+</style>

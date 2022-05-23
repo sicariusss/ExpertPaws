@@ -8,6 +8,7 @@ import Courses from "../pages/Courses";
 import Products from "../pages/Products";
 import Gallery from "../pages/Gallery";
 import Contacts from "../pages/Contacts";
+import Profile from "../pages/Profile";
 
 export const routes = [
     {
@@ -49,7 +50,12 @@ export const routes = [
         name: 'Связаться с нами - Expert Paws',
         path: '/contacts',
         component: Contacts
-    }
+    },
+    {
+        name: 'Мой профиль - Expert Paws',
+        path: '/profile',
+        component: Profile
+    },
 ];
 
 const router = createRouter({
