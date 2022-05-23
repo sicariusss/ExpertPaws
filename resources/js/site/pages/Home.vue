@@ -1,26 +1,65 @@
 <template>
-    <div class="container">
-        <div class="row home-block">
-            <div class="col-md-12">
-<!--                на 767 px надо маленький-->
-                <div class="home-title mb-4">
-                    Expert Paws
+    <div>
+        <div class="row justify-content-end home-mobile-nav">
+            <div class="col-auto px-0" v-if="windowWidth<=767">
+                <button v-on:click="bar = true;" :style="bar ? 'color:transparent' : null" class="navbar-burger">
+                    <i class="fa-solid fa-bars fa-2xl"></i>
+                </button>
+                <div class="mobile-navbar" v-if="bar">
+                    <button v-on:click="bar = false" class="navbar-close" v-if="bar">
+                        <i class="fa-solid fa-xmark fa-2xl"></i>
+                    </button>
+                    <div class="navbar-links">
+                        <button class="btn dropdown-toggle" data-bs-toggle="dropdown" v-if="authenticated">
+                            {{ fullName }} <img :src="photo" alt="user" class="user-photo">
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <router-link v-on:click="bar = false" class="dropdown-item" to="/about">Профиль
+                                </router-link>
+                            </li>
+                            <li v-if="!isUser"><a class="dropdown-item" href="/crm">CRM</a>
+                            </li>
+                            <li><a class="dropdown-item" style="cursor: pointer" @click="logout">Выйти</a></li>
+                        </ul>
+                        <router-link v-on:click="bar = false" to="/">Главная</router-link>
+                        <router-link v-on:click="bar = false" to="/about">О нас</router-link>
+                        <router-link v-on:click="bar = false" to="/courses">Курсы</router-link>
+                        <router-link v-on:click="bar = false" to="/products">Товары</router-link>
+                        <router-link v-on:click="bar = false" to="/reviews">Отзывы</router-link>
+                        <router-link v-on:click="bar = false" to="/contacts">Контакты</router-link>
+                        <div v-if="!authenticated" class="d-flex flex-column align-items-end">
+                            <router-link v-on:click="bar = false" to="/login">Вход</router-link>
+                            <router-link v-on:click="bar = false" to="/register">Регистрация</router-link>
+                        </div>
+                    </div>
                 </div>
-                <div class="home-desc mb-4">
-                    <span>Фелинологическая</span> обучающая платформа
-                </div>
-                <div class="home-navbar">
-                    <router-link class="nav-active" to="/">Главная</router-link>
-                    <router-link to="/about">О нас</router-link>
-                    <router-link to="/courses">Курсы</router-link>
-                    <router-link to="/products">Товары</router-link>
-                    <router-link to="/reviews">Отзывы</router-link>
-                    <router-link to="/contacts">Контакты</router-link>
-                </div>
-                <div class="social-links mt-4">
-                    <a href="https://vk.com/id565266410" target="_blank"><i class="fa-brands fa-vk"></i></a>
-                    <a href="https://twitter.com/amSicarius" target="_blank"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="https://www.facebook.com/profile.php?id=100076719524798" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row home-block">
+                <div class="col-md-12">
+                    <div class="home-title mb-4">
+                        Expert Paws
+                    </div>
+                    <div class="home-desc mb-4">
+                        <span>Фелинологическая</span> обучающая платформа
+                    </div>
+                    <div class="home-navbar" v-if="windowWidth>767">
+                        <router-link class="nav-active" to="/">Главная</router-link>
+                        <router-link to="/about">О нас</router-link>
+                        <router-link to="/courses">Курсы</router-link>
+                        <router-link to="/products">Товары</router-link>
+                        <router-link to="/reviews">Отзывы</router-link>
+                        <router-link to="/contacts">Контакты</router-link>
+                    </div>
+                    <div class="social-links mt-4">
+                        <a href="https://vk.com/id565266410" target="_blank"><i class="fa-brands fa-vk"></i></a>
+                        <a href="https://twitter.com/amSicarius" target="_blank"><i
+                            class="fa-brands fa-twitter"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=100076719524798" target="_blank"><i
+                            class="fa-brands fa-facebook"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,8 +68,13 @@
 
 <style>
 .home-block {
+    height: calc(100vh - 70px);
     align-items: center;
-    height: 100vh;
+}
+
+.home-mobile-nav {
+    padding: 16px 0;
+    width: 100vw;
 }
 
 .home-title {
@@ -132,11 +176,54 @@
 export default {
     name: "Home",
     data() {
-        return {}
+        return {
+            authenticated: false,
+            isUser: true,
+            fullName: '',
+            photo: '',
+            windowWidth: window.innerWidth,
+            bar: false,
+        }
+    },
+    created() {
+        if (window.Laravel.authenticated) {
+            this.authenticated = true
+        }
+        if (window.Laravel.user) {
+            this.fullName = window.Laravel.user.surname + ' ' + window.Laravel.user.name
+            this.photo = window.Laravel.user.photo
+            this.role = window.Laravel.user.role_id
+            if (this.role === 1 || this.role === 2 || this.role === 3) {
+                this.isUser = false;
+            }
+        }
     },
     beforeRouteEnter(to, from, next) {
         document.title = to.name;
         next();
-    }
+    },
+    mounted() {
+        window.onresize = () => {
+            this.windowWidth = window.innerWidth
+        }
+    },
+    methods: {
+        logout(e) {
+            e.preventDefault()
+            this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                this.$axios.post('/api/logout')
+                    .then(response => {
+                        if (response.data.success) {
+                            window.location.href = "/"
+                        } else {
+                            console.log(response)
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
+            })
+        },
+    },
 }
 </script>
