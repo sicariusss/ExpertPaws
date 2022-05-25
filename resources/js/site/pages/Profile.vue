@@ -2,7 +2,7 @@
     <div class="component-block">
         <div class="row">
             <div class="component-title-mini">
-                Профиль
+                Аккаунт
             </div>
         </div>
         <div class="row">
@@ -83,33 +83,6 @@ export default {
 </script>
 
 <style>
-.component-title-mini {
-    font-size: 16px;
-    font-weight: 500;
-    text-transform: uppercase;
-    color: #aaaaaa;
-    font-family: "Montserrat", sans-serif;
-}
-
-.component-title-mini:after {
-    content: "";
-    width: 100px;
-    height: 1px;
-    display: inline-block;
-    background: #ffc60b;
-    margin: 4px 8px;
-}
-
-.component-title-max {
-    font-size: 36px;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-family: "Montserrat", sans-serif;
-    color: #fff;
-    text-decoration: none;
-    transition: ease-in-out 0.3s;
-}
-
 .user-profile-image {
     border-radius: 15px;
     border: 2px solid #ffc60b;

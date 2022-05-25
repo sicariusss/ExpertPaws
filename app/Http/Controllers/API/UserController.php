@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Role;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,10 +25,14 @@ class UserController extends Controller
         $data = $request->all();
         try {
             $user = new User();
+            $user->setSurname($data['surname']);
             $user->setName($data['name']);
+            $user->setPatronymic($data['patronymic']);
             $user->setEmail($data['email']);
+            $user->setPhone($data['phone']);
             $user->setPassword(Hash::make($data['password']));
-            $user->setRoleId(2);
+            $user->setRoleId(Role::USER);
+            $user->setPhoto('/images/photos/default-photo.png?' . Carbon::now());
             $user->save();
 
             $success = true;
@@ -61,7 +67,7 @@ class UserController extends Controller
             $message = 'Вход в аккаунт прошел успешно';
         } else {
             $success = false;
-            $message = 'Незя';
+            $message = 'Неверные данные или такой пользователь не зарегистрирован';
         }
 
         $response = [

@@ -1,41 +1,41 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-
-                <div class="alert alert-danger" role="alert" v-if="error !== null">
-                    {{ error }}
-                </div>
-
-                <div class="card card-default">
-                    <div class="card-header">Login</div>
-                    <div class="card-body">
-                        <form>
-                            <div class="form-group row">
-                                <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address</label>
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" v-model="email" required
-                                           autofocus autocomplete="off">
-                                </div>
+    <div class="component-block">
+        <div class="row">
+            <div class="component-title-mini">
+                Аккаунт
+            </div>
+        </div>
+        <div class="row">
+            <div class="component-title-max">
+                Вход
+            </div>
+        </div>
+        <div class="auth-block mt-3">
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <form>
+                        <div class="form-group row justify-content-center">
+                            <div class="col-lg-6 mt-3 mt-lg-0">
+                                <input type="email" class="form-control" id="email" v-model="email" required
+                                       placeholder="Email">
                             </div>
+                        </div>
 
-                            <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" v-model="password"
-                                           required autocomplete="off">
-                                </div>
+                        <div class="form-group row justify-content-center mt-lg-3">
+                            <div class="col-lg-6 mt-3 mt-lg-0">
+                                <input type="password" class="form-control" id="password" v-model="password" required
+                                       autocomplete="off" placeholder="Пароль">
                             </div>
+                        </div>
 
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary" @click="handleSubmit">
-                                        Login
-                                    </button>
-                                </div>
+                        <div class="form-group row justify-content-center mt-lg-4">
+                            <div class="col-auto mt-4 mt-lg-0">
+                                <button type="submit" class="btn btn-outline-paw px-5" @click="handleSubmit">
+                                    Войти
+                                </button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
