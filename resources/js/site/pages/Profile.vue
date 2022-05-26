@@ -23,16 +23,40 @@
                 </div>
                 <div class="row user-profile-info">
                     <div class="col-12">
-                        <i class="fas fa-angle-right"></i> <b>Email:</b> {{email}}
+                        <i class="fas fa-angle-right"></i> <b>Email:</b> {{ email }}
                     </div>
                     <div class="col-12">
-                        <i class="fas fa-angle-right"></i> <b>Телефон:</b> {{phone}}
+                        <i class="fas fa-angle-right"></i> <b>Телефон:</b> {{ phone }}
                     </div>
                     <div class="col-12">
-                        <i class="fas fa-angle-right"></i> <b>Адрес:</b> {{address}}
+                        <i class="fas fa-angle-right"></i> <b>Адрес:</b> {{ address }}
                     </div>
                     <div class="col-12">
-                        <i class="fas fa-angle-right"></i> <b>Регистрация:</b> {{createdAt}}
+                        <i class="fas fa-angle-right"></i> <b>Регистрация:</b> {{ createdAt }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row user-profile-links justify-content-end pb-5">
+            <div class="user-profile-links-cols col-xl-8">
+                <div class="row">
+                    <div class="col-lg-4 mt-3 mt-lg-0">
+                        <div class="user-profile-link-box">
+                            <i class="fa-solid fa-book-open fa-xl"></i>
+                            Мои курсы
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mt-3 mt-lg-0">
+                        <div class="user-profile-link-box">
+                            <i class="fa-solid fa-receipt fa-xl"></i>
+                            Мои заказы
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mt-3 mt-lg-0">
+                        <div class="user-profile-link-box">
+                            <i class="fa-solid fa-comment-dots fa-xl"></i>
+                            Мои обращения
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,9 +132,74 @@ export default {
 }
 
 .user-profile-role {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     color: #fff;
     font-family: "Montserrat", sans-serif;
+}
+
+.user-profile-links {
+    font-family: "Raleway", sans-serif;
+    font-weight: 700;
+    line-height: 1;
+    font-size: 16px;
+    color: #fff;
+}
+
+.user-profile-link-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 17px 20px 25px 20px;
+    background: rgb(255 255 255 / 11%);
+    transition: ease-in-out 0.3s;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.user-profile-link-box svg {
+    padding-right: 20px;
+    color: #ffc60bdb;
+}
+
+.user-profile-link-box::before {
+    position: absolute;
+    content: "";
+    left: -8px;
+    top: -8px;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+    transition: all 0.3s ease-out 0s;
+    transform: translateZ(-1px);
+}
+
+@media (min-width: 1400px) {
+    .user-profile-links-cols {
+        margin-top: -8rem;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+    .user-profile-links-cols {
+        margin-top: -5rem;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 992px) {
+    .user-profile-links-cols {
+        margin-top: 3rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .user-profile-links-cols {
+        margin-top: 1rem;
+    }
+
+    .user-profile-link-box svg {
+        width: 47px;
+    }
 }
 </style>

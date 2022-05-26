@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +21,8 @@ use App\Http\Controllers\API\UserController;
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
+/**
+ * API сущностей
+ */
 Route::get('users', [UserController::class, 'index']);
+Route::get('contacts', [ContactController::class, 'contacts']);

@@ -1,6 +1,6 @@
 <template>
     <div style="border: 3px black solid; background: url('http://puu.sh/IMyFm/a3dfa550ba.jpg'); height: 1000px">
-        Welcome {{ name }}
+        Welcome {{ user.name }}
     </div>
 </template>
 
@@ -10,14 +10,15 @@ export default {
     data() {
         return {
             name: null,
-            users: [],
+            user: [],
         }
     },
     mounted() {
         let app = this;
         axios.get('api/users')
             .then(function (response) {
-                app.users = response.data.users;
+                app.user = response.data.users[0];
+                console.log(app.users[0].name)
             })
             .catch(function (response) {
                 console.log(response);
