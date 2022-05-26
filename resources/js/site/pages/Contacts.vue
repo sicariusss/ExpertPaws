@@ -16,12 +16,28 @@
                     <div class="box-icon">
                         <i class="fa-solid fa-phone"></i>
                     </div>
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            Позвоните нам
+                        </div>
+                        <div class="col-12" v-for="phone in phones">
+                            <a :href="'tel:' + phone.content" :title="phone.title">{{ phone.content }}</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6 mt-4 mt-lg-0 d-flex align-items-stretch">
                 <div class="contact-box">
                     <div class="box-icon">
                         <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            Напишите нам
+                        </div>
+                        <div class="col-12" v-for="email in emails">
+                            <a :href="'mailto:' + email.content" :title="email.title">{{ email.content }}</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -32,12 +48,30 @@
                     <div class="box-icon">
                         <i class="fa-solid fa-share-nodes"></i>
                     </div>
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            Наши социальные сети
+                        </div>
+                        <div class="contacts-social-links">
+                            <a v-for="social in socials" :href="social.content" target="_blank" :title="social.title"
+                               v-html="getSocialIcon(social.title)">
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6 mt-4 mt-lg-0 d-flex align-items-stretch">
                 <div class="contact-box">
                     <div class="box-icon">
                         <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            Наш адрес
+                        </div>
+                        <!--                        <div class="col-12" v-for="email in emails">-->
+                        <!--                            <a :href="'mailto:' + email.content" :title="email.title">{{ email.content }}</a>-->
+                        <!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -53,6 +87,19 @@ export default {
             emails: [],
             phones: [],
             socials: [],
+        }
+    },
+    methods: {
+        getSocialIcon(title) {
+            if (title === 'vk') {
+                return '<i class="fa-brands fa-vk"></i>';
+            } else if (title === 'twitter') {
+                return '<i class="fa-brands fa-twitter"></i>';
+            } else if (title === 'facebook') {
+                return '<i class="fa-brands fa-facebook"></i>';
+            } else {
+                return '<i class="fa-solid fa-share-nodes"></i>';
+            }
         }
     },
     mounted() {
