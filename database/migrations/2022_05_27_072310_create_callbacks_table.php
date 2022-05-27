@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->comment('Имя отправителя');
             $table->string('email')->comment('Почта отправителя');
             $table->string('subject')->comment('Тема сообщения');
-            $table->string('message')->comment('Сообщение');
+            $table->text('message')->comment('Сообщение');
             $table->unsignedBigInteger('user_id')->nullable()->comment('ID пользователя, null - если не авторизирован');
             $table->timestamps();
 

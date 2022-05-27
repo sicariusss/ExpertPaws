@@ -6,9 +6,10 @@ import Register from '../pages/Register';
 import Login from '../pages/Login';
 import Courses from "../pages/Courses";
 import Products from "../pages/Products";
-import Gallery from "../pages/Gallery";
 import Contacts from "../pages/Contacts";
 import Profile from "../pages/Profile";
+import Callbacks from "../pages/Callbacks";
+import Reviews from "../pages/Reviews";
 
 export const routes = [
     {
@@ -44,7 +45,7 @@ export const routes = [
     {
         name: 'Отзывы - Expert Paws',
         path: '/reviews',
-        component: Gallery
+        component: Reviews
     },
     {
         name: 'Связаться с нами - Expert Paws',
@@ -55,6 +56,11 @@ export const routes = [
         name: 'Мой профиль - Expert Paws',
         path: '/profile',
         component: Profile
+    },
+    {
+        name: 'Мои обращения - Expert Paws',
+        path: '/callbacks',
+        component: Callbacks
     },
 ];
 

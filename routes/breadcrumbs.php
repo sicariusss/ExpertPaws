@@ -1,5 +1,6 @@
 <?php // routes/breadcrumbs.php
 
+use App\Models\Callback;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Course;
@@ -205,4 +206,17 @@ Breadcrumbs::for('crm.categories.create', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('crm.categories.edit', function (BreadcrumbTrail $trail, $category) {
     $trail->parent('crm.categories.show', $category);
     $trail->push('Редактирование', route('crm.categories.edit', $category));
+});
+
+// Обращения
+/**
+ * @var Callback $callback
+ */
+Breadcrumbs::for('crm.callbacks.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('crm.home');
+    $trail->push('Обращения', route('crm.callbacks.index'));
+});
+Breadcrumbs::for('crm.callbacks.show', function (BreadcrumbTrail $trail, $callback) {
+    $trail->parent('crm.callbacks.index');
+    $trail->push('№' . $callback->getKey(), route('crm.callbacks.show', $callback));
 });

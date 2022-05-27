@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CallbackController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\ContactController;
@@ -27,3 +28,4 @@ Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanct
 Route::get('users', [UserController::class, 'index']);
 Route::get('contacts', [ContactController::class, 'contacts']);
 Route::post('contacts', [ContactController::class, 'form']);
+Route::get('callbacks/{userId}', [CallbackController::class, 'callbacks']);

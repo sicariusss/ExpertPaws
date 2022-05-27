@@ -53,10 +53,12 @@
                         </div>
                     </div>
                     <div class="col-lg-4 mt-3 mt-lg-0">
-                        <div class="user-profile-link-box">
-                            <i class="fa-solid fa-comment-dots fa-xl"></i>
-                            Мои обращения
-                        </div>
+                        <router-link to="/callbacks">
+                            <div class="user-profile-link-box">
+                                <i class="fa-solid fa-comment-dots fa-xl"></i>
+                                Мои обращения
+                            </div>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -143,6 +145,11 @@ export default {
     font-weight: 700;
     line-height: 1;
     font-size: 16px;
+    color: #fff;
+}
+
+.user-profile-links a {
+    text-decoration: none;
     color: #fff;
 }
 

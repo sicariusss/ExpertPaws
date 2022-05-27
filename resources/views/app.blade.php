@@ -25,6 +25,7 @@
 @endif
 <div id="app">
 </div>
+<script src="{{ asset('js/site/swiper-bundle.min.js') }}" type="text/javascript"></script>
 <script src="{{ mix('js/site/app.js') }}" type="text/javascript"></script>
 </body>
 </html>

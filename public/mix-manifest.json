@@ -1,6 +1,6 @@
 {
     "/js/site/app.js": "/js/site/app.js",
     "/js/crm/crm.js": "/js/crm/crm.js",
-    "/css/crm/crm.css": "/css/crm/crm.css",
-    "/css/site/app.css": "/css/site/app.css"
+    "/css/site/app.css": "/css/site/app.css",
+    "/css/crm/crm.css": "/css/crm/crm.css"
 }

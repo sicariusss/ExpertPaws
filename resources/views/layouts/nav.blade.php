@@ -45,25 +45,39 @@ use Illuminate\Support\Facades\Auth;
                         </a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" type="button" id="shopDropdown" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Магазин
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="shopDropdown">
-                        <a href="{{route('crm.products.index')}}" class="dropdown-item">
-                            Товары
-                        </a>
-                        <a href="{{route('crm.categories.index')}}" class="dropdown-item">
-                            Категории
-                        </a>
-                    </div>
-                </li>
+{{--                <li class="nav-item dropdown">--}}
+{{--                    <a class="nav-link dropdown-toggle" type="button" id="shopDropdown" data-bs-toggle="dropdown"--}}
+{{--                       aria-expanded="false">--}}
+{{--                        Магазин--}}
+{{--                    </a>--}}
+{{--                    <div class="dropdown-menu" aria-labelledby="shopDropdown">--}}
+{{--                        <a href="{{route('crm.products.index')}}" class="dropdown-item">--}}
+{{--                            Товары--}}
+{{--                        </a>--}}
+{{--                        <a href="{{route('crm.categories.index')}}" class="dropdown-item">--}}
+{{--                            Категории--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
+{{--                </li>--}}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('crm.gallery.index') }}">Галерея</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('crm.contacts.index') }}">Контакты</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" type="button" id="callbackDropdown" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Обратная связь
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="callbackDropdown">
+                        <a href="{{route('crm.callbacks.index')}}" class="dropdown-item">
+                            Обращения
+                        </a>
+                        <a href="{{route('crm.roles.index')}}" class="dropdown-item">
+                            Отзывы
+                        </a>
+                    </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" type="button" id="resourcesDropdown" data-bs-toggle="dropdown"
