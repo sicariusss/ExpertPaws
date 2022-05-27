@@ -41,6 +41,7 @@ class Contact extends Model
     public const TYPE_PHONE      = 'Телефон';
     public const TYPE_EMAIL      = 'Email';
     public const TYPE_SOCIAL_NET = 'Социальная сеть';
+    public const TYPE_ADDRESS    = 'Адрес';
 
 
     /**
@@ -142,6 +143,7 @@ class Contact extends Model
             self::TYPE_PHONE      => self::TYPE_PHONE,
             self::TYPE_EMAIL      => self::TYPE_EMAIL,
             self::TYPE_SOCIAL_NET => self::TYPE_SOCIAL_NET,
+            self::TYPE_ADDRESS    => self::TYPE_ADDRESS,
         ];
     }
 
@@ -156,6 +158,8 @@ class Contact extends Model
             $icon = '<i class="fa-solid fa-envelope"></i>';
         } elseif ($this->getType() === self::TYPE_SOCIAL_NET) {
             $icon = '<i class="fa-solid fa-share-nodes"></i>';
+        } elseif ($this->getType() === self::TYPE_ADDRESS) {
+            $icon = '<i class="fa-solid fa-location-dot"></i>';
         } else {
             $icon = '';
         }

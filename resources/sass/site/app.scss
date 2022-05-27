@@ -106,6 +106,14 @@ input[data-autocompleted] {
     background-color: transparent !important;
 }
 
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+textarea[data-autocompleted] {
+    background-color: transparent !important;
+}
+
 .svg-inline--fa {
     vertical-align: middle;
 }

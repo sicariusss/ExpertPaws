@@ -89,7 +89,7 @@ class ContactController extends Controller
      */
     public function show(Contact $contact): View
     {
-        SEOMeta::setTitle('Контакт ' . $contact->getTitle());
+        SEOMeta::setTitle('Контакт: ' . $contact->getType() . ' - ' . $contact->getTitle());
 
         return view('crm.contacts.show', compact('contact'));
     }

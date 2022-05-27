@@ -65,7 +65,7 @@
             <div class="col-lg-3">
                 {{ $contact->getType() }}
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 text-break">
                 {{ $contact->getContent() }}
             </div>
             <div class="col-lg-2">

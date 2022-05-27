@@ -26,3 +26,4 @@ Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanct
  */
 Route::get('users', [UserController::class, 'index']);
 Route::get('contacts', [ContactController::class, 'contacts']);
+Route::post('contacts', [ContactController::class, 'form']);
