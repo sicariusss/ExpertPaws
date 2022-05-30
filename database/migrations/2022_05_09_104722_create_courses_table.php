@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->integer('price')->comment('Цена');
             $table->string('preview')->comment('Превью');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

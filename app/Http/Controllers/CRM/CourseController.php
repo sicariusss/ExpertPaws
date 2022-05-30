@@ -140,7 +140,6 @@ class CourseController extends Controller
         }
 
         $course->update($data);
-        $course->save();
 
         Log::info('Изменен курс №' . $course->getKey() . ', менеджер: ' . Auth::id());
 

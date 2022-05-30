@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('type_id')->comment('ID сущности');
             $table->string('path')->comment('Путь изображения');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

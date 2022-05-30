@@ -4,7 +4,7 @@ use App\Http\Controllers\CRM\CallbackController;
 use App\Http\Controllers\CRM\CategoryController;
 use App\Http\Controllers\CRM\ContactController;
 use App\Http\Controllers\CRM\CourseController;
-use App\Http\Controllers\CRM\GalleryController;
+use App\Http\Controllers\CRM\ReviewsController;
 use App\Http\Controllers\CRM\ImageController;
 use App\Http\Controllers\CRM\LessonController;
 use App\Http\Controllers\CRM\ProductController;
@@ -35,13 +35,11 @@ Route::middleware(['auth', 'crm'])
         })->name('home');
         Route::resource('users', UserController::class);
         Route::resource('roles', RoleController::class);
-        Route::resource('products', ProductController::class);
         Route::resource('lessons', LessonController::class);
         Route::resource('images', ImageController::class);
-        Route::resource('gallery', GalleryController::class);
+        Route::resource('reviews', ReviewsController::class);
         Route::resource('courses', CourseController::class);
         Route::resource('contacts', ContactController::class);
-        Route::resource('categories', CategoryController::class);
         Route::resource('callbacks', CallbackController::class);
     });
 

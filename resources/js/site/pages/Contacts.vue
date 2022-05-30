@@ -240,6 +240,7 @@ export default {
     font-size: 15px;
     text-decoration: none;
     font-family: "Montserrat", sans-serif;
+    transition: 0.3s;
 }
 
 .contact-box-desc a:hover {
@@ -251,6 +252,7 @@ export default {
     display: flex;
     margin-top: .2rem;
     margin-left: 1px;
+    transition: 0.3s;
 }
 
 .contacts-social-links a {
@@ -264,6 +266,7 @@ export default {
 
 .contacts-social-links a:hover {
     color: #ffc60b;
+    transition: 0.3s;
 }
 
 .contact-box-text {

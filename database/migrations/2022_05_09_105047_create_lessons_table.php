@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->text('content')->comment('Содержимое');
             $table->unsignedBigInteger('course_id')->comment('Курс, которому принадлежит урок');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('course_id')->references('id')->on('courses');
         });

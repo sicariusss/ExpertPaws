@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('name')->comment('Название');
             $table->string('display_name')->comment('Отображаемое название');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::table('users', function (Blueprint $table) {

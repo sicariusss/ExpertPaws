@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('address')->after('phone')->nullable()->comment('Адрес');
             $table->string('photo')->after('address')->nullable()->comment('Аватарка');
             $table->unsignedBigInteger('role_id')->after('photo')->comment('Роль');
+            $table->softDeletes();
         });
     }
 

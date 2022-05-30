@@ -12,15 +12,16 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('Название');
+            $table->string('title')->comment('Заголовок')->nullable();
             $table->text('description')->comment('Описание')->nullable();
-            $table->string('preview')->comment('Превью');
-            $table->unsignedBigInteger('parent_id')->comment('Родитель')->nullable();
+            $table->string('image')->comment('Изображение')->nullable();
+            $table->unsignedBigInteger('user_id')->comment('ID пользователя');
             $table->timestamps();
+            $table->softDeletes();
 
-            $table->foreign('parent_id')->references('id')->on('categories');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -31,6 +32,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('gallery');
     }
 };

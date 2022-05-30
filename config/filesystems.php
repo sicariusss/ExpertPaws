@@ -58,21 +58,9 @@ return [
             'url'        => env('APP_URL'),
             'visibility' => 'public',
         ],
-        'products' => [
+        'reviews' => [
             'driver'     => 'local',
-            'root'       => public_path('images/products'),
-            'url'        => env('APP_URL'),
-            'visibility' => 'public',
-        ],
-        'categories' => [
-            'driver'     => 'local',
-            'root'       => public_path('images/categories'),
-            'url'        => env('APP_URL'),
-            'visibility' => 'public',
-        ],
-        'gallery' => [
-            'driver'     => 'local',
-            'root'       => public_path('images/gallery'),
+            'root'       => public_path('images/reviews'),
             'url'        => env('APP_URL'),
             'visibility' => 'public',
         ],

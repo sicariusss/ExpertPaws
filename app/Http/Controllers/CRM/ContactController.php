@@ -130,7 +130,6 @@ class ContactController extends Controller
         ]);
 
         $contact->update($data);
-        $contact->save();
 
         Log::info('Изменен контакт №' . $contact->getKey() . ', менеджер: ' . Auth::id());
 

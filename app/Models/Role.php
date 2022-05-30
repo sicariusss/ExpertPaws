@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 /**
@@ -30,9 +31,15 @@ use Illuminate\Support\Collection;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property-read int|null $users_count
  * @method static Builder|Role filter(array $frd)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|Role onlyTrashed()
+ * @method static Builder|Role whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Role withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Role withoutTrashed()
  */
 class Role extends Model
 {
+    use SoftDeletes;
 
     protected $table = 'roles';
 

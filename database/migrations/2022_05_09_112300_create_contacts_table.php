@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('content')->comment('Контакт');
             $table->string('title')->comment('Название');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

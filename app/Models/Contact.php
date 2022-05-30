@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Contact
@@ -26,9 +27,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Contact whereUpdatedAt($value)
  * @mixin \Eloquent
  * @method static Builder|Contact filter(array $frd)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|Contact onlyTrashed()
+ * @method static Builder|Contact whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Contact withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Contact withoutTrashed()
  */
 class Contact extends Model
 {
+    use SoftDeletes;
 
     protected $table = 'contacts';
 

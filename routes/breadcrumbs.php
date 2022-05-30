@@ -1,13 +1,11 @@
 <?php // routes/breadcrumbs.php
 
 use App\Models\Callback;
-use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Course;
-use App\Models\Gallery;
+use App\Models\Review;
 use App\Models\Image;
 use App\Models\Lesson;
-use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
 
@@ -61,27 +59,6 @@ Breadcrumbs::for('crm.roles.edit', function (BreadcrumbTrail $trail, $role) {
     $trail->push('Редактирование', route('crm.roles.edit', $role));
 });
 
-// Продукты
-/**
- * @var Product $product
- */
-Breadcrumbs::for('crm.products.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('crm.home');
-    $trail->push('Товары', route('crm.products.index'));
-});
-Breadcrumbs::for('crm.products.show', function (BreadcrumbTrail $trail, $product) {
-    $trail->parent('crm.products.index');
-    $trail->push($product->getName(), route('crm.products.show', $product));
-});
-Breadcrumbs::for('crm.products.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('crm.products.index');
-    $trail->push('Создание', route('crm.products.create'));
-});
-Breadcrumbs::for('crm.products.edit', function (BreadcrumbTrail $trail, $product) {
-    $trail->parent('crm.products.show', $product);
-    $trail->push('Редактирование', route('crm.products.edit', $product));
-});
-
 // Уроки
 /**
  * @var Lesson $lesson
@@ -124,25 +101,25 @@ Breadcrumbs::for('crm.images.edit', function (BreadcrumbTrail $trail, $image) {
     $trail->push('Редактирование', route('crm.images.edit', $image));
 });
 
-// Галерея
+// Отзывы
 /**
- * @var Gallery $gallery
+ * @var Review $review
  */
-Breadcrumbs::for('crm.gallery.index', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('crm.reviews.index', function (BreadcrumbTrail $trail) {
     $trail->parent('crm.home');
-    $trail->push('Галерея', route('crm.gallery.index'));
+    $trail->push('Отзывы', route('crm.reviews.index'));
 });
-Breadcrumbs::for('crm.gallery.show', function (BreadcrumbTrail $trail, $gallery) {
-    $trail->parent('crm.gallery.index');
-    $trail->push('Изображение №' . $gallery->getKey(), route('crm.gallery.show', $gallery));
+Breadcrumbs::for('crm.reviews.show', function (BreadcrumbTrail $trail, $review) {
+    $trail->parent('crm.reviews.index');
+    $trail->push('Отзыв №' . $review->getKey(), route('crm.reviews.show', $review));
 });
-Breadcrumbs::for('crm.gallery.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('crm.gallery.index');
-    $trail->push('Создание', route('crm.gallery.create'));
+Breadcrumbs::for('crm.reviews.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('crm.reviews.index');
+    $trail->push('Создание', route('crm.reviews.create'));
 });
-Breadcrumbs::for('crm.gallery.edit', function (BreadcrumbTrail $trail, $gallery) {
-    $trail->parent('crm.gallery.show', $gallery);
-    $trail->push('Редактирование', route('crm.gallery.edit', $gallery));
+Breadcrumbs::for('crm.reviews.edit', function (BreadcrumbTrail $trail, $review) {
+    $trail->parent('crm.reviews.show', $review);
+    $trail->push('Редактирование', route('crm.reviews.edit', $review));
 });
 
 // Курсы
@@ -185,27 +162,6 @@ Breadcrumbs::for('crm.contacts.create', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('crm.contacts.edit', function (BreadcrumbTrail $trail, $contact) {
     $trail->parent('crm.contacts.show', $contact);
     $trail->push('Редактирование', route('crm.contacts.edit', $contact));
-});
-
-// Категории
-/**
- * @var Category $category
- */
-Breadcrumbs::for('crm.categories.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('crm.home');
-    $trail->push('Категории', route('crm.categories.index'));
-});
-Breadcrumbs::for('crm.categories.show', function (BreadcrumbTrail $trail, $category) {
-    $trail->parent('crm.categories.index');
-    $trail->push($category->getName(), route('crm.categories.show', $category));
-});
-Breadcrumbs::for('crm.categories.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('crm.categories.index');
-    $trail->push('Создание', route('crm.categories.create'));
-});
-Breadcrumbs::for('crm.categories.edit', function (BreadcrumbTrail $trail, $category) {
-    $trail->parent('crm.categories.show', $category);
-    $trail->push('Редактирование', route('crm.categories.edit', $category));
 });
 
 // Обращения

@@ -6,7 +6,7 @@
 @extends('layouts.app')
 @section('content')
     <a href="{{route('crm.images.index')}}" class="index-title">
-        Изображения
+        Все изображения
     </a>
     {{ Form::open(['url'=>route('crm.images.index'),'method'=>'GET','onchange'=>'this.submit();']) }}
     <div class="row justify-content-center align-items-end pb-5 pt-3">

@@ -126,7 +126,6 @@ class RoleController extends Controller
 
 
         $role->update($data);
-        $role->save();
 
         Log::info('Изменена роль №' . $role->getKey() . ', менеджер: ' . Auth::id());
 

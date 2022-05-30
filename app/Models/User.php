@@ -357,5 +357,17 @@ class User extends Authenticatable
         return '/' . $path . '?' . Carbon::now();
     }
 
+    /**
+     * @return array
+     */
+    public static function getUsersList(): array
+    {
+        $usersList = [];
+        foreach (self::get() as $user) {
+            $usersList[$user->getKey()] = $user->getKey() . ' - ' . $user->getShortName();
+        }
+        return $usersList;
+    }
+
 
 }

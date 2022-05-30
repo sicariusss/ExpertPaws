@@ -170,7 +170,6 @@ class UserController extends Controller
         }
 
         $user->update($data);
-        $user->save();
 
         Log::info('Изменен пользователь №' . $user->getKey() . ', менеджер: ' . Auth::id());
 

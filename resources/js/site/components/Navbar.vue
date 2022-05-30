@@ -10,7 +10,7 @@
                         <router-link to="/">Главная</router-link>
                         <router-link to="/about">О нас</router-link>
                         <router-link to="/courses">Курсы</router-link>
-                        <router-link to="/products">Товары</router-link>
+<!--                        <router-link to="/products">Товары</router-link>-->
                         <router-link to="/reviews">Отзывы</router-link>
                         <router-link to="/contacts">Контакты</router-link>
                         <div v-if="authenticated">

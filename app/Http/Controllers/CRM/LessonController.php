@@ -132,7 +132,6 @@ class LessonController extends Controller
         ]);
 
         $lesson->update($data);
-        $lesson->save();
 
         Log::info('Изменен урок №' . $lesson->getKey() . ', менеджер: ' . Auth::id());
 

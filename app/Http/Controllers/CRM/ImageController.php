@@ -170,7 +170,6 @@ class ImageController extends Controller
         }
 
         $image->update($data);
-        $image->save();
 
         Log::info('Изменено изображение №' . $image->getKey() . ', менеджер: ' . Auth::id());
 

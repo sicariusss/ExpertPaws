@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('message')->comment('Сообщение');
             $table->unsignedBigInteger('user_id')->nullable()->comment('ID пользователя, null - если не авторизирован');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
         });
