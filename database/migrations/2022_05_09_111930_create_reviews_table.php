@@ -14,10 +14,11 @@ return new class extends Migration {
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->comment('Заголовок')->nullable();
-            $table->text('description')->comment('Описание')->nullable();
+            $table->string('description', 350)->comment('Отзыв');
             $table->string('image')->comment('Изображение')->nullable();
             $table->unsignedBigInteger('user_id')->comment('ID пользователя');
+            $table->boolean('anon')->comment('Анонимный отзыв');
+            $table->boolean('published')->comment('Опубликованный отзыв');
             $table->timestamps();
             $table->softDeletes();
 

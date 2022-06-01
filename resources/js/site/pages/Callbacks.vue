@@ -10,7 +10,7 @@
                 Мои обращения
             </div>
         </div>
-        <div class="row">
+        <div class="row" v-if="callbacks.length">
             <div class="col-12">
                 <div class="callback-block" v-for="callback in callbacks">
                     <div class="callback-block-title">
@@ -36,6 +36,30 @@
                 </div>
             </div>
         </div>
+        <div class="row justify-content-center py-5" v-else>
+            <div class="col-auto py-5 no-callbacks text-center">
+                У вас нету обращений <br>
+                <router-link to="/contacts">Хотите связаться с нами? <i class="fa-solid fa-arrow-pointer"></i>
+                </router-link>
+            </div>
+            <div style="width: min-content; text-align: center; display:none">
+                ———————————No callbacks?———————————
+                ⠀⣞⢽⢪⢣⢣⢣⢫⡺⡵⣝⡮⣗⢷⢽⢽⢽⣮⡷⡽⣜⣜⢮⢺⣜⢷⢽⢝⡽⣝
+                ⠸⡸⠜⠕⠕⠁⢁⢇⢏⢽⢺⣪⡳⡝⣎⣏⢯⢞⡿⣟⣷⣳⢯⡷⣽⢽⢯⣳⣫⠇
+                ⠀⠀⢀⢀⢄⢬⢪⡪⡎⣆⡈⠚⠜⠕⠇⠗⠝⢕⢯⢫⣞⣯⣿⣻⡽⣏⢗⣗⠏⠀
+                ⠀⠪⡪⡪⣪⢪⢺⢸⢢⢓⢆⢤⢀⠀⠀⠀⠀⠈⢊⢞⡾⣿⡯⣏⢮⠷⠁⠀⠀
+                ⠀⠀⠀⠈⠊⠆⡃⠕⢕⢇⢇⢇⢇⢇⢏⢎⢎⢆⢄⠀⢑⣽⣿⢝⠲⠉⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⡿⠂⠠⠀⡇⢇⠕⢈⣀⠀⠁⠡⠣⡣⡫⣂⣿⠯⢪⠰⠂⠀⠀⠀⠀
+                ⠀⠀⠀⠀⡦⡙⡂⢀⢤⢣⠣⡈⣾⡃⠠⠄⠀⡄⢱⣌⣶⢏⢊⠂⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⢝⡲⣜⡮⡏⢎⢌⢂⠙⠢⠐⢀⢘⢵⣽⣿⡿⠁⠁⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠨⣺⡺⡕⡕⡱⡑⡆⡕⡅⡕⡜⡼⢽⡻⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⣼⣳⣫⣾⣵⣗⡵⡱⡡⢣⢑⢕⢜⢕⡝⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⣴⣿⣾⣿⣿⣿⡿⡽⡑⢌⠪⡢⡣⣣⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⡟⡾⣿⢿⢿⢵⣽⣾⣼⣘⢸⢸⣞⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                —————————————————————————————
+            </div>
+        </div>
     </div>
 </template>
 
@@ -49,8 +73,8 @@ export default {
         }
     },
     created() {
-        if (window.Laravel.user) {
-            this.user_id = window.Laravel.user.id ?? null
+        if (window.Laravel.authenticated) {
+            this.user_id = window.Laravel.auth_id ?? null
         }
     },
     mounted() {
@@ -58,7 +82,6 @@ export default {
         axios.get('api/callbacks/' + this.user_id)
             .then(function (response) {
                 app.callbacks = response.data.callbacks;
-                console.log(app.callbacks);
             })
             .catch(function (response) {
                 console.log(response);
@@ -120,5 +143,17 @@ export default {
     font-weight: 600;
     margin-bottom: 10px;
     font-family: "Raleway", sans-serif;
+}
+
+.no-callbacks {
+    font-size: 25px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+    color: #fff;
+}
+
+.no-callbacks a {
+    color: #ffc60b;
+    text-decoration: none;
 }
 </style>

@@ -5,17 +5,8 @@
 ?>
 <div class="row">
     <div class="{{isset($review) && $review->getImage() !== null ? 'col-lg-8' : 'col-lg-12'}}">
-        <div class="row">
-            <div class="col-lg-6 pb-2">
-                @include('forms._input', [
-     'label' => 'Заголовок',
-     'name' => 'title',
-     'type' => 'text',
-     'placeholder' => 'Введите заголовок...',
-     'value' => isset($review) ? $review->getTitle() : ''
- ])
-            </div>
-            <div class="col-lg-6 pb-2">
+        <div class="row align-items-end">
+            <div class="col-lg-8 pb-2">
                 @include('forms._select', [
     'name'=>'user_id',
     'label'=>'Пользователь',
@@ -23,6 +14,15 @@
     'list'=>$usersList,
    'placeholder' => '-',
     'value' => isset($review) ? $review->getUserId() : ''
+])
+            </div>
+            <div class="col-lg-auto pb-2">
+                {{Form::hidden('anon',0)}}
+                @include('forms._checkbox', [
+    'name'=>'anon',
+    'label'=>'Анонимно',
+    'value' => 1,
+    'checked' => isset($review) ? $review->getAnon() : '',
 ])
             </div>
         </div>

@@ -38,6 +38,7 @@ Route::middleware(['auth', 'crm'])
         Route::resource('lessons', LessonController::class);
         Route::resource('images', ImageController::class);
         Route::resource('reviews', ReviewsController::class);
+        Route::patch('review/publish/{review}', [ReviewsController::class, 'publish'])->name('review.publish');
         Route::resource('courses', CourseController::class);
         Route::resource('contacts', ContactController::class);
         Route::resource('callbacks', CallbackController::class);

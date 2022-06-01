@@ -105,4 +105,43 @@ class UserController extends Controller
     {
         return response()->json(['users' => User::get()], Response::HTTP_OK);
     }
+
+    /**
+     * @param int $userId
+     * @return Response
+     */
+    public function show(int $userId): Response
+    {
+        return response()->json(['user' => User::where('id', $userId)->get()], Response::HTTP_OK);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function update(Request $request): JsonResponse
+    {
+        $data = $request->all();
+
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        try {
+            $user = Auth::user();
+            $user->update($data);
+
+            $success = true;
+            $message = 'Профиль обновлен';
+        } catch (QueryException $ex) {
+            $success = false;
+            $message = $ex->getMessage();
+        }
+
+        $response = [
+            'success' => $success,
+            'message' => $message,
+        ];
+        return response()->json($response);
+    }
 }

@@ -5,11 +5,12 @@ import About from '../pages/About';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
 import Courses from "../pages/Courses";
-import Products from "../pages/Products";
 import Contacts from "../pages/Contacts";
 import Profile from "../pages/Profile";
 import Callbacks from "../pages/Callbacks";
 import Reviews from "../pages/Reviews";
+import ProfileEdit from "../pages/ProfileEdit";
+import PersonalData from "../pages/PersonalData";
 
 export const routes = [
     {
@@ -38,11 +39,6 @@ export const routes = [
         component: Courses
     },
     {
-        name: 'Товары - Expert Paws',
-        path: '/products',
-        component: Products
-    },
-    {
         name: 'Отзывы - Expert Paws',
         path: '/reviews',
         component: Reviews
@@ -61,6 +57,16 @@ export const routes = [
         name: 'Мои обращения - Expert Paws',
         path: '/callbacks',
         component: Callbacks
+    },
+    {
+        name: 'Редактировать профиль - Expert Paws',
+        path: '/profile-edit',
+        component: ProfileEdit
+    },
+    {
+        name: 'Политика обработки персональных данных - Expert Paws',
+        path: '/personal-data',
+        component: PersonalData
     },
 ];
 

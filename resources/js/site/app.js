@@ -2,8 +2,6 @@ import {createApp} from 'vue'
 
 require('../bootstrap')
 
-require('../swiper-bundle.min')
-
 import App from './App.vue'
 import axios from 'axios'
 import router from './router'
@@ -23,28 +21,3 @@ library.add(fas, far, fab)
 dom.watch();
 app.component("font-awesome-icon", FontAwesomeIcon)
 
-new Swiper('.testimonials-slider', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-        delay: 5000,
-        disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-        el: '.swiper-pagination',
-        type: 'bullets',
-        clickable: true
-    },
-    breakpoints: {
-        320: {
-            slidesPerView: 1,
-            spaceBetween: 20
-        },
-
-        1200: {
-            slidesPerView: 3,
-            spaceBetween: 20
-        }
-    }
-});

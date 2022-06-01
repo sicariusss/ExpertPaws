@@ -10,102 +10,123 @@
                 Отзывы
             </div>
         </div>
-        <div class="testimonials">
-
-            <div class="section-title">
-                <h2>Testimonials</h2>
-            </div>
-
-            <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
-                <div class="swiper-wrapper">
-
-                    <div class="swiper-slide">
-                        <div class="testimonial-item">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                            <h3>Saul Goodman</h3>
-                            <h4>Ceo &amp; Founder</h4>
+        <div class="mt-5">
+            <Splide :options="textOptions" aria-label="text-reviews">
+                <SplideSlide v-for="review in reviews">
+                    <div class="text-slider-item">
+                        <div class="text-slider-desc">
+                            <i class="fa-solid fa-quote-left"></i>
+                            {{ review.description }}
+                            <i class="fa-solid fa-quote-right"></i>
+                            <div class="text-slider-name">
+                                ~ {{
+                                    review.anon === false
+                                        ? review.user.surname + ' ' + review.user.name ?? 'Анонимный котик'
+                                        : 'Анонимный котик'
+                                }}
+                            </div>
                         </div>
-                    </div><!-- End testimonial item -->
+                    </div>
+                </SplideSlide>
+            </Splide>
+        </div>
+        <div class="my-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 gallery-item mb-4" v-for="item in gallery">
+                    <img class="gallery-item-image" alt="review-image" :src="item.image"
+                         v-on:click="show[item.id] = true"/>
+                    <div class="gallery-image-block" v-if="show[item.id] === true">
+                        <div class="row justify-content-center p-2 p-lg-5">
+                            <div class="col-12">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                                        <img class="gallery-show-image" alt="review-image" :src="item.image"/>
+                                    </div>
+                                    <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                                        <button v-on:click="show[item.id] = false" class="gallery-image-close">
+                                            <i class="fa-solid fa-xmark fa-2xl"></i>
+                                        </button>
+                                        <div class="text-slider-desc">
+                                            <i class="fa-solid fa-quote-left"></i>
+                                            {{ item.description }}
+                                            <i class="fa-solid fa-quote-right"></i>
+                                            <div class="text-slider-name">
+                                                ~ {{
+                                                    item.anon === false
+                                                        ? item.user.surname + ' ' + item.user.name ?? 'Анонимный котик'
+                                                        : 'Анонимный котик'
+                                                }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                    <div class="swiper-slide">
-                        <div class="testimonial-item">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                            <h3>Sara Wilsson</h3>
-                            <h4>Designer</h4>
+                            </div>
                         </div>
-                    </div><!-- End testimonial item -->
-
-                    <div class="swiper-slide">
-                        <div class="testimonial-item">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                            <h3>Jena Karlis</h3>
-                            <h4>Store Owner</h4>
-                        </div>
-                    </div><!-- End testimonial item -->
-
-                    <div class="swiper-slide">
-                        <div class="testimonial-item">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                            <h3>Matt Brandon</h3>
-                            <h4>Freelancer</h4>
-                        </div>
-                    </div><!-- End testimonial item -->
-
-                    <div class="swiper-slide">
-                        <div class="testimonial-item">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                            <h3>John Larson</h3>
-                            <h4>Entrepreneur</h4>
-                        </div>
-                    </div><!-- End testimonial item -->
-
+                    </div>
                 </div>
-                <div class="swiper-pagination"></div>
             </div>
-
-            <div class="owl-carousel testimonials-carousel">
-
-            </div>
-
         </div>
     </div>
 </template>
 
 <script>
 
-import {Swiper} from '../app'
+import {Splide, SplideSlide} from '@splidejs/vue-splide';
+import '@splidejs/vue-splide/css';
 
 export default {
     name: "Reviews",
-
+    components: {
+        Splide,
+        SplideSlide,
+    },
     data() {
         return {
+            reviews: {},
+            gallery: {},
+            show: [],
+        }
+    },
+    setup() {
+        const textOptions = {
+            rewind: true,
+            gap: '.5rem',
+            autoplay: true,
+            arrows: false,
+            perPage: 3,
+            type: 'loop',
+            perMove: 1,
+            breakpoints: {
+                1199: {
+                    perPage: 2,
+                },
+                767: {
+                    perPage: 1,
+                },
+            }
         };
+
+        return {textOptions};
+    },
+    mounted() {
+        let app = this;
+        axios.get('api/reviews')
+            .then(function (response) {
+                app.reviews = response.data.reviews;
+                console.log(app.reviews)
+            })
+            .catch(function (response) {
+                console.log(response);
+            });
+        axios.get('api/gallery')
+            .then(function (response) {
+                app.gallery = response.data.gallery;
+                console.log(app.gallery)
+            })
+            .catch(function (response) {
+                console.log(response);
+            });
     },
     beforeRouteEnter(to, from, next) {
         document.title = to.name;
@@ -116,4 +137,176 @@ export default {
 
 <style>
 
+.text-slider-item {
+    box-sizing: content-box;
+}
+
+.text-slider-item .text-slider-desc {
+    font-style: italic;
+    margin: 0 15px 0 15px;
+    padding: 20px 20px 30px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    border-radius: 6px;
+    z-index: 1;
+}
+
+.text-slider-item .fa-quote-left {
+    display: inline-block;
+    left: -5px;
+    position: relative;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 26px;
+}
+
+.text-slider-item .fa-quote-right {
+    display: inline-block;
+    right: -5px;
+    position: relative;
+    top: 10px;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 26px;
+}
+
+.text-slider-item .text-slider-name {
+    font-style: normal;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 30px;
+    color: #fff;
+    font-family: "Raleway", sans-serif;
+}
+
+.splide__pagination__page.is-active {
+    background: #ffc60b;
+    opacity: 1;
+}
+
+.splide__pagination {
+    padding-top: 30px;
+    position: unset;
+}
+
+.gallery-item-image {
+    width: 100%;
+    object-fit: cover;
+    height: 300px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.gallery-image-block {
+    width: 80vw;
+    min-height: 80vh;
+    background: rgba(0, 0, 0, 0.9);
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+}
+
+.gallery-show-image {
+    max-width: 70vh;
+    width: 100%;
+    border-radius: 1rem;
+    object-fit: contain;
+}
+
+.gallery-image-block .text-slider-desc {
+    margin: 0 15px 0 15px;
+    padding: 20px 20px 30px 20px;
+    position: relative;
+    z-index: 1;
+    font-size: 24px;
+}
+
+.gallery-image-block .fa-quote-left {
+    display: inline-block;
+    left: -5px;
+    position: relative;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 30px;
+}
+
+.gallery-image-block .fa-quote-right {
+    display: inline-block;
+    right: -5px;
+    position: relative;
+    top: 10px;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 30px;
+}
+
+.gallery-image-block .text-slider-name {
+    font-style: normal;
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: 30px;
+    color: #fff;
+    font-family: "Raleway", sans-serif;
+}
+
+.gallery-image-close {
+    position: absolute;
+    top: 2.5vh;
+    right: 2vw;
+    background: transparent;
+    color: #ffc60b;
+    border: none;
+    z-index: 1000;
+}
+
+@media (max-width: 1400px) {
+    .gallery-image-block {
+        width: 90vw;
+    }
+
+    .gallery-image-block .text-slider-desc {
+        font-size: 20px;
+    }
+
+    .gallery-image-block .fa-quote-left {
+        font-size: 25px;
+    }
+
+    .gallery-image-block .fa-quote-right {
+        font-size: 25px;
+    }
+
+    .gallery-image-block .text-slider-name {
+        font-size: 23px;
+    }
+}
+
+@media (max-width: 991px) {
+    .gallery-show-image {
+        height: 40vh;
+    }
+
+    .gallery-image-block .text-slider-desc {
+        font-size: 15px;
+    }
+
+    .gallery-image-block .fa-quote-left {
+        font-size: 20px;
+    }
+
+    .gallery-image-block .fa-quote-right {
+        font-size: 20px;
+    }
+
+    .gallery-image-block .text-slider-name {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 400px) {
+    .gallery-show-image {
+        height: 30vh;
+    }
+}
 </style>

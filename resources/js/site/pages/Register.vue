@@ -46,9 +46,12 @@
                                        autocomplete="off" placeholder="Пароль (обязательно)">
                             </div>
                         </div>
-
-                        <div class="form-group row justify-content-center mt-lg-4">
-                            <div class="col-auto mt-4 mt-lg-0">
+                        <div class="personal-data my-4">
+                            Нажимая на кнопку, Вы даете согласие на
+                            <router-link to="/personal-data">обработку персональных данных</router-link>
+                        </div>
+                        <div class="form-group row justify-content-center">
+                            <div class="col-auto">
                                 <button type="submit" class="btn btn-outline-paw" @click="handleSubmit">
                                     Зарегистрироваться
                                 </button>
@@ -60,6 +63,19 @@
         </div>
     </div>
 </template>
+
+<style>
+.personal-data {
+    font-size: 15px;
+    color: #fff;
+    font-family: "Raleway", sans-serif;
+    text-align: center;
+}
+
+.personal-data a {
+    color: #ffc60b;
+}
+</style>
 
 <script>
 export default {

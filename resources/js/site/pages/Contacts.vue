@@ -135,6 +135,7 @@ export default {
             subject: "",
             message: "",
             user_id: null,
+            user: {},
         }
     },
     methods: {
@@ -174,10 +175,19 @@ export default {
         }
     },
     created() {
-        if (window.Laravel.user) {
-            this.name = window.Laravel.user.name ?? ''
-            this.email = window.Laravel.user.email ?? ''
-            this.user_id = window.Laravel.user.id ?? null
+        if (window.Laravel.authenticated) {
+            this.user_id = window.Laravel.auth_id ?? null
+
+            let app = this;
+            axios.get('api/users/' + this.user_id)
+                .then(function (response) {
+                    app.user = response.data.user[0];
+                    app.name = app.user.name ?? ''
+                    app.email = app.user.email ?? ''
+                })
+                .catch(function (response) {
+                    console.log(response);
+                });
         }
     },
     mounted() {

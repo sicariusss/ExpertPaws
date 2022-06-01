@@ -62,20 +62,21 @@ class ReviewsController extends Controller
         $data = $request->all();
 
         $this->validate($request, [
-            'title'       => 'nullable|max:255',
-            'description' => 'nullable',
+            'description' => 'required|max:350',
             'image'       => 'nullable',
             'user_id'     => 'required|exists:users,id',
         ], [
-            'title.max'        => 'Заголовок должен быть меньше 255 символов',
-            'user_id.required' => 'Выберите пользователя',
-            'user_id.exists'   => 'Такого пользователя не существует в базе',
+            'description.required' => 'Введите отзыв',
+            'description.max'      => 'Отзыв должен быть меньше 350 символов',
+            'user_id.required'     => 'Выберите пользователя',
+            'user_id.exists'       => 'Такого пользователя не существует в базе',
         ]);
 
         $review = new Review();
-        $review->setTitle($data['title'] ?? null);
-        $review->setDescription($data['description'] ?? null);
+        $review->setDescription($data['description']);
         $review->setUserId($data['user_id'] ?? null);
+        $review->setAnon($data['anon'] ?? false);
+        $review->setPublished(false);
         if (isset($data['image'])) {
             $review->setImage($this->reviews::uploadImage($data['image']));
         }
@@ -121,14 +122,14 @@ class ReviewsController extends Controller
         $data = $request->all();
 
         $this->validate($request, [
-            'title'       => 'nullable|max:255',
-            'description' => 'nullable',
+            'description' => 'required|max:350',
             'image'       => 'nullable',
             'user_id'     => 'required|exists:users,id',
         ], [
-            'title.max'        => 'Заголовок должен быть меньше 255 символов',
-            'user_id.required' => 'Выберите пользователя',
-            'user_id.exists'   => 'Такого пользователя не существует в базе',
+            'description.required' => 'Введите отзыв',
+            'description.max'      => 'Отзыв должен быть меньше 350 символов',
+            'user_id.required'     => 'Выберите пользователя',
+            'user_id.exists'       => 'Такого пользователя не существует в базе',
         ]);
 
         if (isset($data['image'])) {
@@ -157,5 +158,20 @@ class ReviewsController extends Controller
         $review->delete();
 
         return redirect()->route('crm.reviews.index');
+    }
+
+    /**
+     * @param Review $review
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function publish(Review $review, Request $request): RedirectResponse
+    {
+        $data = $request->all();
+
+        $review->setPublished($data['published']);
+        $review->save();
+
+        return redirect()->back();
     }
 }

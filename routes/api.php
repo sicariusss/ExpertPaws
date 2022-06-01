@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CallbackController;
+use App\Http\Controllers\API\ReviewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\ContactController;
@@ -26,6 +27,13 @@ Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanct
  * API сущностей
  */
 Route::get('users', [UserController::class, 'index']);
+Route::get('users/{userId}', [UserController::class, 'show']);
+Route::patch('user', [UserController::class, 'update']);
+
 Route::get('contacts', [ContactController::class, 'contacts']);
 Route::post('contacts', [ContactController::class, 'form']);
+
 Route::get('callbacks/{userId}', [CallbackController::class, 'callbacks']);
+
+Route::get('reviews', [ReviewController::class, 'reviews']);
+Route::get('gallery', [ReviewController::class, 'gallery']);

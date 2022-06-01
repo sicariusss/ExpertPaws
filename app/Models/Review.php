@@ -13,34 +13,38 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
+
+
 /**
  * App\Models\Review
  *
  * @property int $id
- * @property string|null $title Заголовок
- * @property string|null $description Описание
+ * @property string $description Отзыв
  * @property string|null $image Изображение
  * @property int $user_id ID пользователя
+ * @property bool $anon Анонимный отзыв
+ * @property bool $published Опубликованный отзыв
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\User $user
  * @method static Builder|Review filter(array $frd)
  * @method static Builder|Review newModelQuery()
  * @method static Builder|Review newQuery()
  * @method static \Illuminate\Database\Query\Builder|Review onlyTrashed()
  * @method static Builder|Review query()
+ * @method static Builder|Review whereAnon($value)
  * @method static Builder|Review whereCreatedAt($value)
  * @method static Builder|Review whereDeletedAt($value)
  * @method static Builder|Review whereDescription($value)
  * @method static Builder|Review whereId($value)
  * @method static Builder|Review whereImage($value)
- * @method static Builder|Review whereTitle($value)
+ * @method static Builder|Review wherePublished($value)
  * @method static Builder|Review whereUpdatedAt($value)
  * @method static Builder|Review whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|Review withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Review withoutTrashed()
  * @mixin \Eloquent
- * @property-read \App\Models\User $user
  */
 class Review extends Model
 {
@@ -49,40 +53,31 @@ class Review extends Model
     protected $table = 'reviews';
 
     protected $fillable = [
-        'title',
         'description',
         'image',
         'user_id',
+        'anon',
+        'published',
+    ];
+
+    protected $casts = [
+        'anon'      => 'boolean',
+        'published' => 'boolean',
     ];
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string|null $title
-     */
-    public function setTitle(?string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
-     * @param string|null $description
+     * @param string $description
+     * @return void
      */
-    public function setDescription(?string $description): void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
@@ -133,6 +128,39 @@ class Review extends Model
     public function getUser(): User
     {
         return $this->user;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAnon(): bool
+    {
+        return $this->anon;
+    }
+
+    /**
+     * @param bool $anon
+     * @return void
+     */
+    public function setAnon(bool $anon): void
+    {
+        $this->anon = $anon;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param bool $published
+     */
+    public function setPublished(bool $published): void
+    {
+        $this->published = $published;
     }
 
     /**

@@ -11,21 +11,21 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    @if (Auth::check())
+        <script>
+            window.Laravel = {!!json_encode([ 'authenticated' => true, 'auth_id' => Auth::id()])!!};
+        </script>
+    @else
+        <script>
+            window.Laravel = {!!json_encode([ 'authenticated' => false ])!!};
+        </script>
+    @endif
 </head>
 <body>
-@if (Auth::check())
-    <script>
-        window.Laravel = {!!json_encode([ 'authenticated' => true, 'user' => Auth::user(), ])!!};
-    </script>
-@else
-    <script>
-        window.Laravel = {!!json_encode([ 'authenticated' => false ])!!};
-    </script>
-@endif
 <div id="app">
 </div>
-<script src="{{ asset('js/site/swiper-bundle.min.js') }}" type="text/javascript"></script>
 <script src="{{ mix('js/site/app.js') }}" type="text/javascript"></script>
 </body>
 </html>

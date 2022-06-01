@@ -10,7 +10,6 @@
                         <router-link to="/">Главная</router-link>
                         <router-link to="/about">О нас</router-link>
                         <router-link to="/courses">Курсы</router-link>
-<!--                        <router-link to="/products">Товары</router-link>-->
                         <router-link to="/reviews">Отзывы</router-link>
                         <router-link to="/contacts">Контакты</router-link>
                         <div v-if="authenticated">
@@ -56,7 +55,6 @@
                             <router-link v-on:click="bar = false" to="/">Главная</router-link>
                             <router-link v-on:click="bar = false" to="/about">О нас</router-link>
                             <router-link v-on:click="bar = false" to="/courses">Курсы</router-link>
-                            <router-link v-on:click="bar = false" to="/products">Товары</router-link>
                             <router-link v-on:click="bar = false" to="/reviews">Отзывы</router-link>
                             <router-link v-on:click="bar = false" to="/contacts">Контакты</router-link>
                             <div v-if="!authenticated" class="d-flex flex-column align-items-end">
@@ -87,14 +85,24 @@ export default {
     created() {
         if (window.Laravel.authenticated) {
             this.authenticated = true
-        }
-        if (window.Laravel.user) {
-            this.fullName = window.Laravel.user.surname + ' ' + window.Laravel.user.name
-            this.photo = window.Laravel.user.photo
-            this.role = window.Laravel.user.role_id
-            if (this.role === 1 || this.role === 2 || this.role === 3) {
-                this.isUser = false;
-            }
+
+            this.user_id = window.Laravel.auth_id ?? null
+
+            let app = this;
+            axios.get('api/users/' + this.user_id)
+                .then(function (response) {
+                    app.user = response.data.user[0];
+                    app.fullName = app.user.surname + ' ' + app.user.name ?? ''
+                    app.photo = app.user.photo ?? ''
+                    app.role = app.user.role_id ?? ''
+
+                    if (app.role === 1 || app.role === 2 || app.role === 3) {
+                        app.isUser = false;
+                    }
+                })
+                .catch(function (response) {
+                    console.log(response);
+                });
         }
     },
     methods: {

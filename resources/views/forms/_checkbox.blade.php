@@ -28,6 +28,7 @@ if (isset($name)) {
   'placeholder'=>$placeholder ?? null,
   'id'=>$fileInputId,
   'disabled'=>$disabled,
+  'style'=>$style ?? 'border: 1px solid #ffc60b;',
   ]+($attributes ?? array())) }}
 
     @if (isset($label))

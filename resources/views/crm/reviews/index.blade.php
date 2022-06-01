@@ -34,17 +34,22 @@
             </div>
             <div class="col-lg-3">
                 <div>
-                    <i class="fa-solid fa-chevron-right"></i> Заголовок
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div>
                     <i class="fa-solid fa-chevron-right"></i> Отзыв
                 </div>
             </div>
             <div class="col-lg-2">
                 <div>
-                    <i class="fa-solid fa-chevron-right"></i> Изображение
+                    <i class="fa-solid fa-chevron-right"></i> Анон
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div>
+                    <i class="fa-solid fa-chevron-right"></i> В галерее
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div>
+                    <i class="fa-solid fa-chevron-right"></i> Опубликован
                 </div>
             </div>
             <div class="col-lg-2">
@@ -60,13 +65,27 @@
                 {{ $review->getKey() }}
             </div>
             <div class="col-lg-3">
-                {{ $review->getTitle() }}
-            </div>
-            <div class="col-lg-4">
                 {{ substr($review->getDescription(), 0, 50) . '...' }}
             </div>
             <div class="col-lg-2">
+                {{ $review->getAnon() ? '+' : '-' }}
+            </div>
+            <div class="col-lg-2">
                 {{ $review->isGallery() ? '+' : '-' }}
+            </div>
+            <div class="col-lg-2">
+                <div class="row">
+                    <div class="col-auto">
+                        {{Form::model($review, ['url'=> route('crm.review.publish', $review), 'method' => 'PATCH','onchange'=>'this.submit();'])}}
+                        {{Form::hidden('published',0)}}
+                        @include('forms._checkbox', [
+            'name'=>'published',
+            'value' => 1,
+            'checked' => $review->isPublished(),
+        ])
+                        {{Form::close()}}
+                    </div>
+                </div>
             </div>
             <div class="col-lg-2">
                 <div class="btn-group" role="group">
@@ -91,15 +110,30 @@
                 <span><i class="fa-solid fa-chevron-right"></i> №:</span> {{ $review->getKey() }}
             </div>
             <div>
-                <span><i class="fa-solid fa-chevron-right"></i> Название:</span> {{ $review->getTitle() }}
-            </div>
-            <div>
                 <span><i
                         class="fa-solid fa-chevron-right"></i> Отзыв:</span> {{ substr($review->getDescription(), 0, 50) . '...' }}
             </div>
             <div>
+                <span><i class="fa-solid fa-chevron-right"></i> Анон:</span> {{ $review->getAnon() ? '+' : '-' }}
+            </div>
+            <div>
                 <span><i
-                        class="fa-solid fa-chevron-right"></i> Изображение:</span> {{ $review->isGallery() ? '+' : '-' }}
+                        class="fa-solid fa-chevron-right"></i> В галерее:</span> {{ $review->isGallery() ? '+' : '-' }}
+            </div>
+            <div>
+                <div class="row">
+                    <div class="col-auto" style="display: inline-flex">
+                        <span class="pe-2"><i class="fa-solid fa-chevron-right"></i> Опубликован:</span>
+                        {{Form::model($review, ['url'=> route('crm.review.publish', $review), 'method' => 'PATCH','onchange'=>'this.submit();'])}}
+                        {{Form::hidden('published',0)}}
+                        @include('forms._checkbox', [
+            'name'=>'published',
+            'value' => 1,
+            'checked' => $review->isPublished(),
+        ])
+                        {{Form::close()}}
+                    </div>
+                </div>
             </div>
             <div>
                 <span><i class="fa-solid fa-chevron-right"></i> Действия:</span>

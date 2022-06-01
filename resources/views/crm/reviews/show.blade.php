@@ -33,23 +33,43 @@
                 <div>
                     <span><i class="fa-solid fa-chevron-right"></i> №:</span> {{ $review->getKey() }}
                 </div>
-                @if($review->getTitle() !== null)
-                    <div>
-                        <span><i class="fa-solid fa-chevron-right"></i> Название:</span> {{ $review->getTitle() }}
-                    </div>
-                @endif
-                @if($review->getDescription() !== null)
-                    <div>
-                <span><i
-                        class="fa-solid fa-chevron-right"></i> Отзыв:</span> {{ $review->getDescription() }}
-                    </div>
-                @endif
                 @if($review->getUser() !== null)
                     <div>
                         <span><i
                                 class="fa-solid fa-chevron-right"></i> Пользователь:</span> {{ $review->getUser()->getName() }}
                         <a href="{{route('crm.users.show',$review->getUser())}}"><i
                                 class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                @endif
+                @if($review->getAnon() !== null)
+                    <div>
+                        <span><i
+                                class="fa-solid fa-chevron-right"></i> Анонимно:</span> {{ $review->getAnon() ? '+' : '-' }}
+                    </div>
+                @endif
+                <div>
+                        <span><i
+                                class="fa-solid fa-chevron-right"></i> В галерее:</span> {{ $review->isGallery() ? '+' : '-' }}
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-auto" style="display: inline-flex">
+                            <span class="pe-2"><i class="fa-solid fa-chevron-right"></i> Опубликован:</span>
+                            {{Form::model($review, ['url'=> route('crm.review.publish', $review), 'method' => 'PATCH','onchange'=>'this.submit();'])}}
+                            {{Form::hidden('published',0)}}
+                            @include('forms._checkbox', [
+                'name'=>'published',
+                'value' => 1,
+                'checked' => $review->isPublished(),
+            ])
+                            {{Form::close()}}
+                        </div>
+                    </div>
+                </div>
+                @if($review->getDescription() !== null)
+                    <div>
+                <span><i
+                        class="fa-solid fa-chevron-right"></i> Отзыв:</span> {{ $review->getDescription() }}
                     </div>
                 @endif
             </div>
