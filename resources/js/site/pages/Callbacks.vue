@@ -39,7 +39,7 @@
         <div class="row justify-content-center py-5" v-else>
             <div class="col-auto py-5 no-callbacks text-center">
                 У вас нету обращений <br>
-                <router-link to="/contacts">Хотите связаться с нами? <i class="fa-solid fa-arrow-pointer"></i>
+                <router-link to="/contacts">Хотите связаться с нами?
                 </router-link>
             </div>
             <div style="width: min-content; text-align: center; display:none">

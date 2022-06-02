@@ -269,10 +269,7 @@ export default {
         font-size: 20px;
     }
 
-    .gallery-image-block .fa-quote-left {
-        font-size: 25px;
-    }
-
+    .gallery-image-block .fa-quote-left,
     .gallery-image-block .fa-quote-right {
         font-size: 25px;
     }
@@ -291,10 +288,7 @@ export default {
         font-size: 15px;
     }
 
-    .gallery-image-block .fa-quote-left {
-        font-size: 20px;
-    }
-
+    .gallery-image-block .fa-quote-left,
     .gallery-image-block .fa-quote-right {
         font-size: 20px;
     }
