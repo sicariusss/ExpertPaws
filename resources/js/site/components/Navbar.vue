@@ -134,6 +134,10 @@ export default {
 <style>
 .navbar-block {
     background: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 997;
 }
 
 .navbar-logo {

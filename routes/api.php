@@ -37,3 +37,4 @@ Route::get('callbacks/{userId}', [CallbackController::class, 'callbacks']);
 
 Route::get('reviews', [ReviewController::class, 'reviews']);
 Route::get('gallery', [ReviewController::class, 'gallery']);
+Route::post('reviews/create', [ReviewController::class, 'form']);

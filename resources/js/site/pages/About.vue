@@ -12,7 +12,7 @@
         </div>
         <div class="about-block mb-5">
             <div class="row justify-content-center align-items-center flex-lg-row-reverse mt-3">
-                <div class="col-lg-6 ms-lg-5">
+                <div class="col-lg-6 ms-xl-5">
                     <div>
                         <span class="about-color-text">Expert Paws</span> – это образовательная платформа, которая
                         проводит курсы от
@@ -23,12 +23,12 @@
                         образование открытым и максимально удобным.
                     </div>
                 </div>
-                <div class="col-lg-4 mt-4 mt-lg-0">
+                <div class="col-lg-5 col-xl-4 mt-4 mt-lg-0">
                     <img class="about-images" src="/images/about/about-1.jpg" alt="cat-about">
                 </div>
             </div>
-            <div class="row justify-content-center align-items-center mt-lg-5">
-                <div class="col-lg-7">
+            <div class="row justify-content-center align-items-center mt-4 mt-lg-5">
+                <div class="col-lg-6 col-xl-7">
                     <div>
                         Мы проводим фелинологические курсы в режиме <span class="about-color-text">онлайн</span>.
                     </div>
@@ -44,11 +44,11 @@
                             class="about-color-text">котиков</span>.
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5 col-xl-4 mt-4 mt-lg-0">
                     <img class="about-images" src="/images/about/about-2.png" alt="cat-about">
                 </div>
             </div>
-            <div class="row justify-content-center align-items-center mt-lg-5">
+            <div class="row justify-content-center align-items-center my-4 my-lg-0 mt-lg-5">
                 <div class="col-lg-11">
                     <div>
                         После оплаты курса Вы <span class="about-border-text">мгновенно</span> получаете доступ к
@@ -65,31 +65,37 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center mt-lg-5">
+            <div class="row justify-content-center py-4 py-lg-0 mt-lg-5">
                 <div class="col-12">
                     <div class="row justify-content-center">
-                        <div class="col-lg-3 d-flex flex-column align-items-center about-edu-item position-relative">
+                        <div
+                            class="col-lg-3 mb-5 mb-lg-0 pb-4 pb-lg-0 d-flex flex-column align-items-center about-edu-item position-relative">
                             <img class="about-edu-image" src="/images/about/about-3.jpg" alt="cat-about">
                             <div class="about-edu-desc">
                                 Вы выбираете и покупаете нужный курс
                             </div>
-                            <i class="fa-solid fa-angle-right"></i>
+                            <i class="fa-solid fa-angle-right fa-xl"></i>
                         </div>
-                        <div class="col-lg-3 d-flex flex-column align-items-center about-edu-item position-relative">
+                        <div
+                            class="col-lg-3 mb-5 mb-lg-0 pb-4 pb-lg-0 d-flex flex-column align-items-center about-edu-item position-relative">
+                            <i class="fa-solid fa-angle-down fa-xl"></i>
                             <img class="about-edu-image" src="/images/about/about-4.jpg" alt="cat-about">
                             <div class="about-edu-desc">
                                 Проходите материал и тесты в любое удобное время
                             </div>
-                            <i class="fa-solid fa-angle-right"></i>
+                            <i class="fa-solid fa-angle-right fa-xl"></i>
                         </div>
-                        <div class="col-lg-3 d-flex flex-column align-items-center about-edu-item position-relative">
+                        <div
+                            class="col-lg-3 mb-5 mb-lg-0 pb-4 pb-lg-0 d-flex flex-column align-items-center about-edu-item position-relative">
+                            <i class="fa-solid fa-angle-down fa-xl"></i>
                             <img class="about-edu-image" src="/images/about/about-5.jpg" alt="cat-about">
                             <div class="about-edu-desc">
                                 Сдаете итоговый экзамен в дистанционном режиме
                             </div>
-                            <i class="fa-solid fa-angle-right"></i>
+                            <i class="fa-solid fa-angle-right fa-xl"></i>
                         </div>
                         <div class="col-lg-3 d-flex flex-column align-items-center about-edu-item position-relative">
+                            <i class="fa-solid fa-angle-down fa-xl"></i>
                             <img class="about-edu-image" src="/images/about/about-6.png" alt="cat-about">
                             <div class="about-edu-desc">
                                 Получаете сертификат о прохождении курсов
@@ -98,7 +104,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center align-items-center mt-lg-5">
+            <div class="row justify-content-center align-items-center my-4 my-lg-0 mt-lg-5">
                 <div class="col-lg-11">
                     <div>
                         Наши курсы рассчитаны на те материалы, которые помогут
@@ -169,6 +175,24 @@
     margin-top: 30%;
     margin-left: 100%;
     color: #ffc60b;
+}
+
+.about-edu-item .fa-angle-down {
+    position: absolute;
+    margin-top: -3.5rem;
+    color: #ffc60b;
+}
+
+@media (max-width: 991px) {
+    .about-edu-item .fa-angle-right {
+        display: none;
+    }
+}
+
+@media (min-width: 992px) {
+    .about-edu-item .fa-angle-down {
+        display: none;
+    }
 }
 
 </style>

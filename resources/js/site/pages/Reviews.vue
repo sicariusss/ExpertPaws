@@ -60,9 +60,63 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="col-12">
+                <div class="review-form" v-if="authenticated">
+                    <div class="row justify-content-center text-center">
+                        <div class="review-form-title py-3 py-lg-4">
+                            Нам важно Ваше мнение!
+                        </div>
+                        <div class="review-form-remark">
+                            Отзывы не имеющие отношения к нам и нашему сайту, содержащие ненормативную лексику или любые
+                            выражения нарушающие законы РФ будут отклонены.
+                        </div>
+                    </div>
+                    <form>
+                        <div class="form-group row mt-lg-3">
+                            <div class="col-12 mt-3 mt-lg-0">
+                            <textarea type="text" maxlength="350" class="form-control" id="message"
+                                      v-model="description" rows="4"
+                                      required
+                                      autocomplete="off" placeholder="Отзыв"/>
+                            </div>
+                        </div>
+                        <div class="review-form-remark mt-3">
+                            Если Вы оставите отзыв с фотографией Вашего котика, он будет опубликован в галерее :)
+                        </div>
+                        <div class="form-group row mt-lg-3">
+                            <div class="col-12 mt-3 mt-lg-0">
+                                <input class="form-control" type="file" id="image" v-on:change="uploadImage">
+                            </div>
+                        </div>
+                        <div class="form-group row mt-lg-3">
+                            <div class="col-12 mt-3 mt-lg-0">
+                                <input class="form-check-input" type="checkbox" value="" id="anon" v-model="anon">
+                                <label class="form-check-label ms-2" for="anon" style="font-size: 17px; color: #fff;">
+                                    Оставить анонимно
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row justify-content-center mt-lg-4">
+                            <div class="col-auto mt-4 mt-lg-0">
+                                <button type="submit" class="btn btn-outline-paw px-5" @click="handleSubmit">
+                                    Оставить отзыв
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div v-else-if="!authenticated">
+                    <div class="my-5 text-center review-auth">
+                        <router-link to="/login">Войдите</router-link>
+                        , чтобы оставить свой отзыв
                     </div>
                 </div>
             </div>
@@ -86,6 +140,11 @@ export default {
             reviews: {},
             gallery: {},
             show: [],
+            user_id: null,
+            file: "",
+            description: "",
+            anon: null,
+            authenticated: false,
         }
     },
     setup() {
@@ -109,12 +168,48 @@ export default {
 
         return {textOptions};
     },
+    created() {
+        if (window.Laravel.authenticated) {
+            this.authenticated = true;
+            this.user_id = window.Laravel.auth_id ?? null
+        }
+    },
+    methods: {
+        uploadImage(e) {
+            let files = e.target.files || e.dataTransfer.files;
+            this.file = files[0];
+        },
+        handleSubmit(e) {
+            e.preventDefault()
+            if (!window.Laravel.authenticated) {
+                window.location.href = "/login";
+            } else {
+                let formData = new FormData();
+                formData.append('image', this.file)
+                formData.append('description', this.description)
+                formData.append('user_id', this.user_id)
+                formData.append('anon', this.anon ?? 'false')
+
+                axios.post('api/reviews/create', formData)
+                    .then(response => {
+                        if (response.data.success) {
+                            console.log(response)
+                            // TODO: вывод сообщение об успехе
+                        } else {
+                            this.error = response.data.message
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
+            }
+        }
+    },
     mounted() {
         let app = this;
         axios.get('api/reviews')
             .then(function (response) {
                 app.reviews = response.data.reviews;
-                console.log(app.reviews)
             })
             .catch(function (response) {
                 console.log(response);
@@ -122,7 +217,6 @@ export default {
         axios.get('api/gallery')
             .then(function (response) {
                 app.gallery = response.data.gallery;
-                console.log(app.gallery)
             })
             .catch(function (response) {
                 console.log(response);
@@ -203,7 +297,7 @@ export default {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    z-index: 900;
+    z-index: 999;
     display: flex;
     align-items: center;
     border-radius: 1rem;
@@ -260,6 +354,91 @@ export default {
     z-index: 1000;
 }
 
+.review-auth {
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: 30px;
+    color: #fff;
+    font-family: "Raleway", sans-serif;
+}
+
+.review-auth a {
+    color: #ffc60b;
+}
+
+.review-form {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    width: 100%;
+    color: #444444;
+}
+
+.review-form input, .review-form textarea {
+    padding: 10px 15px;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 0;
+    transition: 0.3s;
+    color: #fff;
+}
+
+.review-form input:focus, .review-form textarea:focus {
+    background-color: rgba(255, 255, 255, 0.11);
+    color: #fff;
+    border: 0;
+    box-shadow: none;
+}
+
+.review-form input[type=checkbox] {
+    box-shadow: none;
+    transition: 0.3s;
+    color: #fff;
+    vertical-align: top;
+    background: rgba(255, 255, 255, 0.08) no-repeat center;
+    background-size: contain;
+    padding: 10px;
+}
+
+.review-form input:checked[type=checkbox] {
+    background-color: #ffc60b;
+    color: black;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/></svg>");
+}
+
+input[type=file]::file-selector-button {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border: 1px black solid;
+}
+
+input[type=file]::-webkit-file-upload-button {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border: 1px black solid;
+}
+
+input[type=file]:hover::file-selector-button {
+    color: black;
+    border: 1px black solid;
+}
+
+.review-form-title {
+    line-height: 1.2;
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffc60b;
+    font-family: "Raleway", sans-serif;
+}
+
+.review-form-remark {
+    font-size: 14px;
+    color: #fff;
+    font-family: "Raleway", sans-serif;
+    width: 50%;
+}
+
 @media (max-width: 1400px) {
     .gallery-image-block {
         width: 90vw;
@@ -276,6 +455,10 @@ export default {
 
     .gallery-image-block .text-slider-name {
         font-size: 23px;
+    }
+
+    .review-form-remark {
+        width: 75%;
     }
 }
 
@@ -295,6 +478,10 @@ export default {
 
     .gallery-image-block .text-slider-name {
         font-size: 16px;
+    }
+
+    .review-form-remark {
+        width: 100%;
     }
 }
 
