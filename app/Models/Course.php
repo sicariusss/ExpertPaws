@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
+
+
 /**
  * App\Models\Course
  *
@@ -23,28 +25,34 @@ use Illuminate\Support\Str;
  * @property string $full_description Полное описание
  * @property int $price Цена
  * @property string $preview Превью
+ * @property string $school Направление
+ * @property string $hours Объем программы в часах
+ * @property string $slug Ссылка
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lesson[] $lessons
  * @property-read int|null $lessons_count
- * @method static \Illuminate\Database\Eloquent\Builder|Course newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Course newQuery()
+ * @method static Builder|Course filter(array $frd)
+ * @method static Builder|Course newModelQuery()
+ * @method static Builder|Course newQuery()
  * @method static \Illuminate\Database\Query\Builder|Course onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Course query()
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereFullDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course wherePreview($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereShortDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereUpdatedAt($value)
+ * @method static Builder|Course query()
+ * @method static Builder|Course whereCreatedAt($value)
+ * @method static Builder|Course whereDeletedAt($value)
+ * @method static Builder|Course whereFullDescription($value)
+ * @method static Builder|Course whereHours($value)
+ * @method static Builder|Course whereId($value)
+ * @method static Builder|Course wherePreview($value)
+ * @method static Builder|Course wherePrice($value)
+ * @method static Builder|Course whereSchool($value)
+ * @method static Builder|Course whereShortDescription($value)
+ * @method static Builder|Course whereSlug($value)
+ * @method static Builder|Course whereTitle($value)
+ * @method static Builder|Course whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Course withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Course withoutTrashed()
  * @mixin \Eloquent
- * @method static Builder|Course filter(array $frd)
  */
 class Course extends Model
 {
@@ -58,6 +66,9 @@ class Course extends Model
         'full_description',
         'price',
         'preview',
+        'school',
+        'hours',
+        'slug',
     ];
 
     /**
@@ -138,6 +149,54 @@ class Course extends Model
     public function setPreview(string $preview): void
     {
         $this->preview = $preview;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSchool(): string
+    {
+        return $this->school;
+    }
+
+    /**
+     * @param string $school
+     */
+    public function setSchool(string $school): void
+    {
+        $this->school = $school;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHours(): string
+    {
+        return $this->hours;
+    }
+
+    /**
+     * @param string $hours
+     */
+    public function setHours(string $hours): void
+    {
+        $this->hours = $hours;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     */
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
     }
 
     /**

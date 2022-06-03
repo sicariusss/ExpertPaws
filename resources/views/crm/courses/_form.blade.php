@@ -28,24 +28,46 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12 pb-2">
-              @include('forms._textarea', [
-    'label' => 'Краткое описание',
-    'required'=>'required',
-   'rows' => 3,
-    'name' => 'short_description',
-    'type' => 'text',
-    'placeholder' => 'Введите краткое описание...',
-    'value' => isset($course) ? $course->getShortDescription() : ''
-])
+            <div class="col-lg-6 pb-2">
+                @include('forms._input', [
+     'label' => 'Направление',
+     'required'=>'required',
+     'name' => 'school',
+     'type' => 'text',
+     'placeholder' => 'Введите направление...',
+     'value' => isset($course) ? $course->getSchool() : ''
+ ])
+            </div>
+            <div class="col-lg-6 pb-2">
+                @include('forms._input', [
+       'label' => 'Объем программы в часах',
+       'required'=>'required',
+       'name' => 'hours',
+       'type' => 'number',
+       'placeholder' => 'Введите объем...',
+       'value' => isset($course) ? $course->getHours() : ''
+   ])
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12 pb-2">
                 @include('forms._textarea', [
-       'label' => 'Описание',
+      'label' => 'Краткое описание',
+      'required'=>'required',
+     'rows' => 4,
+      'name' => 'short_description',
+      'type' => 'text',
+      'placeholder' => 'Введите краткое описание...',
+      'value' => isset($course) ? $course->getShortDescription() : ''
+  ])
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 pb-2">
+                @include('forms._textarea', [
+       'label' => 'Полное описание',
        'required'=>'required',
-   'rows' => 4,
+   'rows' => 5,
        'name' => 'full_description',
        'type' => 'text',
        'placeholder' => 'Введите описание...',

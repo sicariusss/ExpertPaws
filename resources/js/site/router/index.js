@@ -11,6 +11,7 @@ import Callbacks from "../pages/Callbacks";
 import Reviews from "../pages/Reviews";
 import ProfileEdit from "../pages/ProfileEdit";
 import PersonalData from "../pages/PersonalData";
+import Course from "../pages/Course";
 
 export const routes = [
     {
@@ -67,6 +68,11 @@ export const routes = [
         name: 'Политика обработки персональных данных - Expert Paws',
         path: '/personal-data',
         component: PersonalData
+    },
+    {
+        name: 'Курс - Expert Paws',
+        path: '/:slug',
+        component: Course
     },
 ];
 

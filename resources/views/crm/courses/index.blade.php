@@ -38,12 +38,12 @@
                     <i class="fa-solid fa-chevron-right"></i> Название
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div>
                     <i class="fa-solid fa-chevron-right"></i> Описание
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <div>
                     <i class="fa-solid fa-chevron-right"></i> Цена
                 </div>
@@ -63,10 +63,10 @@
             <div class="col-lg-3">
                 {{ $course->getTitle() }}
             </div>
-            <div class="col-lg-3">
-                {{ $course->getShortDescription() }}
+            <div class="col-lg-4">
+                {{ substr($course->getShortDescription(), 0, 70) . '...' }}
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 {{ $course->getPrice() }} ₽
             </div>
             <div class="col-lg-2">
@@ -95,7 +95,8 @@
                 <span><i class="fa-solid fa-chevron-right"></i> Название:</span> {{ $course->getTitle() }}
             </div>
             <div>
-                <span><i class="fa-solid fa-chevron-right"></i> Описание:</span> {{ $course->getShortDescription() }}
+                <span><i
+                        class="fa-solid fa-chevron-right"></i> Описание:</span> {{ substr($course->getShortDescription(), 0, 70) . '...' }}
             </div>
             <div>
                 <span><i class="fa-solid fa-chevron-right"></i> Цена:</span> {{ $course->getPrice() }}

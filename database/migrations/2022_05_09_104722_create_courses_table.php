@@ -15,10 +15,13 @@ return new class extends Migration {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('title')->comment('Название курса');
-            $table->string('short_description')->comment('Короткое описание');
+            $table->string('short_description', 1000)->comment('Короткое описание');
             $table->text('full_description')->comment('Полное описание');
             $table->integer('price')->comment('Цена');
             $table->string('preview')->comment('Превью');
+            $table->string('school')->comment('Направление');
+            $table->string('hours')->comment('Объем программы в часах');
+            $table->string('slug')->comment('Ссылка');
             $table->timestamps();
             $table->softDeletes();
         });

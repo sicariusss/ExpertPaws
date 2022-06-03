@@ -39,6 +39,25 @@
                         <span><i class="fa-solid fa-chevron-right"></i> Название:</span> {{ $course->getTitle() }}
                     </div>
                 @endif
+                @if($course->getPrice() !== null)
+                    <div>
+                            <span><i
+                                    class="fa-solid fa-chevron-right"></i> Цена:</span> {{ $course->getPrice() }} ₽
+                    </div>
+                @endif
+                @if($course->getSchool() !== null)
+                    <div>
+                            <span><i
+                                    class="fa-solid fa-chevron-right"></i> Направление:</span> {{ $course->getSchool() }}
+                    </div>
+                @endif
+                @if($course->getHours() !== null)
+                    <div>
+                            <span><i
+                                    class="fa-solid fa-chevron-right"></i> Объем программы:</span> {{ $course->getPrice() }}
+                        ч.
+                    </div>
+                @endif
                 @if($course->getShortDescription() !== null)
                     <div>
                             <span><i
@@ -49,12 +68,6 @@
                     <div>
                             <span><i
                                     class="fa-solid fa-chevron-right"></i> Полное описание:</span> {{ $course->getFullDescription() }}
-                    </div>
-                @endif
-                @if($course->getPrice() !== null)
-                    <div>
-                            <span><i
-                                    class="fa-solid fa-chevron-right"></i> Цена:</span> {{ $course->getPrice() }} ₽
                     </div>
                 @endif
             </div>

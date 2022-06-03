@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class CourseController extends Controller
@@ -61,18 +62,24 @@ class CourseController extends Controller
 
         $this->validate($request, [
             'title'             => 'required|max:255',
-            'short_description' => 'required|max:255',
+            'short_description' => 'required|max:1000',
             'full_description'  => 'required',
             'price'             => 'required|integer',
             'preview'           => 'required',
+            'school'            => 'required|max:255',
+            'hours'             => 'required|max:255',
         ], [
             'title.max'                  => 'Название должно быть меньше 255 символов',
             'title.required'             => 'Введите название',
-            'short_description.max'      => 'Краткое описание должно быть меньше 255 символов',
+            'short_description.max'      => 'Краткое описание должно быть меньше 1000 символов',
             'short_description.required' => 'Введите краткое описание',
             'full_description.required'  => 'Введите описание',
             'price.required'             => 'Введите цену',
             'preview.required'           => 'Загрузите превью',
+            'school.max'                 => 'Направление должно быть меньше 255 символов',
+            'school.required'            => 'Введите направление',
+            'hours.max'                  => 'Объем должен быть меньше 255 символов',
+            'hours.required'             => 'Введите объем',
         ]);
 
         $course = new Course();
@@ -80,6 +87,9 @@ class CourseController extends Controller
         $course->setShortDescription($data['short_description']);
         $course->setFullDescription($data['full_description']);
         $course->setPrice($data['price']);
+        $course->setSchool($data['school']);
+        $course->setHours($data['hours']);
+        $course->setSlug(Str::slug($data['title']));
         $course->setPreview($this->courses::uploadPreview($data['preview'], $data['title']));
         $course->save();
 
@@ -123,17 +133,25 @@ class CourseController extends Controller
 
         $this->validate($request, [
             'title'             => 'required|max:255',
-            'short_description' => 'required|max:255',
+            'short_description' => 'required|max:1000',
             'full_description'  => 'required',
             'price'             => 'required|integer',
+            'school'            => 'required|max:255',
+            'hours'             => 'required|max:255',
         ], [
             'title.max'                  => 'Название должно быть меньше 255 символов',
             'title.required'             => 'Введите название',
-            'short_description.max'      => 'Краткое описание должно быть меньше 255 символов',
+            'short_description.max'      => 'Краткое описание должно быть меньше 1000 символов',
             'short_description.required' => 'Введите краткое описание',
             'full_description.required'  => 'Введите описание',
             'price.required'             => 'Введите цену',
+            'school.max'                 => 'Направление должно быть меньше 255 символов',
+            'school.required'            => 'Введите направление',
+            'hours.max'                  => 'Объем должен быть меньше 255 символов',
+            'hours.required'             => 'Введите объем',
         ]);
+
+        $data['slug'] = Str::slug($data['title']);
 
         if (isset($data['preview'])) {
             $data['preview'] = $this->courses::uploadPreview($data['preview'], $data['title']);
