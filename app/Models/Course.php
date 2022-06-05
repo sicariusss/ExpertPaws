@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 
 
 
+
 /**
  * App\Models\Course
  *
@@ -31,8 +32,8 @@ use Illuminate\Support\Str;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lesson[] $lessons
- * @property-read int|null $lessons_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Chapter[] $chapters
+ * @property-read int|null $chapters_count
  * @method static Builder|Course filter(array $frd)
  * @method static Builder|Course newModelQuery()
  * @method static Builder|Course newQuery()
@@ -218,17 +219,17 @@ class Course extends Model
     /**
      * @return HasMany
      */
-    public function lessons(): HasMany
+    public function chapters(): HasMany
     {
-        return $this->hasMany(Lesson::class);
+        return $this->hasMany(Chapter::class);
     }
 
     /**
      * @return Collection
      */
-    public function getLessons(): Collection
+    public function getChapters(): Collection
     {
-        return $this->lessons;
+        return $this->chapters;
     }
 
     /**

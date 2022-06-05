@@ -14,10 +14,10 @@
             <div class="col-12">
                 <div class="courses-block-item" v-for="course in courses">
                     <div class="row align-items-center">
-                        <div class="col-6">
+                        <div class="col-lg-6">
                             <img class="courses-block-item-image" :src="course.preview" alt="course-preview">
                         </div>
-                        <div class="col-6 d-flex flex-column justify-content-between">
+                        <div class="col-lg-6 d-flex flex-column justify-content-between mt-4 mt-lg-0">
                             <div class="row">
                                 <div class="course-block-item-title">
                                     {{ course.title }}
@@ -41,7 +41,8 @@
                             </div>
                             <div class="row justify-content-lg-end">
                                 <div class="col-auto">
-                                    <router-link :to="course.slug" class="course-block-item-link">Подробнее о курсе...
+                                    <router-link :to="course.slug" class="course-block-item-link">Подробнее о
+                                        курсе...
                                     </router-link>
                                 </div>
                             </div>

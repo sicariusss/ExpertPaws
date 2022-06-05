@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\API\CallbackController;
+use App\Http\Controllers\API\ChapterController;
 use App\Http\Controllers\API\CourseController;
+use App\Http\Controllers\API\LessonController;
 use App\Http\Controllers\API\ReviewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
@@ -45,3 +47,7 @@ Route::post('reviews/create', [ReviewController::class, 'form']);
 /** Курсы */
 Route::get('courses', [CourseController::class, 'courses']);
 Route::get('courses/{slug}', [CourseController::class, 'course']);
+/** Главы */
+Route::get('chapters/{courseId}', [ChapterController::class, 'chapters']);
+/** Уроки */
+Route::get('lessons/{chapterId}', [LessonController::class, 'lessons']);

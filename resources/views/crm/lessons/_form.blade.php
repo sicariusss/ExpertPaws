@@ -18,12 +18,12 @@
             </div>
             <div class="col-lg-6 pb-2">
                 @include('forms._select', [
-     'name'=>'course_id',
+     'name'=>'chapter_id',
     'required'=>'required',
-     'label'=>'Курс, к которому привязать урок',
-     'list'=>$coursesList,
+     'label'=>'Глава, к которой привязать урок',
+     'list'=>$chaptersList,
     'placeholder' => '-',
-     'value'=>isset($lesson) ? $lesson->getCourseId() : '',
+     'value'=>isset($lesson) ? $lesson->getChapterId() : '',
 ])
             </div>
         </div>

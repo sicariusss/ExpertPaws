@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CRM;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Lesson;
 use Artesaos\SEOTools\Facades\SEOMeta;
@@ -46,9 +47,9 @@ class LessonController extends Controller
     public function create(): View
     {
         SEOMeta::setTitle('Добавить урок');
-        $coursesList = Course::getCoursesList();
+        $chaptersList = Chapter::getChaptersList();
 
-        return view('crm.lessons.create', compact('coursesList'));
+        return view('crm.lessons.create', compact('chaptersList'));
     }
 
     /**
@@ -64,20 +65,20 @@ class LessonController extends Controller
             'title'       => 'required|max:255',
             'description' => 'required',
             'content'     => 'required',
-            'course_id'   => 'required|integer',
+            'chapter_id'  => 'required|integer',
         ], [
             'title.max'            => 'Название должно быть меньше 255 символов',
             'title.required'       => 'Введите название',
             'description.required' => 'Введите описание',
             'content.required'     => 'Введите контент',
-            'course_id.required'   => 'Выберите курс, к которому привязать урок',
+            'chapter_id.required'  => 'Выберите главу, к которой привязать урок',
         ]);
 
         $lesson = new Lesson();
         $lesson->setTitle($data['title']);
         $lesson->setDescription($data['description']);
         $lesson->setContent($data['content']);
-        $lesson->setCourseId($data['course_id']);
+        $lesson->setChapterId($data['chapter_id']);
         $lesson->save();
 
         Log::info('Добавлен урок №' . $lesson->getKey() . ', менеджер: ' . Auth::id());
@@ -103,9 +104,9 @@ class LessonController extends Controller
     public function edit(Lesson $lesson): View
     {
         SEOMeta::setTitle('Редактирование урока: ' . $lesson->getTitle());
-        $coursesList = Course::getCoursesList();
+        $chaptersList = Chapter::getChaptersList();
 
-        return view('crm.lessons.edit', compact('lesson', 'coursesList'));
+        return view('crm.lessons.edit', compact('lesson', 'chaptersList'));
     }
 
     /**
@@ -122,13 +123,13 @@ class LessonController extends Controller
             'title'       => 'required|max:255',
             'description' => 'required',
             'content'     => 'required',
-            'course_id'   => 'required|integer',
+            'chapter_id'  => 'required|integer',
         ], [
             'title.max'            => 'Название должно быть меньше 255 символов',
             'title.required'       => 'Введите название',
             'description.required' => 'Введите описание',
             'content.required'     => 'Введите контент',
-            'course_id.required'   => 'Выберите курс, к которому привязать урок',
+            'chapter_id.required'  => 'Выберите главу, к которой привязать урок',
         ]);
 
         $lesson->update($data);

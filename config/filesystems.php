@@ -76,6 +76,12 @@ return [
             'url'        => env('APP_URL'),
             'visibility' => 'public',
         ],
+        'chapters' => [
+            'driver'     => 'local',
+            'root'       => public_path('images/chapters'),
+            'url'        => env('APP_URL'),
+            'visibility' => 'public',
+        ],
 
     ],
 

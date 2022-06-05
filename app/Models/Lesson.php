@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
+
 /**
  * App\Models\Lesson
  *
@@ -15,27 +17,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $title Название урока
  * @property string $description Описание
  * @property string $content Содержимое
- * @property int $course_id Курс, которому принадлежит урок
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson query()
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereCourseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property-read \App\Models\Course $course
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int $chapter_id Глава, которой принадлежит урок
+ * @property-read \App\Models\Chapter $chapter
+ * @method static Builder|Lesson filter(array $frd)
+ * @method static Builder|Lesson newModelQuery()
+ * @method static Builder|Lesson newQuery()
  * @method static \Illuminate\Database\Query\Builder|Lesson onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Lesson whereDeletedAt($value)
+ * @method static Builder|Lesson query()
+ * @method static Builder|Lesson whereChapterId($value)
+ * @method static Builder|Lesson whereContent($value)
+ * @method static Builder|Lesson whereCreatedAt($value)
+ * @method static Builder|Lesson whereDeletedAt($value)
+ * @method static Builder|Lesson whereDescription($value)
+ * @method static Builder|Lesson whereId($value)
+ * @method static Builder|Lesson whereTitle($value)
+ * @method static Builder|Lesson whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Lesson withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Lesson withoutTrashed()
- * @method static Builder|Lesson filter(array $frd)
+ * @mixin \Eloquent
  */
 class Lesson extends Model
 {
@@ -47,7 +49,7 @@ class Lesson extends Model
         'title',
         'description',
         'content',
-        'course_id',
+        'chapter_id',
     ];
 
     /**
@@ -101,33 +103,33 @@ class Lesson extends Model
     /**
      * @return int
      */
-    public function getCourseId(): int
+    public function getChapterId(): int
     {
-        return $this->course_id;
+        return $this->chapter_id;
     }
 
     /**
-     * @param int $course_id
+     * @param int $chapter_id
      */
-    public function setCourseId(int $course_id): void
+    public function setChapterId(int $chapter_id): void
     {
-        $this->course_id = $course_id;
+        $this->chapter_id = $chapter_id;
     }
 
     /**
      * @return BelongsTo
      */
-    public function course(): BelongsTo
+    public function chapter(): BelongsTo
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Chapter::class);
     }
 
     /**
-     * @return Course
+     * @return Chapter
      */
-    public function getCourse(): Course
+    public function getChapter(): Chapter
     {
-        return $this->course;
+        return $this->chapter;
     }
 
     /**

@@ -12,6 +12,8 @@ import Reviews from "../pages/Reviews";
 import ProfileEdit from "../pages/ProfileEdit";
 import PersonalData from "../pages/PersonalData";
 import Course from "../pages/Course";
+import Selling from "../pages/Selling";
+import Payment from "../pages/Payment";
 
 export const routes = [
     {
@@ -73,6 +75,16 @@ export const routes = [
         name: 'Курс - Expert Paws',
         path: '/:slug',
         component: Course
+    },
+    {
+        name: 'Покупка курса - Expert Paws',
+        path: '/:slug/buy',
+        component: Selling
+    },
+    {
+        name: 'Оплата курса - Expert Paws',
+        path: '/:slug/payment',
+        component: Payment
     },
 ];
 

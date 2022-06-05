@@ -40,6 +40,9 @@ use Illuminate\Support\Facades\Auth;
                         <a href="{{route('crm.courses.index')}}" class="dropdown-item">
                             Курсы
                         </a>
+                        <a href="{{route('crm.chapters.index')}}" class="dropdown-item">
+                            Главы
+                        </a>
                         <a href="{{route('crm.lessons.index')}}" class="dropdown-item">
                             Уроки
                         </a>

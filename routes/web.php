@@ -1,13 +1,12 @@
 <?php
 
 use App\Http\Controllers\CRM\CallbackController;
-use App\Http\Controllers\CRM\CategoryController;
+use App\Http\Controllers\CRM\ChapterController;
 use App\Http\Controllers\CRM\ContactController;
 use App\Http\Controllers\CRM\CourseController;
 use App\Http\Controllers\CRM\ReviewsController;
 use App\Http\Controllers\CRM\ImageController;
 use App\Http\Controllers\CRM\LessonController;
-use App\Http\Controllers\CRM\ProductController;
 use App\Http\Controllers\CRM\RoleController;
 use App\Http\Controllers\CRM\UserController;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +41,7 @@ Route::middleware(['auth', 'crm'])
         Route::resource('courses', CourseController::class);
         Route::resource('contacts', ContactController::class);
         Route::resource('callbacks', CallbackController::class);
+        Route::resource('chapters', ChapterController::class);
     });
 
 Route::get('{any}', function () {

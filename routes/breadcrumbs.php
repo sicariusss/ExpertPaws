@@ -1,6 +1,7 @@
 <?php // routes/breadcrumbs.php
 
 use App\Models\Callback;
+use App\Models\Chapter;
 use App\Models\Contact;
 use App\Models\Course;
 use App\Models\Review;
@@ -175,4 +176,25 @@ Breadcrumbs::for('crm.callbacks.index', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('crm.callbacks.show', function (BreadcrumbTrail $trail, $callback) {
     $trail->parent('crm.callbacks.index');
     $trail->push('№' . $callback->getKey(), route('crm.callbacks.show', $callback));
+});
+
+// Главы
+/**
+ * @var Chapter $chapter
+ */
+Breadcrumbs::for('crm.chapters.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('crm.home');
+    $trail->push('Главы', route('crm.chapters.index'));
+});
+Breadcrumbs::for('crm.chapters.show', function (BreadcrumbTrail $trail, $chapter) {
+    $trail->parent('crm.chapters.index');
+    $trail->push($chapter->getTitle(), route('crm.chapters.show', $chapter));
+});
+Breadcrumbs::for('crm.chapters.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('crm.chapters.index');
+    $trail->push('Создание', route('crm.chapters.create'));
+});
+Breadcrumbs::for('crm.chapters.edit', function (BreadcrumbTrail $trail, $chapter) {
+    $trail->parent('crm.chapters.show', $chapter);
+    $trail->push('Редактирование', route('crm.chapters.edit', $chapter));
 });

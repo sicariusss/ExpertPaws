@@ -33,10 +33,16 @@
                 <div>
                     <span><i class="fa-solid fa-chevron-right"></i> №:</span> {{ $lesson->getKey() }}
                 </div>
-                @if($lesson->getCourse() !== null)
+                @if($lesson->getChapter()->getCourse() !== null)
                     <div>
                             <span><i
-                                    class="fa-solid fa-chevron-right"></i> Курс:</span> {{ $lesson->getCourse()->getTitle() }}
+                                    class="fa-solid fa-chevron-right"></i> Курс:</span> {{ $lesson->getChapter()->getCourse()->getTitle() }}
+                    </div>
+                @endif
+                @if($lesson->getChapter() !== null)
+                    <div>
+                            <span><i
+                                    class="fa-solid fa-chevron-right"></i> Глава:</span> {{ $lesson->getChapter()->getTitle() }}
                     </div>
                 @endif
                 @if($lesson->getTitle() !== null)

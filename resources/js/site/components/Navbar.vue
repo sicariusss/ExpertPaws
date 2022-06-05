@@ -89,7 +89,9 @@ export default {
             this.user_id = window.Laravel.auth_id ?? null
 
             let app = this;
-            axios.get('api/users/' + this.user_id)
+            let base_url = window.location.origin;
+
+            axios.get(base_url + '/api/users/' + this.user_id)
                 .then(function (response) {
                     app.user = response.data.user[0];
                     app.fullName = app.user.surname + ' ' + app.user.name ?? ''
