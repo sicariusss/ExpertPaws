@@ -14,20 +14,18 @@
             <div class="purrchase-title">
                 Спасибо за покупку!
             </div>
-            <div class="purrchase-desc">
+            <div class="purrchase-desc my-3">
                 Чек отправлен на указанную Вами почту
             </div>
+            <div class="purrchase-link">
+                <router-link to="/my-courses">Перейти к моим курсам</router-link>
+            </div>
         </div>
-
-        <!--            <div>-->
-        <!--                Курс уже доступен Вам!-->
-        <!--                <router-link to="/my-courses">Перейти к моим курсам</router-link>-->
-        <!--            </div>-->
         <div class="row justify-content-center my-4">
             <div class="receipt col-sm-10 col-md-8 col-lg-4">
                 <h2 class="receipt-title">Expert Paws</h2>
-                <p class="receipt-subtitle">{{ user.surname + ' ' + user.name + ' ' + user.patronymic }}</p>
-                <p class="receipt-subtitle">{{ user.email }}</p>
+                <div class="receipt-subtitle">{{ user.surname + ' ' + user.name + ' ' + user.patronymic }}</div>
+                <div class="receipt-subtitle">{{ user.email }}</div>
                 <ul class="receipt-lines">
                     <li class="receipt-line">
                         <span class="receipt-line-item">Курс: {{ course.title }}</span>
@@ -37,9 +35,6 @@
                 <p class="receipt-total">
                     <span class="receipt-total-item">Итого</span>
                     <span class="receipt-total-price">{{ course.price }} ₽</span>
-                </p>
-                <p class="receipt-back">
-                    <a href="#">Перейти к курсу</a>
                 </p>
             </div>
         </div>
@@ -92,10 +87,22 @@ export default {
     beforeRouteEnter(to, from, next) {
         if (!window.Laravel.authenticated) {
             return next('/');
+        } else {
+            let base_url = window.location.origin;
+            axios.get(base_url + '/api/user/courses/' + window.Laravel.auth_id)
+                .then(function (response) {
+                    let user_courses = response.data.user_courses;
+                    if (user_courses.find(x => x.slug === to.params.slug) !== undefined) {
+                        document.title = to.name;
+                        next();
+                    } else {
+                        return next('/');
+                    }
+                })
+                .catch(function (response) {
+                    console.log(response);
+                });
         }
-
-        document.title = to.name;
-        next();
     }
 }
 </script>
@@ -117,6 +124,17 @@ export default {
     font-weight: 600;
 }
 
+.purrchase-link {
+    font-size: 20px;
+    font-family: "Raleway", sans-serif;
+    text-align: center;
+    font-weight: 600;
+}
+
+.purrchase-link a {
+    color: #ffc60b;
+}
+
 .receipt {
     color: black;
     position: relative;
@@ -132,38 +150,38 @@ export default {
     margin-bottom: 15px;
     padding: 0 30px;
     font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
+    font-weight: 700;
     font-size: 40px;
-    color: #00b09b;
+    color: black;
 }
 
 .receipt-subtitle {
     padding: 0 30px;
-    font-family: 'Work Sans', sans-serif;
-    font-weight: 300;
-    font-size: 18px;
+    font-family: "Raleway", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
 }
 
 .receipt-lines {
-    margin-top: 50px;
+    margin-top: 30px;
     padding: 30px;
-    border-top: 1px dashed #dce2d6;
+    border-top: 2px dashed #a5a5a5;
 }
 
 .receipt-line {
     display: flex;
     margin: 20px 0;
     justify-content: space-between;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
 }
 
 .receipt-line-item {
-    font-weight: 300;
+    font-weight: 500;
 }
 
 .receipt-line-price {
-    font-weight: 400;
+    font-weight: 600;
 }
 
 .receipt-total {
@@ -171,17 +189,13 @@ export default {
     margin: 20px 0;
     padding: 30px;
     justify-content: space-between;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: 24px;
-    background-color: #eff7e8;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px;
+    background-color: #dfdfdf;
 }
 
 .receipt-total-item, .receipt-total-price {
-    font-weight: 400;
-}
-
-.receipt-back {
-    text-align: center;
+    font-weight: 700;
 }
 
 </style>

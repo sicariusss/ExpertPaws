@@ -15,6 +15,9 @@ import Course from "../pages/Course";
 import Selling from "../pages/Selling";
 import Payment from "../pages/Payment";
 import Purchase from "../pages/Purchase";
+import MyCourses from "../pages/MyCourses";
+import CourseMain from "../pages/CourseMain";
+import CourseLesson from "../pages/CourseLesson";
 
 export const routes = [
     {
@@ -95,7 +98,17 @@ export const routes = [
     {
         name: 'Мои курсы - Expert Paws',
         path: '/my-courses',
-        component: Purchase
+        component: MyCourses
+    },
+    {
+        name: 'Обучение, Курс - Expert Paws',
+        path: '/course/:slug',
+        component: CourseMain
+    },
+    {
+        name: 'Обучение, Урок - Expert Paws',
+        path: '/course/:slug/lesson/:id',
+        component: CourseLesson
     },
 ];
 

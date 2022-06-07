@@ -97,14 +97,20 @@
         </div>
         <div class="row justify-content-center my-5" v-if="chapters.length">
             <div class="my-3 col-auto">
-                <router-link :to="'/' + course.slug + '/buy'" class="course-price">
+                <router-link :to="!bought ? ('/' + course.slug + '/buy') : ('/course/' + course.slug)"
+                             class="course-price">
                     <div class="course-price-box">
                         <div class="course-box-text">
-                            <div>
-                                Купить курс
+                            <div v-if="bought">
+                                Перейти к обучению
                             </div>
-                            <div>
-                                Цена: {{ course.price }} ₽
+                            <div v-else>
+                                <div>
+                                    Купить курс
+                                </div>
+                                <div>
+                                    Цена: {{ course.price }} ₽
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -122,15 +128,31 @@ export default {
             course: {},
             chapters: {},
             user_id: null,
+            bought: false,
         }
     },
-    beforeCreate() {
+    created() {
         let app = this;
-        axios.get('api/courses/' + this.$route.params.slug)
+        let base_url = window.location.origin;
+
+        if (window.Laravel.authenticated) {
+            this.user_id = window.Laravel.auth_id ?? null
+
+            axios.get(base_url + '/api/user/courses/' + this.user_id)
+                .then(function (response) {
+                    if (response.data.user_courses.find(x => x.slug === app.$route.params.slug) !== undefined) {
+                        app.bought = true;
+                    }
+                })
+                .catch(function (response) {
+                    console.log(response);
+                });
+        }
+
+        axios.get(base_url + '/api/courses/' + this.$route.params.slug)
             .then(function (response) {
                 app.course = response.data.course;
-                document.title = 'Курс "' + app.course.title + '" - Expert Paws';
-                axios.get('api/chapters/' + app.course.id)
+                axios.get(base_url + '/api/chapters/' + app.course.id)
                     .then(function (response) {
                         app.chapters = response.data.chapters;
                     })
@@ -142,13 +164,15 @@ export default {
                 console.log(response);
             });
     },
-    created() {
-        if (window.Laravel.authenticated) {
-            this.user_id = window.Laravel.auth_id ?? null
-        }
-    },
     beforeRouteEnter(to, from, next) {
-        document.title = to.name;
+        let base_url = window.location.origin;
+        axios.get(base_url + '/api/courses/' + to.params.slug)
+            .then(function (response) {
+                document.title = 'Курс "' + response.data.course.title + '" - Expert Paws';
+            })
+            .catch(function (response) {
+                console.log(response);
+            });
         next();
     }
 }
@@ -272,6 +296,7 @@ export default {
     font-weight: 700;
     text-decoration: none;
     transition: ease-in-out 0.3s;
+    text-align: center;
 }
 
 .course-price:hover {
@@ -328,6 +353,10 @@ export default {
     .props-col-1 {
         border-right: none;
         border-bottom: 2px solid #ffc60b;
+    }
+
+    .course-price {
+        font-size: 20px;
     }
 }
 

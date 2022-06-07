@@ -44,10 +44,9 @@
                     </div>
                     <div class="form-group row justify-content-center mt-5">
                         <div class="col-auto">
-                            <router-link class="btn btn-outline-paw px-4 px-lg-5"
-                                         :to="'/' + this.$route.params.slug + '/purrchase'">
+                            <button type="submit" class="btn btn-outline-paw px-5" @click="handleSubmit">
                                 Оплатить
-                            </router-link>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -61,37 +60,74 @@ export default {
     name: "Selling",
     data() {
         return {
-            course: {},
             user_id: null,
             cardnumber: "",
             carddate: "",
             cardname: "",
             cardcode: "",
+            course: {},
         }
     },
     created() {
         if (window.Laravel.authenticated) {
             this.user_id = window.Laravel.auth_id
         }
-    },
-    beforeCreate() {
         let app = this;
         let base_url = window.location.origin;
         axios.get(base_url + '/api/courses/' + this.$route.params.slug)
             .then(function (response) {
                 app.course = response.data.course;
-                document.title = 'Оплата курса "' + app.course.title + '" - Expert Paws';
             })
             .catch(function (response) {
                 console.log(response);
             });
     },
+    methods: {
+        handleSubmit(e) {
+            e.preventDefault()
+            if (!!this.cardnumber && this.carddate.length > 0 && this.cardname.length > 0 && !!this.cardcode) {
+                let app = this;
+                let base_url = window.location.origin;
+                axios.post(base_url + '/api/course/purrchase', {
+                    course_id: this.course.id,
+                    user_id: this.user_id,
+                })
+                    .then(response => {
+                        if (response.data.success) {
+                            app.$router.push('/' + app.$route.params.slug + '/purrchase');
+                        } else {
+                            this.error = response.data.message
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
+            }
+        }
+    },
     beforeRouteEnter(to, from, next) {
         if (!window.Laravel.authenticated) {
-            return next('/');
+            return next('/login');
         }
-        document.title = to.name;
-        next();
+        let base_url = window.location.origin;
+        axios.get(base_url + '/api/courses/' + to.params.slug)
+            .then(function (response) {
+                document.title = 'Оплата курса "' + response.data.course.title + '" - Expert Paws';
+                axios.get(base_url + '/api/chapters/' + response.data.course.id)
+                    .then(function (response) {
+                        if (!(response.data.chapters.length > 0)) {
+                            return next('/');
+                        } else {
+                            next();
+                        }
+                    })
+                    .catch(function (response) {
+                        console.log(response);
+                    });
+            })
+            .catch(function (response) {
+                console.log(response);
+            });
     }
 }
 </script>

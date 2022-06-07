@@ -47,6 +47,8 @@ Route::post('reviews/create', [ReviewController::class, 'form']);
 /** Курсы */
 Route::get('courses', [CourseController::class, 'courses']);
 Route::get('courses/{slug}', [CourseController::class, 'course']);
+Route::get('user/courses/{userId}', [CourseController::class, 'userCourses']);
+Route::post('course/purrchase', [CourseController::class, 'purrchase']);
 /** Главы */
 Route::get('chapters/{courseId}', [ChapterController::class, 'chapters']);
 /** Уроки */

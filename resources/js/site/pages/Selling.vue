@@ -63,7 +63,6 @@ export default {
             name: "",
             patronymic: "",
             email: "",
-            course: {},
             user_id: null,
         }
     },
@@ -73,6 +72,7 @@ export default {
 
             let app = this;
             let base_url = window.location.origin;
+
             axios.get(base_url + '/api/users/' + this.user_id)
                 .then(function (response) {
                     app.user = response.data.user[0];
@@ -85,18 +85,6 @@ export default {
                     console.log(response);
                 });
         }
-    },
-    beforeCreate() {
-        let app = this;
-        let base_url = window.location.origin;
-        axios.get(base_url + '/api/courses/' + this.$route.params.slug)
-            .then(function (response) {
-                app.course = response.data.course;
-                document.title = 'Покупка курса "' + app.course.title + '" - Expert Paws';
-            })
-            .catch(function (response) {
-                console.log(response);
-            });
     },
     methods: {
         handleSubmit(e) {
@@ -125,10 +113,27 @@ export default {
     },
     beforeRouteEnter(to, from, next) {
         if (!window.Laravel.authenticated) {
-            return next('/');
+            return next('/login');
         }
-        document.title = to.name;
-        next();
+        let base_url = window.location.origin;
+        axios.get(base_url + '/api/courses/' + to.params.slug)
+            .then(function (response) {
+                document.title = 'Покупка курса "' + response.data.course.title + '" - Expert Paws';
+                axios.get(base_url + '/api/chapters/' + response.data.course.id)
+                    .then(function (response) {
+                        if (!(response.data.chapters.length > 0)) {
+                            return next('/');
+                        } else {
+                            next();
+                        }
+                    })
+                    .catch(function (response) {
+                        console.log(response);
+                    });
+            })
+            .catch(function (response) {
+                console.log(response);
+            });
     }
 }
 </script>

@@ -45,10 +45,12 @@
                 <div class="user-profile-links mt-3 mt-lg-5">
                     <div class="row justify-content-evenly pt-lg-5">
                         <div class="col-lg-5 mt-3 mt-lg-0">
-                            <div class="user-profile-link-box">
-                                <i class="fa-solid fa-book-open fa-xl"></i>
-                                Мои курсы
-                            </div>
+                            <router-link to="/my-courses">
+                                <div class="user-profile-link-box">
+                                    <i class="fa-solid fa-book-open fa-xl"></i>
+                                    Мои курсы
+                                </div>
+                            </router-link>
                         </div>
                         <div class="col-lg-5 mt-3 mt-lg-0">
                             <router-link to="/callbacks">

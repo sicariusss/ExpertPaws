@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
-
-
-
 /**
  * App\Models\Course
  *
@@ -283,6 +280,11 @@ class Course extends Model
             $coursesList[$course->getKey()] = $course->getTitle();
         }
         return $coursesList;
+    }
+
+    public function getFirstLesson(int $courseId): int
+    {
+        return 123;
     }
 
 
