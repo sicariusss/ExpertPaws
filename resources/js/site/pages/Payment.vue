@@ -44,9 +44,10 @@
                     </div>
                     <div class="form-group row justify-content-center mt-5">
                         <div class="col-auto">
-                            <button type="submit" class="btn btn-outline-paw px-4 px-lg-5" @click="handleSubmit">
+                            <router-link class="btn btn-outline-paw px-4 px-lg-5"
+                                         :to="'/' + this.$route.params.slug + '/purrchase'">
                                 Оплатить
-                            </button>
+                            </router-link>
                         </div>
                     </div>
                 </form>
@@ -84,14 +85,6 @@ export default {
             .catch(function (response) {
                 console.log(response);
             });
-    },
-    methods: {
-        handleSubmit(e) {
-            e.preventDefault()
-            if (this.cardname.length > 0 && this.cardnumber.length > 0 && this.carddate.length > 0 && this.cardcode.length > 0) {
-                this.$router.push('/about');
-            }
-        }
     },
     beforeRouteEnter(to, from, next) {
         if (!window.Laravel.authenticated) {

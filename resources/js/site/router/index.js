@@ -14,6 +14,7 @@ import PersonalData from "../pages/PersonalData";
 import Course from "../pages/Course";
 import Selling from "../pages/Selling";
 import Payment from "../pages/Payment";
+import Purchase from "../pages/Purchase";
 
 export const routes = [
     {
@@ -85,6 +86,16 @@ export const routes = [
         name: 'Оплата курса - Expert Paws',
         path: '/:slug/payment',
         component: Payment
+    },
+    {
+        name: 'Спасибо за покупку - Expert Paws',
+        path: '/:slug/purrchase',
+        component: Purchase
+    },
+    {
+        name: 'Мои курсы - Expert Paws',
+        path: '/my-courses',
+        component: Purchase
     },
 ];
 
