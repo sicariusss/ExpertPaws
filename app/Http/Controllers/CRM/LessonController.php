@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class LessonController extends Controller
@@ -79,6 +80,7 @@ class LessonController extends Controller
         $lesson->setDescription($data['description']);
         $lesson->setContent($data['content']);
         $lesson->setChapterId($data['chapter_id']);
+        $lesson->setSlug(Str::slug($data['title']));
         $lesson->save();
 
         Log::info('Добавлен урок №' . $lesson->getKey() . ', менеджер: ' . Auth::id());
@@ -131,6 +133,8 @@ class LessonController extends Controller
             'content.required'     => 'Введите контент',
             'chapter_id.required'  => 'Выберите главу, к которой привязать урок',
         ]);
+
+        $data['slug'] = Str::slug($data['title']);
 
         $lesson->update($data);
 

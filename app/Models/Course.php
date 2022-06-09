@@ -282,9 +282,13 @@ class Course extends Model
         return $coursesList;
     }
 
-    public function getFirstLesson(int $courseId): int
+    /**
+     * @param int $courseId
+     * @return int
+     */
+    public static function getFirstLesson(int $courseId): int
     {
-        return 123;
+        return Lesson::firstWhere('chapter_id', Chapter::firstWhere('course_id', $courseId)->getKey())->getKey();
     }
 
 

@@ -17,4 +17,13 @@ class LessonController extends Controller
     {
         return response()->json(['lessons' => Lesson::where('chapter_id', $chapterId)->get()], Response::HTTP_OK);
     }
+
+    /**
+     * @param string $slug
+     * @return Response
+     */
+    public function lesson(string $slug): Response
+    {
+        return response()->json(['lesson' => Lesson::firstWhere('slug', $slug)], Response::HTTP_OK);
+    }
 }

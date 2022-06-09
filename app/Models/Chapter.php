@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
+
 /**
  * App\Models\Chapter
  *
@@ -21,6 +22,7 @@ use Illuminate\Support\Str;
  * @property string $title Название
  * @property int $course_id Курс, которому принадлежит глава
  * @property string $icon Иконка
+ * @property string $slug Ссылка
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -37,6 +39,7 @@ use Illuminate\Support\Str;
  * @method static Builder|Chapter whereDeletedAt($value)
  * @method static Builder|Chapter whereIcon($value)
  * @method static Builder|Chapter whereId($value)
+ * @method static Builder|Chapter whereSlug($value)
  * @method static Builder|Chapter whereTitle($value)
  * @method static Builder|Chapter whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Chapter withTrashed()
@@ -53,6 +56,7 @@ class Chapter extends Model
         'title',
         'course_id',
         'icon',
+        'slug',
     ];
 
     /**
@@ -117,6 +121,22 @@ class Chapter extends Model
     public function setIcon(string $icon): void
     {
         $this->icon = $icon;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     */
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
     }
 
     /**

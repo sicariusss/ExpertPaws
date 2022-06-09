@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ChapterController extends Controller
@@ -76,6 +77,7 @@ class ChapterController extends Controller
         $chapter->setTitle($data['title']);
         $chapter->setCourseId($data['course_id']);
         $chapter->setIcon($this->chapters::uploadIcon($data['icon'], $data['title']));
+        $chapter->setSlug(Str::slug($data['title']));
         $chapter->save();
 
         Log::info('Добавлена глава №' . $chapter->getKey() . ', менеджер: ' . Auth::id());
@@ -129,6 +131,8 @@ class ChapterController extends Controller
         if (isset($data['icon'])) {
             $data['icon'] = $this->chapters::uploadIcon($data['icon'], $data['title']);
         }
+
+        $data['slug'] = Str::slug($data['title']);
 
         $chapter->update($data);
 

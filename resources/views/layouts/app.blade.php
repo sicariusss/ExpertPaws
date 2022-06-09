@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Request;
     <!-- Scripts -->
     <script src="{{ asset('js/crm/crm.js') }}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">

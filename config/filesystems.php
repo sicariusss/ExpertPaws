@@ -42,7 +42,7 @@ return [
             'visibility' => 'public',
         ],
 
-        's3'      => [
+        's3'        => [
             'driver'                  => 's3',
             'key'                     => env('AWS_ACCESS_KEY_ID'),
             'secret'                  => env('AWS_SECRET_ACCESS_KEY'),
@@ -52,13 +52,13 @@ return [
             'endpoint'                => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
-        'users'   => [
+        'users'     => [
             'driver'     => 'local',
             'root'       => public_path('images/photos'),
             'url'        => env('APP_URL'),
             'visibility' => 'public',
         ],
-        'reviews' => [
+        'reviews'   => [
             'driver'     => 'local',
             'root'       => public_path('images/reviews'),
             'url'        => env('APP_URL'),
@@ -70,15 +70,21 @@ return [
             'url'        => env('APP_URL'),
             'visibility' => 'public',
         ],
-        'courses' => [
+        'courses'   => [
             'driver'     => 'local',
             'root'       => public_path('images/courses'),
             'url'        => env('APP_URL'),
             'visibility' => 'public',
         ],
-        'chapters' => [
+        'chapters'  => [
             'driver'     => 'local',
             'root'       => public_path('images/chapters'),
+            'url'        => env('APP_URL'),
+            'visibility' => 'public',
+        ],
+        'lessons'   => [
+            'driver'     => 'local',
+            'root'       => public_path('images/lessons'),
             'url'        => env('APP_URL'),
             'visibility' => 'public',
         ],

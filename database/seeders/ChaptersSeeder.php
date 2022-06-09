@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Chapter;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class ChaptersSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class ChaptersSeeder extends Seeder
             $model->setTitle($chapter['title']);
             $model->setCourseId($chapter['course_id']);
             $model->setIcon($chapter['icon']);
+            $model->setSlug(Str::slug($chapter['title']));
             $model->save();
         }
     }

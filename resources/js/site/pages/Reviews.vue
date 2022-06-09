@@ -10,7 +10,7 @@
                 Отзывы
             </div>
         </div>
-        <div class="mt-5">
+        <div class="mt-5" v-if="reviews.length > 0">
             <Splide :options="textOptions" aria-label="text-reviews">
                 <SplideSlide v-for="review in reviews">
                     <div class="text-slider-item">
@@ -30,7 +30,7 @@
                 </SplideSlide>
             </Splide>
         </div>
-        <div class="my-5">
+        <div class="my-5" v-if="gallery.length > 0">
             <div class="row justify-content-center">
                 <div class="col-lg-3 gallery-item mb-4" v-for="item in gallery">
                     <img class="gallery-item-image" alt="review-image" :src="item.image"

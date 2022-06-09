@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-
 /**
  * App\Models\Lesson
  *
@@ -17,10 +16,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $title Название урока
  * @property string $description Описание
  * @property string $content Содержимое
+ * @property int $chapter_id Глава, которой принадлежит урок
+ * @property string $slug Ссылка
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property int $chapter_id Глава, которой принадлежит урок
  * @property-read \App\Models\Chapter $chapter
  * @method static Builder|Lesson filter(array $frd)
  * @method static Builder|Lesson newModelQuery()
@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static Builder|Lesson whereDeletedAt($value)
  * @method static Builder|Lesson whereDescription($value)
  * @method static Builder|Lesson whereId($value)
+ * @method static Builder|Lesson whereSlug($value)
  * @method static Builder|Lesson whereTitle($value)
  * @method static Builder|Lesson whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Lesson withTrashed()
@@ -50,6 +51,7 @@ class Lesson extends Model
         'description',
         'content',
         'chapter_id',
+        'slug',
     ];
 
     /**
@@ -130,6 +132,22 @@ class Lesson extends Model
     public function getChapter(): Chapter
     {
         return $this->chapter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     */
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
     }
 
     /**

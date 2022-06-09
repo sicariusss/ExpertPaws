@@ -178,5 +178,18 @@ class Progress extends Model
         return $this->updated_at;
     }
 
+    /**
+     * @param int $userId
+     * @param int $courseId
+     * @return array
+     */
+    public static function getLastProgress(int $userId, int $courseId): array
+    {
+        /** @var $lastProgress self */
+        $lastProgress      = Progress::where('user_id', $userId)->where('course_id', $courseId)->orderBy('created_at', 'desc')->first();
+        $lastProgressTitle = $lastProgress->getLesson()->getChapter()->getTitle() . ', ' . $lastProgress->getLesson()->getTitle();
+        return ['last_model' => $lastProgress, 'last_str' => $lastProgressTitle];
+    }
+
 
 }

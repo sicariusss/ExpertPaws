@@ -4,11 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Progress;
 use App\Models\UserCourse;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CourseController extends Controller
@@ -45,6 +47,13 @@ class CourseController extends Controller
                 'course_id' => $data['course_id'],
             ]);
             $purrchase->save();
+
+            $progress = new Progress();
+            $progress->setProgress(0);
+            $progress->setUserId($data['user_id'] ?? Auth::id());
+            $progress->setCourseId($data['course_id']);
+            $progress->setLessonId(Course::getFirstLesson($data['course_id']));
+            $progress->save();
 
             $success = true;
             $message = 'Курс приобретен';

@@ -107,7 +107,7 @@ export const routes = [
     },
     {
         name: 'Обучение, Урок - Expert Paws',
-        path: '/course/:slug/lesson/:id',
+        path: '/course/:courseSlug/:chapterSlug/:lessonSlug',
         component: CourseLesson
     },
 ];

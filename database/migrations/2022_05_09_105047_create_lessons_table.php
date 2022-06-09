@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('title')->comment('Название урока');
             $table->text('description')->comment('Описание');
             $table->text('content')->comment('Содержимое');
+            $table->string('slug')->comment('Ссылка');
             $table->timestamps();
             $table->softDeletes();
         });

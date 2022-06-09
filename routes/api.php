@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CallbackController;
 use App\Http\Controllers\API\ChapterController;
 use App\Http\Controllers\API\CourseController;
 use App\Http\Controllers\API\LessonController;
+use App\Http\Controllers\API\ProgressController;
 use App\Http\Controllers\API\ReviewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
@@ -51,5 +52,9 @@ Route::get('user/courses/{userId}', [CourseController::class, 'userCourses']);
 Route::post('course/purrchase', [CourseController::class, 'purrchase']);
 /** Главы */
 Route::get('chapters/{courseId}', [ChapterController::class, 'chapters']);
+Route::get('chapter/{chapterId}', [ChapterController::class, 'chapter']);
 /** Уроки */
 Route::get('lessons/{chapterId}', [LessonController::class, 'lessons']);
+Route::get('lesson/{slug}', [LessonController::class, 'lesson']);
+/** Прогресс */
+Route::get('progresses/{courseId}/{userId}', [ProgressController::class, 'progresses']);

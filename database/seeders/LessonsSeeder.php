@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Lesson;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class LessonsSeeder extends Seeder
 {
@@ -21,6 +22,7 @@ class LessonsSeeder extends Seeder
             $model->setDescription($lesson['description']);
             $model->setContent($lesson['content']);
             $model->setChapterId($lesson['chapter_id']);
+            $model->setSlug(Str::slug($lesson['title']));
             $model->save();
         }
     }

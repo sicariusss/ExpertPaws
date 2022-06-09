@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('title')->comment('Название');
             $table->unsignedBigInteger('course_id')->comment('Курс, которому принадлежит глава');
             $table->string('icon')->comment('Иконка');
+            $table->string('slug')->comment('Ссылка');
             $table->timestamps();
             $table->softDeletes();
 
