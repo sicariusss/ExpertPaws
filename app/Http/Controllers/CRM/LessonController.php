@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\CRM;
 
 use App\Http\Controllers\Controller;
+use App\Models\Answer;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\Question;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -83,6 +85,29 @@ class LessonController extends Controller
         $lesson->setSlug(Str::slug($data['title']));
         $lesson->save();
 
+        /**
+         * @var Question $question
+         */
+        for ($i = 0; $i < 5; $i++) {
+            $question = new Question();
+            $question->setContent($data['questions'][$i + 1]);
+            $question->setLessonId($lesson->getKey());
+            $question->save();
+        }
+
+        /**
+         * @var Answer $answer
+         */
+        for ($i = 0; $i < 5; $i++) {
+            for ($j = 0; $j < 5; $j++) {
+                $answer = new Answer();
+                $answer->setContent($data['answers'][$i + 1][$j + 1]);
+                $answer->setCorrect($data['correct'][$i + 1] === $j + 1);
+                $answer->setQuestionId($question->getKey());
+                $answer->save();
+            }
+        }
+
         Log::info('Добавлен урок №' . $lesson->getKey() . ', менеджер: ' . Auth::id());
 
         return redirect()->route('crm.lessons.show', $lesson);
@@ -134,9 +159,32 @@ class LessonController extends Controller
             'chapter_id.required'  => 'Выберите главу, к которой привязать урок',
         ]);
 
-        $data['slug'] = Str::slug($data['title']);
 
-        $lesson->update($data);
+        $lesson->setTitle($data['title']);
+        $lesson->setDescription($data['description']);
+        $lesson->setContent($data['content']);
+        $lesson->setChapterId($data['chapter_id']);
+        $lesson->setSlug(Str::slug($data['title']));
+        $lesson->save();
+
+        /**
+         * @var Question $question
+         */
+        foreach ($lesson->getQuestions() as $key => $question) {
+            $question->setContent($data['questions'][$key + 1]);
+            $question->save();
+        }
+
+        /**
+         * @var Answer $answer
+         */
+        foreach ($lesson->getQuestions() as $key => $question) {
+            foreach ($question->getAnswers() as $index => $answer) {
+                $answer->setContent($data['answers'][$key + 1][$index + 1]);
+                $answer->setCorrect($data['correct'][$key + 1] === $index + 1);
+                $answer->save();
+            }
+        }
 
         Log::info('Изменен урок №' . $lesson->getKey() . ', менеджер: ' . Auth::id());
 
