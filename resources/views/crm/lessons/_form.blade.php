@@ -75,7 +75,7 @@
         ])
                     </div>
                     @foreach($question->getAnswers() as $index => $answer)
-                        <div class="row">
+                        <div class="row align-items-center">
                             <div class="col-lg-1 pb-2">
                                 <label style="width: 65px" class="mx-3"
                                        for="{{'answers[' . $index+1 . ']'}}">{{'Ответ '. $index+1}}</label>

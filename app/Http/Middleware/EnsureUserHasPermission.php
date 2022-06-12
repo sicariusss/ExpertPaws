@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Role;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EnsureUserHasPermission
 {
@@ -15,10 +16,15 @@ class EnsureUserHasPermission
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user()->getRoleId() === Role::USER) {
-            return redirect('/');
+        if (!Auth::check()) {
+            return redirect('/login');
+        } else {
+            $role = $request->user()->getRoleId();
+            if ($role === Role::ADMIN || $role === Role::DEVELOPER || $role === Role::MANAGER) {
+                return $next($request);
+            } else {
+                return redirect('/');
+            }
         }
-
-        return $next($request);
     }
 }
