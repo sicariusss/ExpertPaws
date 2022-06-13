@@ -65,17 +65,6 @@ use Illuminate\Support\Facades\Auth;
                         </a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" type="button" id="resourcesDropdown" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Ресурсы
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="resourcesDropdown">
-                        <a href="{{route('crm.images.index')}}" class="dropdown-item">
-                            Изображения
-                        </a>
-                    </div>
-                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->

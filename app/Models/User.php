@@ -332,8 +332,8 @@ class User extends Authenticatable
             $result = $this->getName();
         } else {
             $result = trim(($this->getSurname() ? $this->getSurname() . ' ' : '')
-                . ($this->getName() ? substr($this->getName(), 0, 1) . '. ' : '')
-                . ($this->getPatronymic() ? substr($this->getPatronymic(), 0, 1) . '.' : ''));
+                . ($this->getName() ? substr($this->getName(), 0, 2) . '. ' : '')
+                . ($this->getPatronymic() ? substr($this->getPatronymic(), 0, 2) . '.' : ''));
         }
         return $result;
     }
