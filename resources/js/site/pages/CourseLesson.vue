@@ -16,6 +16,34 @@
         <div class="my-4 lesson-content">
             {{ lesson.content }}
         </div>
+        <div class="row py-4">
+            <div class="lesson-title-questions">
+                Контрольные вопросы
+            </div>
+            <div class="row my-3" v-for="question in questions">
+                <div class="question-content">
+                    Вопрос: {{ question.content }}
+                </div>
+                <div class="row" v-for="answer in question.answers">
+                    <div class="col-auto px-3 px-lg-5">
+                        <div class="form-check d-flex align-items-center">
+                            <input class="form-check-input" type="radio" :name="'radio-' + question.id"
+                                   :id="'radio-' + answer.id">
+                            <label class="form-check-label answer-content mx-3" :for="'radio-' + answer.id">
+                                {{ answer.content }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-paw px-5" @click="handleSubmit">
+                        Проверить
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -25,8 +53,10 @@ export default {
     data() {
         return {
             user_id: null,
+            course_id: null,
             chapter_title: "",
             lesson: {},
+            questions: {},
         }
     },
     created() {
@@ -43,6 +73,15 @@ export default {
                 axios.get(base_url + '/api/chapter/' + app.lesson.chapter_id)
                     .then(function (response) {
                         app.chapter_title = response.data.chapter.title;
+                        app.course_id = response.data.chapter.course_id;
+                    })
+                    .catch(function (response) {
+                        console.log(response);
+                    });
+                axios.get(base_url + '/api/questions/' + app.lesson.id)
+                    .then(function (response) {
+                        app.questions = response.data.questions;
+                        console.log(app.questions);
                     })
                     .catch(function (response) {
                         console.log(response);
@@ -51,6 +90,28 @@ export default {
             .catch(function (response) {
                 console.log(response);
             });
+    },
+    methods: {
+        handleSubmit(e) {
+            e.preventDefault()
+            let app = this;
+            let base_url = window.location.origin;
+            axios.post(base_url + '/api/progress/set', {
+                course_id: app.course_id,
+                user_id: app.user_id,
+                lesson_id: app.lesson.id,
+            })
+                .then(response => {
+                    if (response.data.success) {
+                        console.error(response);
+                    } else {
+                        this.error = response.data.message
+                    }
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+        }
     },
     beforeRouteEnter(to, from, next) {
         if (!window.Laravel.authenticated) {
@@ -106,7 +167,38 @@ export default {
     font-family: "Raleway", sans-serif;
 }
 
-.lesson-content strong {
+.lesson-content b {
+    color: #ffc60b;
+}
+
+.lesson-title-questions {
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif;
+    color: #fff;
+    transition: ease-in-out 0.3s;
+}
+
+.question-content {
+    font-size: 22px;
+    font-weight: 600;
+    font-family: "Raleway", sans-serif;
+    color: #fff;
+    transition: ease-in-out 0.3s;
+}
+
+.answer-content {
+    font-size: 22px;
+    font-weight: 600;
+    font-family: "Raleway", sans-serif;
+    color: #fff;
+    transition: ease-in-out 0.3s;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.answer-content:hover {
     color: #ffc60b;
 }
 

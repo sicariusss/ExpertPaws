@@ -5,6 +5,7 @@ use App\Http\Controllers\API\ChapterController;
 use App\Http\Controllers\API\CourseController;
 use App\Http\Controllers\API\LessonController;
 use App\Http\Controllers\API\ProgressController;
+use App\Http\Controllers\API\QuestionController;
 use App\Http\Controllers\API\ReviewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
@@ -58,3 +59,6 @@ Route::get('lessons/{chapterId}', [LessonController::class, 'lessons']);
 Route::get('lesson/{slug}', [LessonController::class, 'lesson']);
 /** Прогресс */
 Route::get('progresses/{courseId}/{userId}', [ProgressController::class, 'progresses']);
+Route::post('progress/set', [ProgressController::class, 'form']);
+/** Вопросы */
+Route::get('questions/{lessonId}', [QuestionController::class, 'questions']);

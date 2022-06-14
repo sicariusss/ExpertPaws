@@ -17,14 +17,34 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $dev = new User();
+        $dev->setSurname('Аллоярова');
+        $dev->setName('Екатерина');
+        $dev->setPatronymic('Борисовна');
+        $dev->setEmail('developer@expertpaws.ru');
+        $dev->setRoleId(Role::DEVELOPER);
+        $dev->setPhoto('/images/photos/photo-admin-default.png?' . Carbon::now());
+        $dev->setPassword(Hash::make('adminadmin'));
+        $dev->save();
+
+        $admin = new User();
+        $admin->setSurname('admin');
+        $admin->setName('admin');
+        $admin->setPatronymic('admin');
+        $admin->setEmail('admin@expertpaws.ru');
+        $admin->setRoleId(Role::ADMIN);
+        $admin->setPhoto('/images/photos/photo-admin-default.png?' . Carbon::now());
+        $admin->setPassword(Hash::make('adminadmin'));
+        $admin->save();
+
         $user = new User();
-        $user->setSurname('admin');
-        $user->setName('admin');
-        $user->setPatronymic('admin');
-        $user->setEmail('admin@expertpaws.ru');
-        $user->setRoleId(Role::ADMIN);
-        $user->setPhoto('/images/photos/photo-admin-default.png?' . Carbon::now());
-        $user->setPassword(Hash::make('adminadmin'));
+        $user->setSurname('user');
+        $user->setName('user');
+        $user->setPatronymic('user');
+        $user->setEmail('user@user.user');
+        $user->setRoleId(Role::USER);
+        $user->setPhoto('/images/photos/default-photo.png?' . Carbon::now());
+        $user->setPassword(Hash::make('useruser'));
         $user->save();
     }
 }
