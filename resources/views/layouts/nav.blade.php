@@ -81,6 +81,9 @@ use Illuminate\Support\Facades\Auth;
                         <a href="{{route('crm.users.show',Auth::user())}}" class="dropdown-item">
                             Профиль
                         </a>
+                        <a href="{{ route('log-viewer::logs.list') }}" class="dropdown-item">
+                            Логи
+                        </a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

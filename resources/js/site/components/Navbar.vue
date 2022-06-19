@@ -83,6 +83,7 @@ export default {
         }
     },
     created() {
+        console.log(this.$route.path)
         if (window.Laravel.authenticated) {
             this.authenticated = true
 
@@ -94,7 +95,7 @@ export default {
             axios.get(base_url + '/api/users/' + this.user_id)
                 .then(function (response) {
                     app.user = response.data.user[0];
-                    app.fullName = app.user.surname + ' ' + app.user.name ?? ''
+                    app.fullName = app.user.name ?? ''
                     app.photo = app.user.photo ?? ''
                     app.role = app.user.role_id ?? ''
 
@@ -231,6 +232,15 @@ export default {
 .navbar-links a:hover:after {
     visibility: visible;
     width: 60%;
+}
+
+.navbar-links a.router-link-active:after {
+    visibility: visible;
+    width: 60%;
+}
+
+.navbar-links a.router-link-active {
+    color: white;
 }
 
 .navbar-links .dropdown-menu a:after {

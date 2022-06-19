@@ -1,0 +1,42 @@
+.badge, .log-actions {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+}
+.log-actions, .log-title {
+    color: #ffc60b;
+}
+thead {
+    border-bottom: 2px solid #ffc60b;
+}
+tr {
+    color: white;
+    border-bottom: 1px solid #ffc60b;
+}
+.card {
+    background: transparent;
+    border: 1px solid #ffc60b;
+}
+.card-header {
+    background: transparent;
+    border-bottom: 1px solid #ffc60b;
+}
+.list-group-item {
+    color: white;
+}
+.list-group-item.active {
+    color: #ffc60b;
+    background-color: transparent;
+    border-color: #ffc60b;
+}
+.list-group-item.active .log-date-num {
+    color: #ffc60b;
+    background-color: transparent;
+    border-color: #ffc60b;
+}
+.list-group-item-action:hover, .list-group-item-action:focus {
+    color: #ffc60b;
+}
+.list-group-item-action:hover > .log-date-num, .list-group-item-action:focus > .log-date-num {
+    color: #ffc60b;
+}

@@ -167,13 +167,30 @@ class LessonController extends Controller
          * @var Question $question
          * @var Answer $answer
          */
-        foreach ($lesson->getQuestions() as $key => $question) {
-            $question->setContent($data['questions'][$key + 1]);
-            $question->save();
-            foreach ($question->getAnswers() as $index => $answer) {
-                $answer->setContent($data['answers'][$key + 1][$index + 1]);
-                $answer->setCorrect(Arr::get($data, 'correct.' . $key + 1) == $index + 1);
-                $answer->save();
+
+        if ($lesson->getQuestions()->isEmpty()) {
+            for ($i = 0; $i < 5; $i++) {
+                $question = new Question();
+                $question->setContent($data['questions'][$i + 1]);
+                $question->setLessonId($lesson->getKey());
+                $question->save();
+                for ($j = 0; $j < 5; $j++) {
+                    $answer = new Answer();
+                    $answer->setContent($data['answers'][$i + 1][$j + 1]);
+                    $answer->setCorrect($data['correct'][$i + 1] == $j + 1);
+                    $answer->setQuestionId($question->getKey());
+                    $answer->save();
+                }
+            }
+        } else {
+            foreach ($lesson->getQuestions() as $key => $question) {
+                $question->setContent($data['questions'][$key + 1]);
+                $question->save();
+                foreach ($question->getAnswers() as $index => $answer) {
+                    $answer->setContent($data['answers'][$key + 1][$index + 1]);
+                    $answer->setCorrect(Arr::get($data, 'correct.' . $key + 1) == $index + 1);
+                    $answer->save();
+                }
             }
         }
 

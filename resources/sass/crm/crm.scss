@@ -8,6 +8,7 @@
 
 @import "navbar";
 @import "home";
+@import "log-viewer";
 
 body {
     font-family: "Open Sans", sans-serif;
@@ -296,4 +297,20 @@ input[type=number] {
 .form-control:focus {
     border-color: #ffc60b;
     box-shadow: 0 0 0 0.25rem #a5800852;
+}
+@media (hover: hover) {
+    ::-webkit-scrollbar-track {
+        background: #030305;
+        border-radius: 0;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
 }

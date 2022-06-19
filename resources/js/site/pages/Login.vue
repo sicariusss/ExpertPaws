@@ -63,7 +63,7 @@ export default {
                         .then(response => {
                             console.log(response.data)
                             if (response.data.success) {
-                                this.$router.go('/')
+                                window.location.href = "/profile"
                             } else {
                                 this.error = response.data.message
                             }

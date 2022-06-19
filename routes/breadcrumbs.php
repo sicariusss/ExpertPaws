@@ -198,3 +198,17 @@ Breadcrumbs::for('crm.chapters.edit', function (BreadcrumbTrail $trail, $chapter
     $trail->parent('crm.chapters.show', $chapter);
     $trail->push('Редактирование', route('crm.chapters.edit', $chapter));
 });
+
+// Логи
+Breadcrumbs::for('log-viewer::logs.list', function (BreadcrumbTrail $trail) {
+    $trail->parent('crm.home');
+    $trail->push('Логи', route('log-viewer::logs.list'));
+});
+Breadcrumbs::for('log-viewer::logs.show', function (BreadcrumbTrail $trail, $date) {
+    $trail->parent('log-viewer::logs.list');
+    $trail->push($date, route('log-viewer::logs.show', $date));
+});
+Breadcrumbs::for('log-viewer::logs.filter', function (BreadcrumbTrail $trail, $date, $level) {
+    $trail->parent('log-viewer::logs.show', $date);
+    $trail->push($level, route('log-viewer::logs.filter', [$date, $level]));
+});
