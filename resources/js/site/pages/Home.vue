@@ -166,7 +166,7 @@
 }
 
 .social-links a:hover {
-    background: #ffc300d1
+    background: rgb(255 195 0 / 82%);
 }
 </style>
 
@@ -180,7 +180,7 @@ export default {
             fullName: '',
             photo: '',
             windowWidth: window.innerWidth,
-            bar: false,
+            bar: false
         }
     },
     created() {
@@ -202,7 +202,7 @@ export default {
                     }
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
         }
     },
@@ -231,7 +231,7 @@ export default {
                         console.error(error);
                     });
             })
-        },
-    },
+        }
+    }
 }
 </script>

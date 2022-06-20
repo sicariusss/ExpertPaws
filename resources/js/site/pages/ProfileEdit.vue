@@ -109,7 +109,7 @@ export default {
                     app.address = app.user.address ?? ''
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
         }
     },
@@ -123,7 +123,7 @@ export default {
                     patronymic: this.patronymic,
                     email: this.email,
                     phone: this.phone,
-                    address: this.address,
+                    address: this.address
                 })
                     .then(response => {
                         if (response.data.success) {
@@ -131,6 +131,7 @@ export default {
                             // TODO: вывод сообщение об успехе
                         } else {
                             this.error = response.data.message
+                            console.error(response);
                         }
                     })
                     .catch(function (error) {
@@ -142,7 +143,7 @@ export default {
             e.preventDefault()
             if (this.password.length > 8) {
                 axios.patch('api/user', {
-                    password: this.password,
+                    password: this.password
                 })
                     .then(response => {
                         if (response.data.success) {
@@ -150,6 +151,7 @@ export default {
                             // TODO: вывод сообщение об успехе
                         } else {
                             this.error = response.data.message
+                            console.error(response);
                         }
                     })
                     .catch(function (error) {

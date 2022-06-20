@@ -22,3 +22,6 @@ mix.webpackConfig({
         children: true
     }
 });
+
+mix.babel(['public/js/site/app.js'], 'public/js/site/newapp.js');
+mix.babel(['public/js/crm/crm.js'], 'public/js/crm/newcrm.js');

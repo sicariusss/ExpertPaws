@@ -46,6 +46,13 @@
                                        autocomplete="off" placeholder="Пароль (обязательно)">
                             </div>
                         </div>
+                        <div class="row justify-content-center mt-lg-3" v-if="reg_error">
+                            <div class="col-lg-6 mt-3 mt-lg-0">
+                                <div class="reg-error-block">
+                                    {{ reg_error }}
+                                </div>
+                            </div>
+                        </div>
                         <div class="personal-data my-4">
                             Нажимая на кнопку, Вы даете согласие на
                             <router-link to="/personal-data">обработку персональных данных</router-link>
@@ -75,6 +82,14 @@
 .personal-data a {
     color: #ffc60b;
 }
+
+.reg-error-block {
+    color: red;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
 </style>
 
 <script>
@@ -86,13 +101,21 @@ export default {
             patronymic: "",
             email: "",
             phone: "",
-            password: ""
+            password: "",
+            reg_error: null
         }
     },
     methods: {
         handleSubmit(e) {
             e.preventDefault()
-            if (this.password.length > 0) {
+            let app = this;
+            if (this.password.length <= 0) {
+                app.reg_error = 'Введите пароль';
+            } else if (this.email.length <= 0) {
+                app.reg_error = 'Введите email';
+            } else if (this.name.length <= 0) {
+                app.reg_error = 'Введите имя';
+            } else {
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     axios.post('api/register', {
                         surname: this.surname,
@@ -100,7 +123,7 @@ export default {
                         patronymic: this.patronymic,
                         email: this.email,
                         phone: this.phone,
-                        password: this.password,
+                        password: this.password
                     })
                         .then(response => {
                             if (response.data.success) {

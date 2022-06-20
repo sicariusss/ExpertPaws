@@ -63,7 +63,7 @@ export default {
             name: "",
             patronymic: "",
             email: "",
-            user_id: null,
+            user_id: null
         }
     },
     created() {
@@ -82,7 +82,7 @@ export default {
                     app.email = app.user.email ?? ''
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
         }
     },
@@ -96,7 +96,7 @@ export default {
                     surname: this.surname,
                     name: this.name,
                     patronymic: this.patronymic,
-                    email: this.email,
+                    email: this.email
                 })
                     .then(response => {
                         if (response.data.success) {
@@ -128,11 +128,11 @@ export default {
                         }
                     })
                     .catch(function (response) {
-                        console.log(response);
+                        console.error(response);
                     });
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
     }
 }

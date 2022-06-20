@@ -79,7 +79,7 @@ export default {
             fullName: '',
             photo: '',
             windowWidth: window.innerWidth,
-            bar: false,
+            bar: false
         }
     },
     created() {
@@ -279,8 +279,8 @@ export default {
     padding: 0.5rem 0;
     font-size: 0.9rem;
     color: white;
-    background-color: #000000e3;
-    border: 1px solid #ffc60b94;
+    background-color: rgb(0 0 0 / 89%);
+    border: 1px solid rgb(255 198 11 / 58%);
     min-width: 8rem;
 }
 

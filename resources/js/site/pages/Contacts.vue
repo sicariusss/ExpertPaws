@@ -85,25 +85,25 @@
                         <div class="form-group row mt-lg-3">
                             <div class="col-lg-6 mt-3 mt-lg-0">
                                 <input type="text" class="form-control" id="name" v-model="name" required
-                                       placeholder="Имя">
+                                       placeholder="Имя (обязательно)">
                             </div>
                             <div class="col-lg-6 mt-3 mt-lg-0">
                                 <input type="text" class="form-control" id="email" v-model="email" required
-                                       placeholder="Email">
+                                       placeholder="Email (обязательно)">
                             </div>
                         </div>
 
                         <div class="form-group row mt-lg-3">
                             <div class="col-12 mt-3 mt-lg-0">
                                 <input type="text" class="form-control" id="subject" v-model="subject" required
-                                       autocomplete="off" placeholder="Тема">
+                                       autocomplete="off" placeholder="Тема (обязательно)">
                             </div>
                         </div>
 
                         <div class="form-group row mt-lg-3">
                             <div class="col-12 mt-3 mt-lg-0">
                             <textarea type="text" class="form-control" id="message" v-model="message" rows="5" required
-                                      autocomplete="off" placeholder="Сообщение"/>
+                                      autocomplete="off" placeholder="Сообщение (обязательно)"/>
                             </div>
                         </div>
 
@@ -116,6 +116,22 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+        <div class="error-block" v-if="errormes" v-on:click="errormes=null">
+            <i class="close-error fa-solid fa-xmark fa-2xl"></i>
+            <div class="error-window">
+                Вы не заполнили поля:
+                <div v-for="(v, k) in errormes" :key="k">
+                    <div v-for="errorm in v" :key="errorm">
+                        {{ errorm }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="success-block" v-if="successmes" v-on:click="successmes=null">
+            <i class="close-success fa-solid fa-xmark fa-2xl"></i>
+            <div v-html="successmes" class="success-window">
             </div>
         </div>
     </div>
@@ -134,8 +150,10 @@ export default {
             email: "",
             subject: "",
             message: "",
+            errormes: null,
+            successmes: null,
             user_id: null,
-            user: {},
+            user: {}
         }
     },
     methods: {
@@ -152,26 +170,25 @@ export default {
         },
         handleSubmit(e) {
             e.preventDefault()
-            if (this.name.length > 0 && this.email.length > 0 && this.subject.length > 0 && this.message.length) {
-                axios.post('api/contacts', {
-                    name: this.name,
-                    email: this.email,
-                    subject: this.subject,
-                    message: this.message,
-                    user_id: this.user_id ?? null,
+            let app = this;
+            axios.post('api/contacts', {
+                name: this.name,
+                email: this.email,
+                subject: this.subject,
+                message: this.message,
+                user_id: this.user_id ?? null
+            })
+                .then(response => {
+                    if (response.data.success) {
+                        app.successmes = 'Обращение оставлено, <br> ответ придет Вам на почту :)'
+                    } else {
+                        console.error(response);
+                        app.errormes = response.data.message
+                    }
                 })
-                    .then(response => {
-                        if (response.data.success) {
-                            console.log(response)
-                            // TODO: вывод сообщение об успехе
-                        } else {
-                            this.error = response.data.message
-                        }
-                    })
-                    .catch(function (error) {
-                        console.error(error);
-                    });
-            }
+                .catch(function (error) {
+                    app.errormes = error.response.data.errors
+                });
         }
     },
     created() {
@@ -186,7 +203,7 @@ export default {
                     app.email = app.user.email ?? ''
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
         }
     },
@@ -200,7 +217,7 @@ export default {
                 app.addresses = response.data.addresses;
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
     },
     beforeRouteEnter(to, from, next) {
@@ -332,5 +349,59 @@ export default {
     color: #fff;
     border: 0;
     box-shadow: none;
+}
+
+.error-block, .success-block {
+    height: 250px;
+    background: rgba(0, 0, 0, 0.9);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    border: 2px solid #ffc60b;
+    cursor: pointer;
+}
+
+.error-block {
+    border: 2px solid red;
+    width: 400px;
+}
+
+.success-block {
+    border: 2px solid green;
+    width: 450px;
+}
+
+.error-window, .success-window {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif;
+}
+
+.close-error, .close-success {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+.close-error {
+    color: red;
+}
+
+.close-success {
+    color: green;
+}
+
+@media (max-width: 450px) {
+    .error-block, .success-block {
+        width: 95vw;
+    }
 }
 </style>

@@ -108,7 +108,7 @@
 }
 
 .course-block-item-props {
-    font-size: 17px;
+    font-size: 18px;
     font-family: "Raleway", sans-serif;
 }
 
@@ -150,7 +150,7 @@ export default {
     data() {
         return {
             user_id: null,
-            courses: {},
+            courses: {}
         }
     },
     created() {
@@ -165,7 +165,7 @@ export default {
                 app.courses = response.data.courses;
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
     },
     beforeRouteEnter(to, from, next) {

@@ -27,7 +27,13 @@
                                        autocomplete="off" placeholder="Пароль">
                             </div>
                         </div>
-
+                        <div class="row justify-content-center mt-lg-3" v-if="login_error">
+                            <div class="col-lg-6 mt-3 mt-lg-0">
+                                <div class="login-error-block">
+                                    {{ login_error }}
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group row justify-content-center mt-lg-4">
                             <div class="col-auto mt-4 mt-lg-0">
                                 <button type="submit" class="btn btn-outline-paw px-5" @click="handleSubmit">
@@ -42,19 +48,35 @@
     </div>
 </template>
 
+<style>
+.login-error-block {
+    color: red;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+</style>
+
 <script>
 export default {
     data() {
         return {
             email: "",
             password: "",
-            error: null
+            error: null,
+            login_error: null
         }
     },
     methods: {
         handleSubmit(e) {
             e.preventDefault()
-            if (this.password.length > 0) {
+            let app = this;
+            if (this.email.length <= 0) {
+                app.login_error = 'Введите email';
+            } else if (this.password.length <= 0) {
+                app.login_error = 'Введите пароль';
+            } else {
                 this.$axios.get('/sanctum/csrf-cookie').then(response => {
                     this.$axios.post('api/login', {
                         email: this.email,
@@ -65,10 +87,11 @@ export default {
                             if (response.data.success) {
                                 window.location.href = "/profile"
                             } else {
-                                this.error = response.data.message
+                                app.login_error = 'Неверный email или пароль';
                             }
                         })
                         .catch(function (error) {
+                            app.login_error = 'Неверный email или пароль';
                             console.error(error);
                         });
                 })

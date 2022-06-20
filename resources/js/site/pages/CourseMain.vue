@@ -57,7 +57,7 @@ export default {
             progresses: {},
             user_id: null,
             last_progress: null,
-            last_str: "",
+            last_str: ""
         }
     },
     created() {
@@ -81,15 +81,15 @@ export default {
                                 app.last_str = response.data.last_progress.last_str;
                             })
                             .catch(function (response) {
-                                console.log(response);
+                                console.error(response);
                             });
                     })
                     .catch(function (response) {
-                        console.log(response);
+                        console.error(response);
                     });
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
     },
     methods: {
@@ -135,7 +135,7 @@ export default {
                                 document.title = response.data.course.title + ' - Expert Paws';
                             })
                             .catch(function (response) {
-                                console.log(response);
+                                console.error(response);
                             });
                         next();
                     } else {
@@ -143,7 +143,7 @@ export default {
                     }
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
         }
     }

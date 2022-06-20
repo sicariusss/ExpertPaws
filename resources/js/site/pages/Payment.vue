@@ -65,7 +65,7 @@ export default {
             carddate: "",
             cardname: "",
             cardcode: "",
-            course: {},
+            course: {}
         }
     },
     created() {
@@ -79,7 +79,7 @@ export default {
                 app.course = response.data.course;
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
     },
     methods: {
@@ -90,13 +90,14 @@ export default {
                 let base_url = window.location.origin;
                 axios.post(base_url + '/api/course/purrchase', {
                     course_id: this.course.id,
-                    user_id: this.user_id,
+                    user_id: this.user_id
                 })
                     .then(response => {
                         if (response.data.success) {
                             app.$router.push('/' + app.$route.params.slug + '/purrchase');
                         } else {
                             this.error = response.data.message
+                            console.error(response);
                         }
                     })
                     .catch(function (error) {
@@ -122,11 +123,11 @@ export default {
                         }
                     })
                     .catch(function (response) {
-                        console.log(response);
+                        console.error(response);
                     });
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
     }
 }

@@ -52,11 +52,10 @@ export default {
             surname: "",
             name: "",
             patronymic: "",
-            email: "",
+            email: ""
         }
     },
     created() {
-
         let app = this;
         let base_url = window.location.origin;
 
@@ -72,7 +71,7 @@ export default {
                     app.email = app.user.email ?? '-'
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
         }
 
@@ -81,7 +80,7 @@ export default {
                 app.course = response.data.course;
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
     },
     beforeRouteEnter(to, from, next) {
@@ -100,7 +99,7 @@ export default {
                     }
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
         }
     }

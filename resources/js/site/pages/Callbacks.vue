@@ -69,7 +69,7 @@ export default {
     data() {
         return {
             user_id: null,
-            callbacks: [],
+            callbacks: []
         }
     },
     created() {
@@ -84,7 +84,7 @@ export default {
                 app.callbacks = response.data.callbacks;
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
     },
     beforeRouteEnter(to, from, next) {

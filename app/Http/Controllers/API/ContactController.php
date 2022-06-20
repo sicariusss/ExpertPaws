@@ -30,10 +30,22 @@ class ContactController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function form(Request $request): JsonResponse
     {
         $data = $request->all();
+        $this->validate($request,[
+            'name'=>'required',
+            'email'=>'required',
+            'subject'=>'required',
+            'message'=>'required',
+        ],[
+            'name.required'=>'Имя',
+            'email.required'=>'Почта',
+            'subject.required'=>'Тема',
+            'message.required'=>'Сообщение',
+        ]);
         try {
             $callback = new Callback();
             $callback->setName($data['name']);

@@ -38,7 +38,7 @@ export default {
     data() {
         return {
             user_id: null,
-            user_courses: {},
+            user_courses: {}
         }
     },
     created() {
@@ -52,7 +52,7 @@ export default {
                     app.user_courses = response.data.user_courses;
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
         }
     },

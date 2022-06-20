@@ -42,6 +42,9 @@
                         Проверить
                     </button>
                 </div>
+                <div class="result-message col-auto mt-3 mt-lg-0 mx-0 mx-lg-3">
+                    {{result}}
+                </div>
             </div>
         </div>
     </div>
@@ -56,7 +59,8 @@ export default {
             course_id: null,
             chapter_title: "",
             lesson: {},
-            questions: {},
+            result: null,
+            questions: {}
         }
     },
     created() {
@@ -76,19 +80,18 @@ export default {
                         app.course_id = response.data.chapter.course_id;
                     })
                     .catch(function (response) {
-                        console.log(response);
+                        console.error(response);
                     });
                 axios.get(base_url + '/api/questions/' + app.lesson.id)
                     .then(function (response) {
                         app.questions = response.data.questions;
-                        console.log(app.questions);
                     })
                     .catch(function (response) {
-                        console.log(response);
+                        console.error(response);
                     });
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
     },
     methods: {
@@ -99,13 +102,13 @@ export default {
             axios.post(base_url + '/api/progress/set', {
                 course_id: app.course_id,
                 user_id: app.user_id,
-                lesson_id: app.lesson.id,
+                lesson_id: app.lesson.id
             })
                 .then(response => {
                     if (response.data.success) {
-                        console.error(response);
+                        app.result = 'Вы ответили правильно на все вопросы :)'
                     } else {
-                        this.error = response.data.message
+                        console.error(response);
                     }
                 })
                 .catch(function (error) {
@@ -127,7 +130,7 @@ export default {
                                 document.title = response.data.lesson.title + ' - Expert Paws';
                             })
                             .catch(function (response) {
-                                console.log(response);
+                                console.error(response);
                             });
                         next();
                     } else {
@@ -135,7 +138,7 @@ export default {
                     }
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
         }
     }
@@ -148,7 +151,7 @@ export default {
     font-weight: 700;
     text-transform: uppercase;
     font-family: "Montserrat", sans-serif;
-    color: #ffffffcf;
+    color: rgb(255 255 255 / 81%);
     transition: ease-in-out 0.3s;
 }
 
@@ -200,6 +203,13 @@ export default {
 
 .answer-content:hover {
     color: #ffc60b;
+}
+
+.result-message {
+    font-size: 24px;
+    font-weight: 700;
+    font-family: "Montserrat", sans-serif;
+    color: #76f700;
 }
 
 @media (max-width: 500px) {

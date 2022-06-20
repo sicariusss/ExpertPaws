@@ -26,6 +26,7 @@
 <body>
 <div id="app">
 </div>
-<script src="{{ mix('js/site/app.js') }}" type="text/javascript"></script>
+{{--<script src="{{ mix('js/site/app.js') }}" type="text/javascript"></script>--}}
+<script src="{{ mix('js/site/newapp.js') }}" type="text/javascript"></script>
 </body>
 </html>

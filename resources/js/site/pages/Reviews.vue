@@ -103,7 +103,13 @@
                                 </label>
                             </div>
                         </div>
-
+                        <div class="row justify-content-center mt-lg-3" v-if="errorrev">
+                            <div class="col-lg-6 mt-3 mt-lg-0">
+                                <div class="review-error-block">
+                                    {{ errorrev }}
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group row justify-content-center mt-lg-4">
                             <div class="col-auto mt-4 mt-lg-0">
                                 <button type="submit" class="btn btn-outline-paw px-5" @click="handleSubmit">
@@ -121,6 +127,11 @@
                 </div>
             </div>
         </div>
+        <div class="success-review-block" v-if="successrev" v-on:click="successrev=null">
+            <i class="close-review-success fa-solid fa-xmark fa-2xl"></i>
+            <div v-html="successrev" class="success-review-window">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -133,7 +144,7 @@ export default {
     name: "Reviews",
     components: {
         Splide,
-        SplideSlide,
+        SplideSlide
     },
     data() {
         return {
@@ -144,7 +155,9 @@ export default {
             file: "",
             description: "",
             anon: null,
-            authenticated: false,
+            successrev: null,
+            errorrev: null,
+            authenticated: false
         }
     },
     setup() {
@@ -162,10 +175,9 @@ export default {
                 },
                 767: {
                     perPage: 1,
-                },
+                }
             }
         };
-
         return {textOptions};
     },
     created() {
@@ -181,27 +193,32 @@ export default {
         },
         handleSubmit(e) {
             e.preventDefault()
+            let app = this;
             if (!window.Laravel.authenticated) {
                 window.location.href = "/login";
             } else {
-                let formData = new FormData();
-                formData.append('image', this.file)
-                formData.append('description', this.description)
-                formData.append('user_id', this.user_id)
-                formData.append('anon', this.anon ?? 'false')
+                if (app.description.length <= 0) {
+                    app.errorrev = 'Введите отзыв';
+                } else {
+                    let formData = new FormData();
+                    formData.append('image', this.file)
+                    formData.append('description', this.description)
+                    formData.append('user_id', this.user_id)
+                    formData.append('anon', this.anon ?? 'false')
 
-                axios.post('api/reviews/create', formData)
-                    .then(response => {
-                        if (response.data.success) {
-                            console.log(response)
-                            // TODO: вывод сообщение об успехе
-                        } else {
-                            this.error = response.data.message
-                        }
-                    })
-                    .catch(function (error) {
-                        console.error(error);
-                    });
+                    axios.post('api/reviews/create', formData)
+                        .then(response => {
+                            if (response.data.success) {
+                                app.successrev = 'Отзыв отправлен, <br> он будет опубликован после проверки :)';
+                                app.errorrev = null;
+                            } else {
+                                this.error = response.data.message
+                            }
+                        })
+                        .catch(function (error) {
+                            console.error(error);
+                        });
+                }
             }
         }
     },
@@ -212,14 +229,14 @@ export default {
                 app.reviews = response.data.reviews;
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
         axios.get('api/gallery')
             .then(function (response) {
                 app.gallery = response.data.gallery;
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
     },
     beforeRouteEnter(to, from, next) {
@@ -437,6 +454,52 @@ input[type=file]:hover::file-selector-button {
     color: #fff;
     font-family: "Raleway", sans-serif;
     width: 50%;
+}
+
+.review-error-block {
+    color: red;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.success-review-block {
+    height: 250px;
+    background: rgba(0, 0, 0, 0.9);
+    position: absolute;
+    left: 50%;
+    bottom: 5%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    border: 2px solid #ffc60b;
+    cursor: pointer;
+    width: 450px;
+}
+
+.success-review-window {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif;
+}
+
+.close-review-success {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #ffc60b;
+}
+
+@media (max-width: 450px) {
+    .success-review-block {
+        width: 95vw;
+    }
 }
 
 @media (max-width: 1400px) {

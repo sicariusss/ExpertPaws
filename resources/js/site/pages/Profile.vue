@@ -81,7 +81,7 @@ export default {
             role: '',
             email: '',
             phone: '',
-            address: '',
+            address: ''
         }
     },
     created() {
@@ -105,7 +105,7 @@ export default {
                     app.address = app.user.address ?? '-'
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
         }
     },
@@ -177,7 +177,7 @@ export default {
 
 .user-profile-link-box svg {
     padding-right: 20px;
-    color: #ffc60bdb;
+    color: rgb(255 198 11 / 86%);
 }
 
 .user-profile-link-box::before {

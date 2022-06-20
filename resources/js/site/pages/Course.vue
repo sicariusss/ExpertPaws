@@ -128,7 +128,7 @@ export default {
             course: {},
             chapters: {},
             user_id: null,
-            bought: false,
+            bought: false
         }
     },
     created() {
@@ -145,7 +145,7 @@ export default {
                     }
                 })
                 .catch(function (response) {
-                    console.log(response);
+                    console.error(response);
                 });
         }
 
@@ -157,11 +157,11 @@ export default {
                         app.chapters = response.data.chapters;
                     })
                     .catch(function (response) {
-                        console.log(response);
+                        console.error(response);
                     });
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
     },
     beforeRouteEnter(to, from, next) {
@@ -171,7 +171,7 @@ export default {
                 document.title = 'Курс "' + response.data.course.title + '" - Expert Paws';
             })
             .catch(function (response) {
-                console.log(response);
+                console.error(response);
             });
         next();
     }

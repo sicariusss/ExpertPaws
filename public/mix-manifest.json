@@ -2,5 +2,7 @@
     "/js/site/app.js": "/js/site/app.js",
     "/js/crm/crm.js": "/js/crm/crm.js",
     "/css/crm/crm.css": "/css/crm/crm.css",
-    "/css/site/app.css": "/css/site/app.css"
+    "/css/site/app.css": "/css/site/app.css",
+    "/js/site/newapp.js": "/js/site/newapp.js",
+    "/js/crm/newcrm.js": "/js/crm/newcrm.js"
 }
