@@ -18,49 +18,60 @@ use Illuminate\Support\Facades\Auth;
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" type="button" id="usersDropdown" data-bs-toggle="dropdown"
+                    <a class="nav-link dropdown-toggle {{ Route::is('crm.users.index') || Route::is('crm.roles.index') ? 'active' : '' }}"
+                       type="button" id="usersDropdown" data-bs-toggle="dropdown"
                        aria-expanded="false">
                         Пользователи
                     </a>
                     <div class="dropdown-menu" aria-labelledby="usersDropdown">
-                        <a href="{{route('crm.users.index')}}" class="dropdown-item">
+                        <a href="{{route('crm.users.index')}}"
+                           class="dropdown-item {{ Route::is('crm.users.index') ? 'active' : '' }}">
                             Пользователи
                         </a>
-                        <a href="{{route('crm.roles.index')}}" class="dropdown-item">
+                        <a href="{{route('crm.roles.index')}}"
+                           class="dropdown-item {{ Route::is('crm.roles.index') ? 'active' : '' }}">
                             Роли
                         </a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" type="button" id="coursesDropdown" data-bs-toggle="dropdown"
+                    <a class="nav-link dropdown-toggle {{ Route::is('crm.courses.index') || Route::is('crm.chapters.index') || Route::is('crm.lessons.index') ? 'active' : '' }}"
+                       type="button" id="coursesDropdown" data-bs-toggle="dropdown"
                        aria-expanded="false">
                         Обучение
                     </a>
                     <div class="dropdown-menu" aria-labelledby="coursesDropdown">
-                        <a href="{{route('crm.courses.index')}}" class="dropdown-item">
+                        <a href="{{route('crm.courses.index')}}"
+                           class="dropdown-item {{ Route::is('crm.courses.index') ? 'active' : '' }}">
                             Курсы
                         </a>
-                        <a href="{{route('crm.chapters.index')}}" class="dropdown-item">
+                        <a href="{{route('crm.chapters.index')}}"
+                           class="dropdown-item {{ Route::is('crm.chapters.index') ? 'active' : '' }}">
                             Главы
                         </a>
-                        <a href="{{route('crm.lessons.index')}}" class="dropdown-item">
+                        <a href="{{route('crm.lessons.index')}}"
+                           class="dropdown-item {{ Route::is('crm.lessons.index') ? 'active' : '' }}">
                             Уроки
                         </a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('crm.contacts.index') }}">Контакты</a>
+                    <a class="nav-link {{ Route::is('crm.contacts.index') ? 'active' : '' }}"
+                       href="{{ route('crm.contacts.index') }}">Контакты</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" type="button" id="callbackDropdown" data-bs-toggle="dropdown"
+                    <a class="nav-link dropdown-toggle {{ Route::is('crm.callbacks.index') || Route::is('crm.reviews.index') ? 'active' : '' }}"
+                       type="button" id="callbackDropdown" data-bs-toggle="dropdown"
                        aria-expanded="false">
                         Обратная связь
                     </a>
                     <div class="dropdown-menu" aria-labelledby="callbackDropdown">
-                        <a href="{{route('crm.callbacks.index')}}" class="dropdown-item">
+                        <a href="{{route('crm.callbacks.index')}}"
+                           class="dropdown-item {{ Route::is('crm.callbacks.index') ? 'active' : '' }}">
                             Обращения
                         </a>
-                        <a href="{{route('crm.reviews.index')}}" class="dropdown-item">
+                        <a href="{{route('crm.reviews.index')}}"
+                           class="dropdown-item {{ Route::is('crm.reviews.index') ? 'active' : '' }}">
                             Отзывы
                         </a>
                     </div>

@@ -77,3 +77,13 @@
     visibility: visible;
     width: 60%;
 }
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #ffc60b !important;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.navbar-dark .navbar-nav .show > .nav-link, .navbar-dark .navbar-nav .nav-link.active {
+    color: #ffc60b !important;
+}

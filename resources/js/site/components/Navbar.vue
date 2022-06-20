@@ -222,7 +222,7 @@ export default {
     position: absolute;
     width: 0;
     height: 2px;
-    bottom: -5px;
+    bottom: -3px;
     left: 7px;
     background-color: #ffc60b;
     visibility: hidden;
@@ -261,6 +261,15 @@ export default {
     width: 30%;
 }
 
+.navbar-links .dropdown-menu a.router-link-active:after {
+    visibility: visible;
+    width: 60%;
+}
+
+.navbar-links .dropdown-menu a.router-link-active {
+    color: white;
+}
+
 .btn-check:focus + .btn, .btn:focus {
     outline: 0;
     box-shadow: none;
@@ -270,7 +279,7 @@ export default {
     padding: 0.5rem 0;
     font-size: 0.9rem;
     color: white;
-    background-color: transparent;
+    background-color: #000000e3;
     border: 1px solid #ffc60b94;
     min-width: 8rem;
 }
