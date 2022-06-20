@@ -13,10 +13,12 @@
         </div>
         <div class="col-auto px-4 px-lg-0 pt-3 pt-lg-0">
             <div class="btn-group" role="group">
+                @if(Auth::user()->getRoleId() === \App\Models\Role::DEVELOPER || Auth::user()->getRoleId() === \App\Models\Role::ADMIN)
                 <button form="delete-{{$callback->getKey()}}" title="Удалить" class="btn btn-outline-danger"
                         onclick="return confirm('Подтвердите удаление обращения №{{$callback->getKey()}}')">
                     Удалить <i class="far fa-trash-alt"></i>
                 </button>
+                @endif
             </div>
         </div>
     </div>

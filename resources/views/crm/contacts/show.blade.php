@@ -17,10 +17,12 @@
                    class="btn btn-outline-success">
                     Редактировать <i class="far fa-edit"></i>
                 </a>
+                @if(Auth::user()->getRoleId() === \App\Models\Role::DEVELOPER || Auth::user()->getRoleId() === \App\Models\Role::ADMIN)
                 <button form="delete-{{$contact->getKey()}}" title="Удалить" class="btn btn-outline-danger"
                         onclick="return confirm('Подтвердите удаление контакта{{' "' . $contact->getTitle() . '"'}}')">
                     Удалить <i class="far fa-trash-alt"></i>
                 </button>
+                @endif
             </div>
         </div>
     </div>

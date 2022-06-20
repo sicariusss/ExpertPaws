@@ -78,11 +78,13 @@
                        class="btn btn-outline-success action-btn">
                         <i class="far fa-edit"></i>
                     </a>
+                    @if(Auth::user()->getRoleId() === \App\Models\Role::DEVELOPER || Auth::user()->getRoleId() === \App\Models\Role::ADMIN)
                     <button form="delete-{{$contact->getKey()}}" title="Удалить"
                             class="btn btn-outline-danger action-btn"
                             onclick="return confirm('Подтвердите удаление контакта{{' "' . $contact->getTitle() . '"'}}')">
                         <i class="far fa-trash-alt"></i>
                     </button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -110,11 +112,13 @@
                        class="btn btn-outline-success action-btn">
                         <i class="far fa-edit"></i>
                     </a>
+                    @if(Auth::user()->getRoleId() === \App\Models\Role::DEVELOPER || Auth::user()->getRoleId() === \App\Models\Role::ADMIN)
                     <button form="delete-{{$contact->getKey()}}" title="Удалить"
                             class="btn btn-outline-danger action-btn"
                             onclick="return confirm('Подтвердите удаление контакта{{' "' . $contact->getTitle() . '"'}}')">
                         <i class="far fa-trash-alt"></i>
                     </button>
+                    @endif
                 </div>
             </div>
         </div>

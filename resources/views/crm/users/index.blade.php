@@ -79,11 +79,13 @@
                        class="btn btn-outline-success action-btn">
                         <i class="far fa-edit"></i>
                     </a>
-                    <button form="delete-{{$user->getKey()}}" title="Удалить"
-                            class="btn btn-outline-danger action-btn"
-                            onclick="return confirm('Подтвердите удаление пользователя{{' "' . $user->getName() . '"'}}')">
-                        <i class="far fa-trash-alt"></i>
-                    </button>
+                    @if(Auth::user()->getRoleId() === \App\Models\Role::DEVELOPER || Auth::user()->getRoleId() === \App\Models\Role::ADMIN)
+                        <button form="delete-{{$user->getKey()}}" title="Удалить"
+                                class="btn btn-outline-danger action-btn"
+                                onclick="return confirm('Подтвердите удаление пользователя{{' "' . $user->getName() . '"'}}')">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -111,11 +113,13 @@
                        class="btn btn-outline-success action-btn">
                         <i class="far fa-edit"></i>
                     </a>
-                    <button form="delete-{{$user->getKey()}}" title="Удалить"
-                            class="btn btn-outline-danger action-btn"
-                            onclick="return confirm('Подтвердите удаление пользователя{{' "' . $user->getShortName() . '"'}}')">
-                        <i class="far fa-trash-alt"></i>
-                    </button>
+                    @if(Auth::user()->getRoleId() === \App\Models\Role::DEVELOPER || Auth::user()->getRoleId() === \App\Models\Role::ADMIN)
+                        <button form="delete-{{$user->getKey()}}" title="Удалить"
+                                class="btn btn-outline-danger action-btn"
+                                onclick="return confirm('Подтвердите удаление пользователя{{' "' . $user->getShortName() . '"'}}')">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>

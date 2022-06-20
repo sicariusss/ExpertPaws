@@ -70,11 +70,13 @@
                        class="btn btn-outline-primary action-btn">
                         <i class="fa-regular fa-comment-dots"></i>
                     </a>
+                    @if(Auth::user()->getRoleId() === \App\Models\Role::DEVELOPER || Auth::user()->getRoleId() === \App\Models\Role::ADMIN)
                     <button form="delete-{{$callback->getKey()}}" title="Удалить"
                             class="btn btn-outline-danger action-btn"
                             onclick="return confirm('Подтвердите удаление обращения №{{$callback->getKey()}}')">
                         <i class="far fa-trash-alt"></i>
                     </button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -98,11 +100,13 @@
                        class="btn btn-outline-primary action-btn">
                         <i class="fa-regular fa-comment-dots"></i>
                     </a>
+                    @if(Auth::user()->getRoleId() === \App\Models\Role::DEVELOPER || Auth::user()->getRoleId() === \App\Models\Role::ADMIN)
                     <button form="delete-{{$callback->getKey()}}" title="Удалить"
                             class="btn btn-outline-danger action-btn"
                             onclick="return confirm('Подтвердите удаление обращения №{{$callback->getKey()}}')">
                         <i class="far fa-trash-alt"></i>
                     </button>
+                    @endif
                 </div>
             </div>
         </div>

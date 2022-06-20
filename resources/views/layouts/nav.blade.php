@@ -28,10 +28,12 @@ use Illuminate\Support\Facades\Auth;
                            class="dropdown-item {{ Route::is('crm.users.index') ? 'active' : '' }}">
                             Пользователи
                         </a>
-                        <a href="{{route('crm.roles.index')}}"
-                           class="dropdown-item {{ Route::is('crm.roles.index') ? 'active' : '' }}">
-                            Роли
-                        </a>
+                        @if(Auth::user()->getRoleId() === \App\Models\Role::DEVELOPER || Auth::user()->getRoleId() === \App\Models\Role::ADMIN)
+                            <a href="{{route('crm.roles.index')}}"
+                               class="dropdown-item {{ Route::is('crm.roles.index') ? 'active' : '' }}">
+                                Роли
+                            </a>
+                        @endif
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -92,9 +94,11 @@ use Illuminate\Support\Facades\Auth;
                         <a href="{{route('crm.users.show',Auth::user())}}" class="dropdown-item">
                             Профиль
                         </a>
-                        <a href="{{ route('log-viewer::logs.list') }}" class="dropdown-item">
-                            Логи
-                        </a>
+                        @if(Auth::user()->getRoleId() === \App\Models\Role::DEVELOPER)
+                            <a href="{{ route('log-viewer::logs.list') }}" class="dropdown-item">
+                                Логи
+                            </a>
+                        @endif
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
