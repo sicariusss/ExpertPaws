@@ -25,10 +25,8 @@
                                 <li><a class="dropdown-item" style="cursor: pointer" @click="logout">Выйти</a></li>
                             </ul>
                         </div>
-                        <div v-else>
-                            <router-link to="/login">Вход</router-link>
-                            <router-link to="/register">Регистрация</router-link>
-                        </div>
+                        <router-link v-if="!authenticated" to="/login">Вход</router-link>
+                        <router-link v-if="!authenticated" to="/register">Регистрация</router-link>
                     </div>
                 </div>
                 <div class="col-auto" v-else-if="windowWidth<1200">
