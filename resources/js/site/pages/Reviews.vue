@@ -21,7 +21,7 @@
                             <div class="text-slider-name">
                                 ~ {{
                                     review.anon === false
-                                        ? review.user.surname + ' ' + review.user.name ?? 'Анонимный котик'
+                                        ? review.user.name ?? 'Анонимный котик'
                                         : 'Анонимный котик'
                                 }}
                             </div>
@@ -53,7 +53,7 @@
                                             <div class="text-slider-name">
                                                 ~ {{
                                                     item.anon === false
-                                                        ? item.user.surname + ' ' + item.user.name ?? 'Анонимный котик'
+                                                        ? item.user.name ?? 'Анонимный котик'
                                                         : 'Анонимный котик'
                                                 }}
                                             </div>
